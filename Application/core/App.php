@@ -7,7 +7,6 @@ class App
   protected $controller = 'Home';
   protected $indexController = 2;
   protected $method = 'index';
-  protected $page404 = false;
   protected $params = [];
 
   public function __construct()
@@ -33,7 +32,7 @@ class App
         $this->controller = ucfirst($url[$this->indexController]);
       } else {
 
-        $this->page404 = true;
+        $this->method = "pageNotFound";
       }
     }
 
@@ -45,7 +44,7 @@ class App
   private function getMethodFromUrl($url)
   {
     if ( !empty($url[1 + $this->indexController]) && isset($url[1 + $this->indexController]) ) {
-      if ( method_exists($this->controller, $url[1 + $this->indexController]) && !$this->page404) {
+      if ( method_exists($this->controller, $url[1 + $this->indexController])) {
         
         $this->method = $url[1 + $this->indexController];
       } else {
@@ -53,6 +52,7 @@ class App
         $this->method = 'pageNotFound';
       }
     } 
+ 
   }
   
   private function getParamsFromUrl($url)
@@ -61,4 +61,5 @@ class App
       $this->params = array_slice($url, (2 + $this->indexController));
     }
   }
-}
+
+} 
