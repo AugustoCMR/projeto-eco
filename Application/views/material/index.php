@@ -20,10 +20,10 @@
 
                 <div class="dropdown mr-3">
                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Veiculo
+                        Material
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="nav-item nav-link font-weight-bold" href="?page=cadastrar-veiculo">Cadastrar Veículo</a>
+                        <a class="nav-item nav-link font-weight-bold" href="/projeto-eco/public/material/">Cadastrar Tipo de Resíduo</a>
                         <a class="nav-item nav-link font-weight-bold" href="?page=listar-veiculos">Lista de Veículos</a>
                     </div>
                 </div>
@@ -41,48 +41,13 @@
         </div>
 </nav>
 
-<h1 class="display-4 text-center text-primary font-weight-bold mt-5 titulo">Novo Usuário</h1>
+<h1 class="display-4 text-center text-primary font-weight-bold mt-5 titulo">Novo Resíduo</h1>
 
-<form method="POST" action="../user/register_user">
+<form method="POST" action="../material/register_type_residue">
     
     <div class="mb-3">
         <label class="font-weight-bold">Nome</label>
-        <input type="text" name="nome" class="form-control">
-    </div>
-   
-    <label class="font-weight-bold">Sobrenome</label>
-    <div class="mb-3">
-        <input type="text" name="sobrenome" class="form-control">
-    </div>
-
-    <label class="font-weight-bold">Email</label>
-    <div class="mb-3">
-        <input type="text" name="email" class="form-control">
-    </div>
-
-    <label class="font-weight-bold">CPF</label>
-    <div class="mb-3">
-        <input type="text" name="cpf" class="form-control">
-    </div>
-
-    <label class="font-weight-bold">CEP</label>
-    <div class="mb-3">
-        <input type="text" name="cep" class="form-control">
-    </div>
-
-    <label class="font-weight-bold">Rua</label>
-    <div class="mb-3">
-        <input type="text" name="rua" class="form-control">
-    </div>
-
-    <label class="font-weight-bold">Bairro</label>
-    <div class="mb-3">
-        <input type="text" name="Bairro" class="form-control">
-    </div>
-
-    <label class="font-weight-bold">Número</label>
-    <div class="mb-3">
-        <input type="text" name="numero" class="form-control">
+        <input type="text" name="name" class="form-control">
     </div>
 
     <div class="mb-3">

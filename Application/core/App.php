@@ -48,7 +48,7 @@ class App
         
         $this->method = $url[1 + $this->indexController];
       } else {
-  
+        
         $this->method = 'pageNotFound';
       }
     } 

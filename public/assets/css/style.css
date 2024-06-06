@@ -1,0 +1,44 @@
+.rodape {
+  margin-top: 20em;
+  text-align: center;
+  font-size: 1.5em;
+  background: linear-gradient(to bottom, rebeccapurple, steelblue, turquoise);
+  color: black;
+  font-weight: bolder;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: "Mukta Malar", sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+nav a img {
+  width: 60px;
+  height: 60px;
+}
+
+.titulo {
+  background: linear-gradient(to bottom, rebeccapurple, steelblue, turquoise);
+  color: black;
+  font-weight: bolder;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: "Mukta Malar", sans-serif;
+}
+
+main .img-container {
+  width: 100vw;
+  display: flex;
+}
+
+main .img-container img {
+  margin-top: 5%;
+  width: 100vw;
+  height: 60vh;
+  box-sizing: content-box;
+  object-fit: cover;
+  object-position: -10px -1000px;
+}
