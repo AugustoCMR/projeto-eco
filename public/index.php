@@ -47,14 +47,6 @@
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/produto/cadastrar_produto">Cadastrar Produto</a>
-                    </div>
-                </div>
-
-                <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Operações
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/operacao/operacao_entrada">Operação de Entrada</a>
                         <a class="nav-item nav-link text-nowrap font-weight-bold" href="/projeto-eco/public/operacao/operacao_saida">Operação de Saída</a>
                     </div>

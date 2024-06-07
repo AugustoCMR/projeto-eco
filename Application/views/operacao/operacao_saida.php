@@ -1,5 +1,7 @@
 <h1 class="display-4 text-center text-primary font-weight-bold mt-5 titulo">Operação de Saída</h1>
 
+<form method="POST" action="../material/register_material_success" class="mt-5">
+
 <div class="mb-3">
         <label class="font-weight-bold" style="margin: 0% 22%;">Produto</label>
         <input type="text" name="produto" style="width:700px; margin: 0% 22%;" class="form-control">
