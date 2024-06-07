@@ -37,6 +37,16 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="nav-item nav-link font-weight-bold" href="/projeto-eco/public/material/register_type_residue">Cadastrar Tipo de Resíduo</a>
                         <a class="nav-item nav-link font-weight-bold" href="/projeto-eco/public/material/register_material">Cadastrar Material</a>
+                        <a class="nav-item nav-link font-weight-bold" href="/projeto-eco/public/material/cadastro_recebimento_material">Cadastrar Recebimento de Material</a>
+                    </div>
+                </div>
+
+                <div class="dropdown mr-3">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Produto
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/produto/cadastrar_produto">Cadastrar Produto</a>
                     </div>
                 </div>
 

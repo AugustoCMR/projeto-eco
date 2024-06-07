@@ -35,4 +35,22 @@ class Material extends Controller
         $data = $material::register_material($name, $unidade_medida, $eco_valor, $tipo_residuo_id);
         $this->view('material/register_material_success');
     }
+
+    public function cadastro_recebimento_material()
+    {
+        $this->view('material/cadastro_recebimento_material');
+    }
+
+    public function cadastro_recebimento_material_sucesso()
+    {   
+        $usuario = $_POST['usuario'];
+        $material = $_POST['material'];
+        $quantidade = $_POST['quantidade'];
+        $eco_valor = $_POST['eco_valor'];
+
+        $materialModel = $this->model('Materials');
+        $data = $materialModel::cadastro_recebimento_material($usuario, $material, $quantidade, $eco_valor);
+        $this->view('material/cadastro_recebimento_material_sucesso');
+
+    }
 }

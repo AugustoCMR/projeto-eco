@@ -30,8 +30,17 @@ class Materials
         return True;
     }
 
-    public static function register_receipt_material()
-    {
+    public static function cadastro_recebimento_material($usuario_id, $material_id, $quantidade, $eco_valor)
+    {   
+        
+        $conn = new Database();
+        $resultado = $conn->executeQuery('INSERT INTO entrega_material_usuario(usuario_id, material_id, quantidade, eco_valor) VALUES(:usuario_id, :material_id, :quantidade, :eco_valor)', array(
+            'usuario_id' => $usuario_id,
+            'material_id' => $material_id,
+            'quantidade' => $quantidade,
+            'eco_valor' => $eco_valor
+        ));
 
+        return True;
     }
 }
