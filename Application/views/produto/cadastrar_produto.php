@@ -1,6 +1,6 @@
 <h1 class="display-4 text-center text-primary font-weight-bold mt-5 titulo">Cadastrar Produto</h1>
 
-<form method="POST" action="../material/register_material_success" class="mt-5">
+<form method="POST" action="../produto/cadastrar_produto_sucesso" class="mt-5">
 
 <div class="mb-3">
         <label class="font-weight-bold" style="margin: 0% 22%;">Produto</label>

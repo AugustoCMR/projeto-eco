@@ -47,8 +47,8 @@
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/produto/cadastrar_produto">Cadastrar Produto</a>
-                        <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/operacao/operacao_entrada">Operação de Entrada</a>
-                        <a class="nav-item nav-link text-nowrap font-weight-bold" href="/projeto-eco/public/operacao/operacao_saida">Operação de Saída</a>
+                        <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/produto/cadastrar_operacao_entrada_produto">Operação de Entrada</a>
+                        <a class="nav-item nav-link text-nowrap font-weight-bold" href="/projeto-eco/public/produto/cadastrar_operacao_saida_produto">Operação de Saída</a>
                     </div>
                 </div>
             </div>

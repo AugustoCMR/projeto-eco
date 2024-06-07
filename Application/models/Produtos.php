@@ -4,7 +4,7 @@ namespace Application\models;
 
 use Application\core\Database;
 use PDO;
-class Produto
+class Produtos
 {
     public static function cadastrar_produto($nome, $eco_valor)
     {
@@ -17,7 +17,7 @@ class Produto
         return True;
     }
 
-    public static function cadastrar_operacao_entrada_produto($quantidade, $real_valor, $produto_id)
+    public static function cadastrar_operacao_entrada_produto_sucesso($quantidade, $real_valor, $produto_id)
     {
         $conn = new Database();
         $result = $conn->executeQuery('INSERT INTO produto_entrada(quantidade, real_valor, produto_id) VALUES(:quantidade, :real_valor, :produto_id)', array(
@@ -29,7 +29,8 @@ class Produto
         return True;
     }
 
-    public static function cadastrar_operacao_saida_produto($quantidade, $usuario_id, $produto_id, $eco_valor) {
+    public static function cadastrar_operacao_saida_produto($quantidade, $usuario_id, $produto_id, $eco_valor) 
+    {
         $conn = new Database();
         $result = $conn->executeQuery('INSERT INTO produto_saida(quantidade, usuario_id, produto_id, eco_valor) VALUES (:quantidade, :usuario_id, :produto_id, :eco_valor)', array(
             ':quantidade' => $quantidade,
@@ -40,5 +41,13 @@ class Produto
 
         return True;
         
+    }
+
+    public static function consultar_produtos($id)
+    {
+        $conn = new Database();
+        $result = $conn->executeQuery('SELECT * produto where id = :ID', array(
+            ':ID' => $id
+        ));
     }
 }
