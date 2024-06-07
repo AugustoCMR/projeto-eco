@@ -39,6 +39,6 @@ class Users
       'numero' => $numero
     ));
 
-    return true;
+    return True;
   }
 }

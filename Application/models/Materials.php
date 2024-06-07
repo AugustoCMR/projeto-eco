@@ -14,6 +14,24 @@ class Materials
             'name' => $name
         ));
 
-        return true;
+        return True;
+    }
+
+    public static function register_material($nome, $unidade_medida, $eco_valor, $tipo_residuo_id)
+    {
+        $conn = new Database();
+        $result = $conn->executeQuery('INSERT INTO material(name, unidade_medida, eco_valor, tipo_residuo_id) VALUES(:nome, :unidade_medida, :eco_valor, :tipo_residuo_id)', array(
+            'nome' => $nome,
+            'unidade_medida' => $unidade_medida,
+            'eco_valor' => $eco_valor,
+            'tipo_residuo_id' => $tipo_residuo_id
+        ));
+
+        return True;
+    }
+
+    public static function register_receipt_material()
+    {
+
     }
 }

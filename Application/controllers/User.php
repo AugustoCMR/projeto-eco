@@ -5,14 +5,19 @@ use Application\core\Controller;
 class User extends Controller
 {
   
-  public function index()
-  {
-    $Users = $this->model('Users'); 
-    $data = $Users::findAll();
-    $this->view('User/index', ['usuario' => $data]);
-   }
+//   public function index()
+//   {
+//     $Users = $this->model('Users'); 
+//     $data = $Users::findAll();
+//     $this->view('User/index', ['usuario' => $data]);
+//   }
 
    public function register_user()
+   {
+      $this->view('user/register_user');
+   }
+
+   public function register_user_success()
    {
     
     $nome = $_POST['nome'];
@@ -27,7 +32,7 @@ class User extends Controller
 
     $Users = $this->model('Users');
     $data = $Users::register($nome, $sobrenome, $email, $saldo, (int)$cpf, (int)$cep, $rua, $bairro, $numero);
-    $this->view('user/register_user');
+    $this->view('user/register_user_success');
    }
 
 }
