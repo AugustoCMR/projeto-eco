@@ -43,11 +43,21 @@ class Produtos
         
     }
 
-    public static function consultar_produtos($id)
+    public static function consultar_produtos()
     {
         $conn = new Database();
-        $result = $conn->executeQuery('SELECT * produto where id = :ID', array(
+        $result = $conn->executeQuery('SELECT * FROM produto');
+
+        return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function consultar_produtos_id($id)
+    {
+        $conn = new Database();
+        $result = $conn->executeQuery('SELECT * FROM produto WHERE id = :ID', array(
             ':ID' => $id
         ));
+
+        return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 }

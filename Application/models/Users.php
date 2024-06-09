@@ -7,7 +7,7 @@ use PDO;
 class Users
 {
   
-  public static function findAll()
+  public static function buscarUsuarios()
   {
     $conn = new Database();
     $result = $conn->executeQuery('SELECT * FROM usuario');
