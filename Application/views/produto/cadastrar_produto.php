@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <main>
   <div class="container">
     <div class="row">
@@ -29,6 +30,7 @@
         <div class="mb-3">
                 <button type="submit" class= "btn btn-primary font-weight-bold" name="cadastrar_produto" value="cadastrar-categoria">Enviar</button>
         </div>
+
         </form>
         
       </div>
