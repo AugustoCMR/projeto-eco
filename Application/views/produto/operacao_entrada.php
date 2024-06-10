@@ -1,38 +1,52 @@
-
-
-
 <main>
   <div class="container">
     <div class="row">
       <div class="col-8 offset-2" style="margin-top:100px">
-        <h1 class="display-4 text-center text-primary font-weight-bold mt-5 titulo">Operação de Entrada</h1>
+        <h1 class="display-5 text-center text-primary font-weight-bold titulo">Operação de Entrada</h1>
         
 
 
-        <form method="POST" action="../produto/cadastrar_operacao_entrada_produto_sucesso" class="mt-5">
+        <form method="POST" action="../produto/cadastrar_operacao_entrada_produto" class="mt-5">
     
             <div class="mb-3">
-                <label class="font-weight-bold" style="">Produto</label>
-                <input type="text" style="" name="nome"    
-                value="<?= isset($data['nome']) ? $data['nome'] : '' ?>" class="form-control" placeholder="Nome do Produto">
+                <label class="font-weight-bold">Produto</label>
+                <select type="text" name="produto_id" id="categoria" class="form-control"> 
+                    <option value="">Selecione uma opção</option>
+                    <?php 
+                        
+                        if(isset($data['produtos']))
+                        { 
+                            foreach($data['produtos'] as $produto)
+                            { ?>
+                            <option value="<?=$produto['id'] ?>" > <?= $produto['nome'] ?></option> 
+                            
+                    <?php   } 
+                        } ?> 
+                    
+                </select>
             </div>
         
             <label class="font-weight-bold" style="">Quantidade</label>
             <div class="mb-3">
-            <input type="text" style="" name="quantidade"
-            value="<?= isset($data['quantidade']) ? $data['quantidade'] : '' ?>" class="form-control" placeholder="Quantidade">
+            <input type="text" id="quantidade" name="quantidade"
+            value="<?= isset($data['quantidade']) ? $data['quantidade'] : '' ?>" class="form-control" placeholder="Quantidade" oninput="atualizarValor()">
             </div>
 
 
-            <label class="font-weight-bold" style="">Valor</label>
+            <label class="font-weight-bold" >Valor Unitário</label>
             <div class="mb-3">
-            <input type="text" style="" name="real_valor"
-            value="<?= isset($data['real_valor']) ? $data['real_valor'] : '' ?>" class="form-control" placeholder="Valor">
+            <input type="text" name="valor_unitário" id="valor_unitario"
+            value="<?= isset($data['real_valor']) ? $data['real_valor'] : '' ?>" class="form-control" placeholder="Valor unitário" oninput="atualizarValor()">
             </div>
 
+            <label class="font-weight-bold" >Valor Total</label>
+            <div class="mb-3">
+            <input type="text" id="valorFinal" name="real_valor"
+            value="<?= isset($data['real_valor']) ? $data['real_valor'] : '' ?>" class="form-control" placeholder="Valor total" readonly>
+            </div>
 
             <div class="mb-3">
-                <button type="submit" class= "btn btn-primary font-weight-bold" name="dados-categoria"  value="cadastrar-categoria">Enviar</button>
+                <button type="submit" class= "btn btn-primary font-weight-bold" name="cadastar_entrada_produto"  value="cadastrar-categoria">Enviar</button>
         </div>
 
            
@@ -42,3 +56,13 @@
     </div>
   </div>
 </main>
+
+<script>
+  function atualizarValor()
+    {   
+        const valorUnitario = document.getElementById('valor_unitario').value;
+        const quantidade = document.getElementById('quantidade').value;
+        const valorFinal = quantidade * valorUnitario;
+        document.getElementById('valorFinal').value=isNaN(valorFinal) ? '' : "R$ " + valorFinal.toFixed(2);
+    }
+</script>

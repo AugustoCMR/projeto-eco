@@ -41,4 +41,13 @@ class Users
 
     return True;
   }
+
+  public static function atualizarSaldo($id, $eco)
+  {
+    $conn = new Database();
+    $result = $conn->executeQuery('UPDATE usuario SET eco_saldo = :eco WHERE id = :ID ', array(
+      ':eco' => $eco,
+      ':ID' => $id 
+    ));
+  }
 }

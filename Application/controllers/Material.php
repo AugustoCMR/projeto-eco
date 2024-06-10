@@ -130,6 +130,7 @@ class Material extends Controller
                 }
 
                 $data = $materialModel::cadastro_recebimento_material($usuario_id, $material_id, $quantidade, $eco);
+                $usuarioModel::atualizarSaldo($usuario_id, $eco);
                 return $this->view('material/cadastro_recebimento_material_sucesso');
             } else 
             {   

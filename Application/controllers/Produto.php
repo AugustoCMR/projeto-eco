@@ -12,6 +12,7 @@ class Produto extends Controller
         {   
             if(isset($_POST['cadastrar_produto']))
             {  
+
                 $intermediario = new ProdutoIntermediario();
                 
                 $produto = $_POST['produto'];
@@ -45,19 +46,54 @@ class Produto extends Controller
 
     public function cadastrar_operacao_entrada_produto()
     {
-        $this->view('produto/operacao_entrada');
-    }
 
-    public function cadastrar_operacao_entrada_produto_sucesso()
-    {
-       $quantidade = $_POST['quantidade'];
-       $real_valor = $_POST['real_valor'];
-       $produto_id = $_POST['produto'];
+        try {
+            
+            $produtoModel = $this->model('Produtos');
+            $produtos = $produtoModel::consultar_produtos();
+    
+            if(isset($_POST['cadastar_entrada_produto']))
+            {   
+                
+                // $intermediario = new ProdutoIntermediario();
+                $quantidade = $_POST['quantidade'];
+                $formataValor = explode(" ", $_POST['real_valor']);
+                $produto_id = $_POST['produto_id'];
+                $real_valor = $formataValor[1];
 
-       $operacaoModel = $this->model('Produtos');
-       $result = $operacaoModel::cadastrar_operacao_entrada_produto_sucesso($quantidade, $real_valor, $produto_id);
-       $this->view('produto/operacao_entrada_sucesso');
-    }
+    
+                // if(!empty($intermediario))
+                // {
+                //     return $this->view('produto/operacao_entrada', ['erros' => $intermediario->erros,
+                // 'produtos' => $produtos
+                // ]);
+                // }
+    
+                $produtoModel::cadastrar_operacao_entrada_produto($quantidade, $real_valor, $produto_id);
+    
+                $this->view('produto/operacao_entrada_sucesso');
+            } else 
+            {
+                return $this->view('produto/operacao_entrada', [
+                    'produtos' => $produtos
+                ]);
+            }
+
+        } catch (Exception $e) {
+            echo("Algo deu errado, por favor, tente novamente.");
+            echo $e;
+        }
+    } 
+        
+
+    // public function cadastrar_operacao_entrada_produto_sucesso()
+    // {
+       
+
+    //    $operacaoModel = $this->model('Produtos');
+    //    $result = $operacaoModel::cadastrar_operacao_entrada_produto_sucesso($quantidade, $real_valor, $produto_id);
+    //    $this->view('produto/operacao_entrada_sucesso');
+    // }
 
     public function cadastrar_operacao_saida_produto()
     {

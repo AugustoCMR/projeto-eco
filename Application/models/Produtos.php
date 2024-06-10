@@ -17,7 +17,7 @@ class Produtos
         return True;
     }
 
-    public static function cadastrar_operacao_entrada_produto_sucesso($quantidade, $real_valor, $produto_id)
+    public static function cadastrar_operacao_entrada_produto($quantidade, $real_valor, $produto_id)
     {
         $conn = new Database();
         $result = $conn->executeQuery('INSERT INTO produto_entrada(quantidade, real_valor, produto_id) VALUES(:quantidade, :real_valor, :produto_id)', array(
@@ -60,4 +60,5 @@ class Produtos
 
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
+
 }
