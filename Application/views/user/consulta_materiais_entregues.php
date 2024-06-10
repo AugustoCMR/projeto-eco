@@ -1,9 +1,8 @@
-
 <main>
   <div class="container">
     <div class="row">
       <div class="col-8 offset-2" style="margin-top:100px">
-        <h1 class="display-4 text-center text-primary font-weight-bold mt-5 titulo">Consultar Produto</h1>
+        <h1 class="display-4 text-center text-primary font-weight-bold mt-5 titulo">Consultar Materiais Entregues</h1>
         
 
 
