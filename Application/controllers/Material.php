@@ -116,19 +116,21 @@ class Material extends Controller
                 $intermediario = new MaterialIntermediario;
                 $validador = $intermediario->validadorMaterial();
                 
-                $nome = $_POST['usuario_id'];
-                $eco = $_POST['eco_valor'];
+                $usuario_id = $_POST['usuario_id'];
+                $material_id = $_POST['material_id'];
                 $quantidade = $_POST['quantidade'];
-                $valorFinal = $eco * quantidade;
-
+                $eco = $_POST['eco_valor'];
+            
                 if(!empty($validador))
                 {
                     return $this->view('material/register_material', ['erros' => $intermediario->erros,
-                    'tipo_residuos' => $residuos]);
+                    'usuarios' => $usuarios,
+                    'materiais' => $materiais
+                ]);
                 }
 
-                $data = $materialModel::register_material($nome, $unidade_medida, $eco, $tipo_residuo_id);
-                return $this->view('cadastro_recebimento_material_sucesso');
+                $data = $materialModel::cadastro_recebimento_material($usuario_id, $material_id, $quantidade, $eco);
+                return $this->view('material/cadastro_recebimento_material_sucesso');
             } else 
             {   
                
@@ -140,10 +142,10 @@ class Material extends Controller
 
         } catch (Exception $e) 
         {
+           
             echo("Algo deu errado, por favor, tente novamente.");
+            echo($e);
         }
-
-        $this->view('material/cadastro_recebimento_material');
     }
 
     public function cadastro_recebimento_material_sucesso()
