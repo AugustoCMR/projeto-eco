@@ -2,22 +2,45 @@
 
 use Application\core\Controller;
 use Application\models\Eco;
+use Application\intermediarios\ProdutoIntermediario;
 
 class Produto extends Controller 
 {
     public function cadastrar_produto()
     {
-        $this->view('produto/cadastrar_produto');
+        try 
+        {   
+            if(isset($_POST['cadastrar_produto']))
+            {  
+                $intermediario = new ProdutoIntermediario();
+                
+                $produto = $_POST['produto'];
+                $eco = $_POST['eco_valor'];
+            
+                if(!empty($intermediario))
+                {
+                    return $this->view('produto/cadastrar_produto', ['erros' => $intermediario->erros]);
+                }
+
+                $produtoModel = $this->model('Produtos');
+                $data = $produtoModel::cadastrar_produto($produto, $eco);
+                return $this->view('produto/cadastrar_produto_sucesso');
+            } else 
+            {   
+                return $this->view('produto/cadastrar_produto');
+            }
+        } catch (Exception $e) 
+        {
+            echo("Algo deu errado, por favor, tente novamente.");
+            echo($e);
+        }
+
+        
     }
 
     public function cadastrar_produto_sucesso()
     {
-        $nome = $_POST['nome'];
-        $eco_valor = $_POST['eco_valor'];
-
-        $produtoModel = $this->model('Produtos');
-        $data = $produtoModel::cadastrar_produto($nome, $eco_valor);
-        $this->view('produto/cadastrar_produto_sucesso');
+        
     }
 
     public function cadastrar_operacao_entrada_produto()
