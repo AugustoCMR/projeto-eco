@@ -37,7 +37,7 @@
 
             <div class="mb-3">
                 <label class="font-weight-bold">Material</label>
-                <select type="number" name="usuario_id" id="categoria" class="form-control"> 
+                <select type="number" name="material_id" id="material" class="form-control" onchange="atualizarUnidade()"> 
                     <option value="">Selecione uma opção</option>
                     <?php 
                        
@@ -46,7 +46,7 @@
                             
                             foreach($data['materiais'] as $materiais)
                             { ?>
-                            <option value="<?=$materiais['id'] ?>" > <?= $materiais['name']?>(<?= $materiais['unidade_medida']?>)</option> 
+                            <option value="<?=$materiais['id'] ?>" data-unidade="<?=$materiais['unidade_medida']?>" data-eco_valor="<?=$materiais['eco_valor']?>"> <?= $materiais['name']?></option> 
                             
                     <?php   } 
                         } ?> 
@@ -55,13 +55,13 @@
             </div>
 
             <div class="mb-3">
-                <label class="font-weight-bold">Quantidade</label>
-                <input type="number" name="quantidade"  class="form-control">
+                <label class="font-weight-bold">Quantidade (<span id="unidade_linha"></span>)</label>
+                <input type="number" name="quantidade" id="quantidade" class="form-control" oninput="atualizarValor()">
             </div>
 
             <div class="mb-3">
                 <label class="font-weight-bold">Eco Points</label>
-                <input type="text" name="eco_valor"  class="form-control">
+                <input type="text" name="eco_valor" id="valorFinal" class="form-control" oninput="atualizarValor()" readonly>
             </div>
 
             <div class="mb-3">
@@ -73,3 +73,26 @@
     </div>
   </div>
 </main>
+
+<script>
+    function atualizarUnidade()
+    {
+        
+        const material = document.getElementById('material');
+        const opcaoSelecionada = material.options[material.selectedIndex];
+        const unidadeMedida = opcaoSelecionada.getAttribute('data-unidade');
+        document.getElementById('unidade_linha').innerText = unidadeMedida || 'Unidade de Medida';
+        document.getElementById('quantidade').value = '';
+        atualizarValor();   
+    }
+
+    function atualizarValor()
+    {   
+        const material = document.getElementById('material');
+        const opcaoSelecionada = material.options[material.selectedIndex];
+        const valor = opcaoSelecionada.getAttribute('data-eco_valor');
+        const quantidade = document.getElementById('quantidade').value;
+        const valorFinal = quantidade * valor;
+        document.getElementById('valorFinal').value=isNaN(valorFinal) ? '' : valorFinal.toFixed(2);
+    }
+</script>

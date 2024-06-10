@@ -58,9 +58,9 @@
                 value="<?= isset($data['bairro']) ? $data['bairro'] : '' ?>" class="form-control" placeholder="Bairro">
             </div>
 
-            <label class="font-weight-bold" style="">Número</label>
+            <label class="font-weight-bold">Número</label>
             <div class="mb-3">
-                <input type="text" style="" name="numero"
+                <input type="text" name="numero"
                 value="<?= isset($data['numero']) ? $data['numero'] : '' ?>" class="form-control" placeholder="Número">
             </div>
 

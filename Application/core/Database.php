@@ -8,7 +8,11 @@ class Database extends PDO
 
   private $DB_NAME = 'eco';
   private $DB_USER = 'postgres';
+<<<<<<< HEAD
   private $DB_PASSWORD = '@123';
+=======
+  private $DB_PASSWORD = '200121mg';
+>>>>>>> augusto
   private $DB_HOST = 'localhost';
   private $DB_PORT = 5432;
 
