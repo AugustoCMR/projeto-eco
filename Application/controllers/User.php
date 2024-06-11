@@ -3,6 +3,8 @@
 use Application\core\Controller;
 use Application\intermediarios\UsuarioIntermediario;
 
+require __DIR__ . '\\../utils/validaCamposObrigatorios.php';
+
 class User extends Controller
 {
   
@@ -17,28 +19,38 @@ class User extends Controller
    {
    
       if(isset($_POST['cadastro_usuario'])) {
-         $intermediario = new UsuarioIntermediario();
+         $intermediario = new UsuarioIntermediario;
          
-         $nome = $_POST['nome'];
-         $sobrenome = $_POST['sobrenome'];
-         $email = $_POST['email'];
+         $nome = strtolower($_POST['nome']);
+         $sobrenome = strtolower($_POST['sobrenome']);
+         $email = strtolower($_POST['email']);
          $saldo = 0;
          $cpf = $_POST['cpf'];
          $cep = $_POST['cep'];
-         $rua = $_POST['rua'];
-         $bairro = $_POST['Bairro'];
-         $numero = $_POST['numero'];
+         $rua = strtolower($_POST['rua']);
+         $bairro = strtolower($_POST['Bairro']);
+         $numero = strtolower($_POST['numero']);
 
-         
+         $validaCampos = validarCamposObrigatorios([
+            'Nome' => $nome,
+            'Sobrenome'=> $sobrenome,
+            'Email' => $email,
+            'CPF' => $cpf,
+            'CEP' => $cep,
+            'Rua' => $rua,
+            'Bairro' => $bairro,
+            'Número' => $numero 
+         ]);
 
-         if(!empty($intermediario->erros)) 
+         $erros = $intermediario->validacaoUsuario($validaCampos); 
+
+         if(!empty($erros)) 
          {
 
-            return $this->view('user/register_user', ['erros' => $intermediario->erros,
+            return $this->view('user/register_user', ['erros' => $erros,
             'nome' => $nome,
             'sobrenome'=> $sobrenome,
             'email' => $email,
-            'saldo' => $saldo,
             'cpf' => $cpf,
             'cep' => $cep,
             'rua' => $rua,

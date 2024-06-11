@@ -10,11 +10,19 @@ class UsuarioIntermediario
 
     public $erros = [];
 
-    public function __construct()
-    {
-        $this->validaCPF();
+    public function validacaoUsuario($errosCampos)
+    {   
+        
+        if(!empty($errosCampos)) 
+        {
+           return $this->erros = $errosCampos;
+        }
+        
         $this->validaEmail();
+        $this->validaCPF();
         $this->validaCEP();
+
+        return $this->erros;
     }
 
     public function validaCPF()
@@ -74,7 +82,7 @@ class UsuarioIntermediario
                 if(!empty($resultado)) 
                 {
                     
-                    $this->erros['email'] = "O e-mail informado já existe.";
+                   return $this->erros['email'] = "O e-mail informado já existe.";
                 }
             }
             
@@ -106,5 +114,4 @@ class UsuarioIntermediario
             echo("Algo deu errado, por favor, tente novamente.");
         }
     }
-
 }

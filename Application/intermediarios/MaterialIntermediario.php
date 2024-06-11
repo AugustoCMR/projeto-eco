@@ -9,28 +9,35 @@ class MaterialIntermediario
 {
     public $erros = [];
 
-    public function validadorResiduo()
+    public function validadorResiduo($erroCampo, $nome)
     {
-        $this->validaNomeResiduo();
+        if(!empty($erroCampo))
+        {
+            return $this->erros = $erroCampo;
+        }
+
+        $this->validaNomeResiduo($nome);
 
         return $this->erros;
     }
 
-    public function validadorMaterial()
+    public function validadorMaterial($erroCampo = null, $nome = null, $eco = null)
     {
-        $this->validaFormularioMaterial();
+
+        if(!empty($erroCampo))
+        {
+            return $this->erros = $erroCampo;
+        }
+        
+        $this->validaFormularioMaterial($nome, $eco);
 
         return $this->erros;
     }
 
-    public function validaNomeResiduo()
+    public function validaNomeResiduo($nome)
     {
         try 
         {
-            
-            if(!empty($_POST['nome']) && isset($_POST['nome']))
-            {
-                $nome = $_POST['nome'];
 
                 $conn = new Database();
                 $buscaNome = $conn->executeQuery('SELECT * FROM tipo_residuo WHERE name = :nome', array(
@@ -41,22 +48,19 @@ class MaterialIntermediario
 
                 if(!empty($resultado))
                 {
-                    $this->erros['nome'] = 'O resíduo informado já existe.';
+                    return $this->erros['nome'] = 'O Resíduo informado já existe.';
                 }
-            }
             
         } catch (Exception $e) {
             echo("Algo deu errado, por favor, tente novamente.");
         }
     }
 
-    public function validaFormularioMaterial()
+    public function validaFormularioMaterial($nome, $eco)
     {
         try 
         {
-            
-            if(!empty($_POST['nome']) && isset($_POST['nome']))
-            {
+
                 $nome = $_POST['nome'];
                 $eco = $_POST['eco_valor'];
 
@@ -76,7 +80,6 @@ class MaterialIntermediario
                 {
                     $this->erros['eco_valor'] = 'O valor informado deve ser númerico.';
                 }
-            }
             
         } catch (Exception $e) {
             echo("Algo deu errado, por favor, tente novamente.");
