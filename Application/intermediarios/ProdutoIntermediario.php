@@ -63,4 +63,28 @@ class ProdutoIntermediario
             echo("Algo deu errado, por favor, tente novamente.");
         }
     }
+
+    public function validaFormularioOperacaoEntrada($valor, $quantidade)
+    {
+        try
+        {   
+        
+                if(!is_numeric($valor)) {
+                     
+                    $this->erros["valorInvalido"] = "O valor deve conter apenas números.";   
+                }
+
+                if(!is_numeric($quantidade)) {
+                     
+                    $this->erros["quantidadeInvalida"] = "A quantidade deve conter apenas números.";   
+                }
+
+                return $this->erros;
+
+        } catch(Exception $e)
+
+        {   
+            echo("Algo deu errado, por favor, tente novamente.");
+        }
+    }
 }

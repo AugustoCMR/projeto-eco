@@ -37,7 +37,8 @@ CREATE TABLE entrega_material_usuario (
 CREATE TABLE produto (
 	id serial primary key unique,
   nome text,
-  eco_valor numeric
+  eco_valor numeric,
+  quantidade integer
 );
 
 CREATE TABLE produto_entrada (

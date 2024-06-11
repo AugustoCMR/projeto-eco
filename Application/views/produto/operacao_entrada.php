@@ -28,14 +28,14 @@
         
             <label class="font-weight-bold" style="">Quantidade</label>
             <div class="mb-3">
-            <input type="text" id="quantidade" name="quantidade"
+            <input type="number" id="quantidade" name="quantidade"
             value="<?= isset($data['quantidade']) ? $data['quantidade'] : '' ?>" class="form-control" placeholder="Quantidade" oninput="atualizarValor()">
             </div>
 
 
             <label class="font-weight-bold" >Valor Unitário</label>
             <div class="mb-3">
-            <input type="text" name="valor_unitário" id="valor_unitario"
+            <input type="number" name="valor_unitário" id="valor_unitario"
             value="<?= isset($data['real_valor']) ? $data['real_valor'] : '' ?>" class="form-control" placeholder="Valor unitário" oninput="atualizarValor()">
             </div>
 

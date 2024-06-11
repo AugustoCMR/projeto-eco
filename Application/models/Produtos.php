@@ -61,4 +61,13 @@ class Produtos
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function atualizarQuantidadeProduto($id, $quantidade)
+    {
+        $conn = new Database();
+        $result = $conn->executeQuery('UPDATE produto SET quantidade = :quantidade WHERE id = :ID ', array(
+        ':quantidade' => $quantidade,
+        ':ID' => $id 
+        ));
+    }
+
 }
