@@ -3,6 +3,7 @@
 namespace Application\models;
 
 use Application\core\Database;
+use Application\models\Eco;
 use PDO;
 class Users
 {
@@ -14,7 +15,7 @@ class Users
     return $result->fetchAll(PDO::FETCH_ASSOC);
    }
 
-   public static function findById(int $id)
+   public static function buscarUsuario(int $id)
   {
     $conn = new Database();
     $result = $conn->executeQuery('SELECT * FROM users WHERE id = :ID LIMIT 1', array(
@@ -42,11 +43,38 @@ class Users
     return True;
   }
 
-  public static function atualizarSaldo($id, $eco)
+  public static function consultarSaldo($id)
   {
     $conn = new Database();
+    $result = $conn->executeQuery('SELECT eco_saldo FROM usuario WHERE ID = :ID', array(
+      ':ID' => $id
+    ));
+
+    return $result->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public static function operacaoEntradaSaldo($id, $valor_real)
+  {
+    $conn = new Database();
+    $consultaSaldo = self::consultarSaldo($id);
+    $saldoAtual = $consultaSaldo[0]['eco_saldo'];
+    $saldoFinal = (float)$saldoAtual + ((float)Eco::$eco * (float)$valor_real);
+
     $result = $conn->executeQuery('UPDATE usuario SET eco_saldo = :eco WHERE id = :ID ', array(
-      ':eco' => $eco,
+      ':eco' => $saldoFinal,
+      ':ID' => $id 
+    ));
+  }
+
+  public static function operacaoSaidaSaldo($id, $eco)
+  {
+    $conn = new Database();
+    $consultaSaldo = self::consultarSaldo($id);
+    $saldoAtual = $consultaSaldo[0]['eco_saldo'];
+    $saldoFinal = (float)$saldoAtual - (float)$eco;
+
+    $result = $conn->executeQuery('UPDATE usuario SET eco_saldo = :eco WHERE id = :ID ', array(
+      ':eco' => $saldoFinal,
       ':ID' => $id 
     ));
   }

@@ -12,22 +12,25 @@ class Produto extends Controller
         {   
             if(isset($_POST['cadastrar_produto']))
             {  
-
-                $intermediario = new ProdutoIntermediario();
                 
+                $intermediario = new ProdutoIntermediario;
+                $validador = $intermediario->validaFormularioCadastrarProduto();
+               
                 $produto = $_POST['produto'];
                 $eco = $_POST['eco_valor'];
-            
-                if(!empty($intermediario))
+
+                if(!empty($validador))
                 {
-                    return $this->view('produto/cadastrar_produto', ['erros' => $intermediario->erros]);
+                    return $this->view('produto/cadastrar_produto', ['erros' => $validador]);
                 }
+                
 
                 $produtoModel = $this->model('Produtos');
                 $data = $produtoModel::cadastrar_produto($produto, $eco);
                 return $this->view('produto/cadastrar_produto_sucesso');
             } else 
             {   
+                
                 return $this->view('produto/cadastrar_produto');
             }
         } catch (Exception $e) 
@@ -60,19 +63,19 @@ class Produto extends Controller
                 $produto_id = $_POST['produto_id'];
 
                 $real_valor = $formataValor[1];
-                $validaCampos = $intermediario->validaFormularioOperacaoEntrada($real_valor, $quantidade);
+                $validaCampos = $intermediario->validaFormularioTiposNumber($real_valor, $quantidade);
                 
                 if(!empty($validaCampos))
                 {
-                    var_dump($validaCampos);
-                    return $this->view('produto/operacao_entrada', ['erros' => $intermediario,
+             
+                    return $this->view('produto/operacao_entrada', ['erros' => $validaCampos,
                     'produtos' => $produtos
                     ]);
                 }
 
         
                 $produtoModel::cadastrar_operacao_entrada_produto($quantidade, $real_valor, $produto_id);
-                $produtoModel::atualizarQuantidadeProduto($produto_id, $quantidade);
+                $produtoModel::operacaoEntradaProduto($produto_id, $quantidade);
                 return $this->view('produto/operacao_entrada_sucesso');
 
             } else 
@@ -87,16 +90,6 @@ class Produto extends Controller
             echo $e;
         }
     } 
-        
-
-    // public function cadastrar_operacao_entrada_produto_sucesso()
-    // {
-       
-
-    //    $operacaoModel = $this->model('Produtos');
-    //    $result = $operacaoModel::cadastrar_operacao_entrada_produto_sucesso($quantidade, $real_valor, $produto_id);
-    //    $this->view('produto/operacao_entrada_sucesso');
-    // }
 
     public function cadastrar_operacao_saida_produto()
     {
@@ -110,14 +103,30 @@ class Produto extends Controller
             $usuarios = $usuarioModel::buscarUsuarios();
             
             if (isset($_POST['cadastrar_saida_produto'])) {
-                
+
+                $intermediario = new ProdutoIntermediario;
                 $quantidade = $_POST['quantidade'];
-                $usuario_id = $_POST['usuario'];
-                $produto_id = $_POST['produto'];
-                $eco_valor = $_POST['eco_valor'];
+                $usuario_id = $_POST['usuario_id'];
+                $produto_id = $_POST['produto_id'];
+                $saldo_usuario = $_POST['saldo_usuario'];
+                $formataValor = explode(" ", $_POST['eco_valor']);
+                $eco_valor = (float)$formataValor[1];
+
+                $validacao = $intermediario->validaOperacaoSaida($saldo_usuario, $eco_valor, $quantidade);
+
+                if(!empty($validacao))
+                {   
+                    return $this->view('produto/operacao_saida', ['erros' => $validacao,
+                    'produtos' => $produtos,
+                    'usuarios' => $usuarios
+                    ]);
+                }
+
+                $produtoModel::cadastrar_operacao_saida_produto($quantidade, $usuario_id, $produto_id, $eco_valor);
+                $produtoModel::operacaoSaidaProduto($produto_id, $quantidade);
+                $usuarioModel::operacaoSaidaSaldo($usuario_id, $eco_valor);
+                return $this->view('produto/operacao_saida_sucesso');                                                                                                                                                                                                                                                                                                                                                                                                                                                           
         
-
-
             } else {
 
                 return $this->view('produto/operacao_saida', [
@@ -125,10 +134,6 @@ class Produto extends Controller
                 'usuarios' => $usuarios]);
             }
             
-            $operacaoModel::cadastrar_operacao_saida_produto($quantidade, $usuario_id, $produto_id, $eco_valor);
-
-            $this->view('produto/operacao_saida_sucesso');
-
         } catch (Exception $e) {
             echo("Algo deu errado, por favor, tente novamente.");
             echo $e;
@@ -145,7 +150,7 @@ class Produto extends Controller
     public function consultar_produto()
     {   
 
-        $real_valor = Eco::$real;
+        $real_valor = Eco::$eco;
         $produtos = $this->model('Produtos');
         $select = $produtos::consultar_produtos();
         $dados = $produtos::consultar_produtos();

@@ -33,7 +33,7 @@
             </div>
 
 
-            <label class="font-weight-bold" >Valor Unitário</label>
+            <label class="font-weight-bold" >Valor Unitário (R$)</label>
             <div class="mb-3">
             <input type="number" name="valor_unitário" id="valor_unitario"
             value="<?= isset($data['real_valor']) ? $data['real_valor'] : '' ?>" class="form-control" placeholder="Valor unitário" oninput="atualizarValor()">

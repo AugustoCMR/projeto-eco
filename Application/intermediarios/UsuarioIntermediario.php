@@ -106,4 +106,5 @@ class UsuarioIntermediario
             echo("Algo deu errado, por favor, tente novamente.");
         }
     }
+
 }

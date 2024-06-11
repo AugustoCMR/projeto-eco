@@ -23,7 +23,7 @@
         </div>
         <div class="mb-3">
                 <label class="font-weight-bold">Eco Points</label>
-                <input type="text" name="eco_valor" class="form-control">
+                <input type="number" name="eco_valor" class="form-control">
         </div>
 
         <div class="mb-3">

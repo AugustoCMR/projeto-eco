@@ -75,6 +75,7 @@ class Material extends Controller
                 }
 
                 $data = $materialModel::register_material($nome, $unidade_medida, $eco, $tipo_residuo_id);
+
                 return $this->view('material/register_material_success');
             } else 
             {   
@@ -130,7 +131,7 @@ class Material extends Controller
                 }
 
                 $data = $materialModel::cadastro_recebimento_material($usuario_id, $material_id, $quantidade, $eco);
-                $usuarioModel::atualizarSaldo($usuario_id, $eco);
+                $usuarioModel::operacaoEntradaSaldo($usuario_id, $eco);
                 return $this->view('material/cadastro_recebimento_material_sucesso');
             } else 
             {   

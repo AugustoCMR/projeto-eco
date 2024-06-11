@@ -9,9 +9,10 @@ class Produtos
     public static function cadastrar_produto($nome, $eco_valor)
     {
         $conn = new Database();
-        $result = $conn->executeQuery('INSERT INTO produto(nome, eco_valor) VALUES (:nome, :eco_valor)', array(
+        $result = $conn->executeQuery('INSERT INTO produto(nome, eco_valor, quantidade) VALUES (:nome, :eco_valor, :quantidade)', array(
             ':nome' => $nome,
-            ':eco_valor' => $eco_valor
+            ':eco_valor' => $eco_valor,
+            ':quantidade' => 0
         ));
 
         return True;
@@ -61,13 +62,34 @@ class Produtos
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function atualizarQuantidadeProduto($id, $quantidade)
+    public static function operacaoEntradaProduto($id, $quantidade)
     {
         $conn = new Database();
+
+        $produto = self::consultar_produtos_id($id);
+        $quantidadeAtual = $produto[0]['quantidade']; 
+        $quantidadeFinal = $quantidadeAtual + $quantidade;
+        
+
         $result = $conn->executeQuery('UPDATE produto SET quantidade = :quantidade WHERE id = :ID ', array(
-        ':quantidade' => $quantidade,
+        ':quantidade' => $quantidadeFinal,
         ':ID' => $id 
         ));
+    }
+
+    public static function operacaoSaidaProduto($id, $quantidade)
+    {
+        $conn = new Database();
+
+        $produto = self::consultar_produtos_id($id);
+        $quantidadeAtual = $produto[0]['quantidade']; 
+        $quantidadeFinal = $quantidadeAtual - $quantidade;
+
+        $result = $conn->executeQuery('UPDATE produto SET quantidade = :quantidade WHERE id = :ID ', array(
+            ':quantidade' => $quantidadeFinal,
+            ':ID' => $id 
+        ));
+        
     }
 
 }

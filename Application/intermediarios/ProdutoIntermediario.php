@@ -3,6 +3,7 @@
 namespace Application\intermediarios;
 
 use Application\core\Database;
+use Application\models\Eco;
 use PDO;
 
 class ProdutoIntermediario 
@@ -10,10 +11,20 @@ class ProdutoIntermediario
 
     public $erros = [];
 
-    public function __construct()
+    public function validaFormularioCadastrarProduto()
     {
        $this->validaEcoPoint();
        $this->validaNomeProduto();
+
+       return $this->erros;
+    }
+
+    public function validaOperacaoSaida($saldo, $valorFinal, $quantidade)
+    {
+        $this->validaFormularioTiposNumber(null, $quantidade);
+        $this->verificaSaldo($saldo, $valorFinal);
+
+        return $this->erros;
     }
 
     public function validaNomeProduto()
@@ -64,27 +75,34 @@ class ProdutoIntermediario
         }
     }
 
-    public function validaFormularioOperacaoEntrada($valor, $quantidade)
+    public function validaFormularioTiposNumber($valor = Null, $quantidade = Null)
     {
         try
         {   
         
-                if(!is_numeric($valor)) {
+                if($valor !== null && !is_numeric($valor)) {
                      
-                    $this->erros["valorInvalido"] = "O valor deve conter apenas números.";   
+                    return $this->erros["valorInvalido"] = "O valor deve conter apenas números.";   
                 }
 
-                if(!is_numeric($quantidade)) {
+                if($quantidade !== null && !is_numeric($quantidade)) {
                      
-                    $this->erros["quantidadeInvalida"] = "A quantidade deve conter apenas números.";   
+                    return $this->erros["quantidadeInvalida"] = "A quantidade deve conter apenas números.";   
                 }
 
-                return $this->erros;
+                
 
         } catch(Exception $e)
 
         {   
             echo("Algo deu errado, por favor, tente novamente.");
+        }
+    }
+
+    public function verificaSaldo($saldo, $valorFinal)
+    {
+        if($valorFinal > $saldo) {
+           return $this->erros['saldoInvalido'] = "Saldo insuficiente";
         }
     }
 }
