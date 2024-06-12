@@ -119,9 +119,10 @@ class Produto extends Controller
                 $quantidade = $_POST['quantidade'];
                 $usuario_id = $_POST['usuario_id'];
                 $produto_id = $_POST['produto_id'];
-                $saldo_usuario = $_POST['saldo_usuario'];
-                $formataValor = explode(" ", $_POST['eco_valor']);
-                $eco_valor = (float)$formataValor[1];
+                $formataValorSaldo = explode(" ", $_POST['saldo_usuario']);
+                $formataValorEco = explode(" ", $_POST['eco_valor']);
+                $eco_valor = (float)$formataValorEco[1];
+                $saldo_usuario = (float)$formataValorSaldo[1];
 
                 $camposObrigatorios = validarCamposObrigatorios([
                     'Produto' => $produto_id,
@@ -162,34 +163,43 @@ class Produto extends Controller
     public function consultar_produto()
     {   
 
-        $eco_valor = Eco::$eco;
+        $cotacao_eco = Eco::$eco;
+        $cotacao_real = Eco::$real;
         $produtos = $this->model('Produtos');
         $dados = $produtos::consultar_produtos();
 
-                if(!empty($_POST['produto_id']) && isset($_POST['produto_id'])) 
-                {
-
-                    $filtro = $_POST['produto_id'];
-                    $dados = $produtos::consultar_produtos_id($filtro);    
-                } 
-
                 if(isset($_POST['submit_quantidade'])) {
-                
+
+                    if(!empty($_POST['produto']) && isset($_POST['produto'])) 
+                    {
+                        $filtro = $_POST['produto'];
+                        $dados = $produtos::consultar_produtos_nome($filtro);   
+                    }  
+                    
                     if(!empty($_POST['quantidade']) && isset($_POST['quantidade'])) 
                     {       
-                    
-                        $quantidade = $_POST['quantidade'];
-                        $eco_valor *= $quantidade;
                         
-                    
-                    }  else
-                    {
-            
-                        return;
-                    }
+                        $quantidade = $_POST['quantidade'];
+                        $eco = $cotacao_eco * $quantidade;
+                        $real = $cotacao_real * $quantidade;
+                        
+                        return $this->view('Produto/consultar_produto', [
+                            'produto' => $dados,
+                            'quantidade' => $quantidade,
+                            'eco_valorTabela' => $eco,
+                            'real_valorTabela' => $real,
+                            'cotacao_real' => $cotacao_real,
+                            'cotacao_eco' => $cotacao_eco
+                        ]);
+
+                    } 
                 }
-       
-        return $this->view('Produto/consultar_produto', ['produto' => $dados, 'real' => $eco_valor]);
+                
+        return $this->view('Produto/consultar_produto', [
+            'produto' => $dados, 
+            'cotacao_real' => $cotacao_real,
+            'cotacao_eco' => $cotacao_eco
+        ]);
     }
     
 }

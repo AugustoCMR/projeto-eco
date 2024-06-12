@@ -135,7 +135,7 @@
     const usuario = document.getElementById('usuario');
     const opcaoSelecionada = usuario.options[usuario.selectedIndex];
     const saldo = opcaoSelecionada.getAttribute('data-saldo');
-    document.getElementById('saldo_usuario').value = saldo;
+    document.getElementById('saldo_usuario').value = "€ " + parseFloat(saldo).toFixed(2);
     atualizaValorFinal()
     
   }
@@ -149,10 +149,10 @@
     const quantidade = document.getElementById('quantidade').value;
     const valorFinal = quantidade * valor;
     document.getElementById('valorFinal').value = isNaN(valorFinal) ? '' : "€ " + valorFinal.toFixed(2);
+    
+    const saldoFormatado = document.getElementById('saldo_usuario').value.split("€")[1];
 
-    const saldo = parseFloat(document.getElementById('saldo_usuario').value);
-
-    if(valorFinal > saldo || isNaN(saldo) || saldo <= 0) 
+    if(valorFinal > saldoFormatado || isNaN(saldoFormatado) || saldoFormatado <= 0) 
     {
       document.getElementById("botaoFinalizar").setAttribute('disabled', 'disabled');
     } else

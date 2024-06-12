@@ -62,6 +62,16 @@ class Produtos
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function consultar_produtos_nome($nome)
+    {
+        $conn = new Database();
+        $result = $conn->executeQuery('SELECT * FROM produto WHERE nome ILIKE :nome', array(
+            ':nome' => '%' . $nome . '%'
+        ));
+
+        return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function operacaoEntradaProduto($id, $quantidade)
     {
         $conn = new Database();
