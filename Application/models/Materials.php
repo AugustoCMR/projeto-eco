@@ -48,15 +48,16 @@ class Materials
    
     }
 
-    public static function cadastro_recebimento_material($usuario_id, $material_id, $quantidade, $eco_valor)
+    public static function cadastro_recebimento_material($usuario_id, $material_id, $quantidade, $eco_valor, $saldoAtual)
     {   
         
         $conn = new Database();
-        $resultado = $conn->executeQuery('INSERT INTO entrega_material_usuario(usuario_id, material_id, quantidade, eco_valor) VALUES(:usuario_id, :material_id, :quantidade, :eco_valor)', array(
+        $resultado = $conn->executeQuery('INSERT INTO entrega_material_usuario(usuario_id, material_id, quantidade, eco_valor, saldo_atual) VALUES(:usuario_id, :material_id, :quantidade, :eco_valor, :saldo)', array(
             'usuario_id' => $usuario_id,
             'material_id' => $material_id,
             'quantidade' => $quantidade,
-            'eco_valor' => $eco_valor
+            'eco_valor' => $eco_valor,
+            'saldo' => $saldoAtual
         ));
 
         return True;

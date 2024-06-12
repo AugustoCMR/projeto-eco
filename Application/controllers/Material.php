@@ -129,8 +129,10 @@ class Material extends Controller
                 ]);
                 }
 
-                $data = $materialModel::cadastro_recebimento_material($usuario_id, $material_id, $quantidade, $eco);
                 $usuarioModel::operacaoEntradaSaldo($usuario_id, $eco);
+                $saldo = $usuarioModel::consultarSaldo($usuario_id);
+                $data = $materialModel::cadastro_recebimento_material($usuario_id, $material_id, $quantidade, $eco, $saldo[0]['eco_saldo']);
+                
                 return $this->view('material/cadastro_recebimento_material_sucesso');
             } else 
             {   
@@ -148,17 +150,4 @@ class Material extends Controller
             echo($e);
         }
     }
-
-    // public function cadastro_recebimento_material_sucesso()
-    // {   
-    //     $usuario = $_POST['usuario'];
-    //     $material = $_POST['material'];
-    //     $quantidade = $_POST['quantidade'];
-    //     $eco_valor = $_POST['eco_valor'];
-
-    //     $materialModel = $this->model('Materials');
-    //     $data = $materialModel::cadastro_recebimento_material($usuario, $material, $quantidade, $eco_valor);
-    //     $this->view('material/cadastro_recebimento_material_sucesso');
-
-    // }
 }

@@ -30,14 +30,15 @@ class Produtos
         return True;
     }
 
-    public static function cadastrar_operacao_saida_produto($quantidade, $usuario_id, $produto_id, $eco_valor) 
+    public static function cadastrar_operacao_saida_produto($quantidade, $usuario_id, $produto_id, $eco_valor, $saldoAtual) 
     {
         $conn = new Database();
-        $result = $conn->executeQuery('INSERT INTO produto_saida(quantidade, usuario_id, produto_id, eco_valor) VALUES (:quantidade, :usuario_id, :produto_id, :eco_valor)', array(
+        $result = $conn->executeQuery('INSERT INTO produto_saida(quantidade, usuario_id, produto_id, eco_valor, saldo_atual) VALUES (:quantidade, :usuario_id, :produto_id, :eco_valor, :saldo)', array(
             ':quantidade' => $quantidade,
             ':usuario_id' => $usuario_id,
             ':produto_id' => $produto_id,
-            ':eco_valor' => $eco_valor
+            ':eco_valor' => $eco_valor,
+            ':saldo' => $saldoAtual
         ));
 
         return True;

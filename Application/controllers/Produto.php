@@ -141,9 +141,11 @@ class Produto extends Controller
                     ]);
                 }
 
-                $produtoModel::cadastrar_operacao_saida_produto($quantidade, $usuario_id, $produto_id, $eco_valor);
-                $produtoModel::operacaoSaidaProduto($produto_id, $quantidade);
                 $usuarioModel::operacaoSaidaSaldo($usuario_id, $eco_valor);
+                $saldo = $usuarioModel::consultarSaldo($usuario_id);
+                $produtoModel::cadastrar_operacao_saida_produto($quantidade, $usuario_id, $produto_id, $eco_valor, $saldo[0]['eco_saldo']);
+                $produtoModel::operacaoSaidaProduto($produto_id, $quantidade);
+                
                 return $this->view('produto/operacao_saida_sucesso');                                   
             } else {
 

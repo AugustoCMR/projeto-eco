@@ -58,12 +58,14 @@ class Users
     $conn = new Database();
     $consultaSaldo = self::consultarSaldo($id);
     $saldoAtual = $consultaSaldo[0]['eco_saldo'];
-    $saldoFinal = (float)$saldoAtual + ((float)Eco::$eco * (float)$valor_real);
+    $saldoFinal = (float)$saldoAtual + (float)$valor_real;
 
     $result = $conn->executeQuery('UPDATE usuario SET eco_saldo = :eco WHERE id = :ID ', array(
       ':eco' => $saldoFinal,
       ':ID' => $id 
     ));
+
+    
   }
 
   public static function operacaoSaidaSaldo($id, $eco)

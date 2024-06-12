@@ -76,7 +76,7 @@
             </div>
 
 
-            <label class="font-weight-bold">Valor final(€)</label>
+            <label class="font-weight-bold">Valor final do Produto(€)</label>
             <div class="mb-3">
             <input type="text" id="valorFinal" name="eco_valor"
             value="<?= isset($data['eco_valor']) ? $data['eco_valor'] : '' ?>" class="form-control" placeholder="Valor Final" oninput="atualizarSaldoUsuario_valorFinal()" readonly>
