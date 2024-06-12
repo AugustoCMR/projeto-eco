@@ -4,7 +4,16 @@
       <div class="col-8 offset-2" style="margin-top:100px">
         <h1 class="display-5 text-center text-primary font-weight-bold titulo">Operação de Entrada</h1>
         
-
+        <?php
+        
+          if (!empty($data['erros'])): 
+              ?>
+              <div class="alert alert-danger mt-5">
+                  <?php foreach ($data['erros'] as $erro): ?>
+                      <p><?php echo $erro; ?></p>
+                  <?php endforeach; ?>
+              </div>
+        <?php endif; ?>
 
         <form method="POST" action="../produto/cadastrar_operacao_entrada_produto" class="mt-5">
     

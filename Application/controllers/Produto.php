@@ -4,6 +4,8 @@ use Application\core\Controller;
 use Application\models\Eco;
 use Application\intermediarios\ProdutoIntermediario;
 
+require __DIR__ . '\\../utils/validaCamposObrigatorios.php';
+
 class Produto extends Controller 
 {
     public function cadastrar_produto()
@@ -14,10 +16,16 @@ class Produto extends Controller
             {  
                 
                 $intermediario = new ProdutoIntermediario;
-                $validador = $intermediario->validaFormularioCadastrarProduto();
                
-                $produto = $_POST['produto'];
+                $produto = strtolower($_POST['produto']);
                 $eco = $_POST['eco_valor'];
+
+                $camposObrigatorios = validarCamposObrigatorios([
+                    'Produto' => $produto,
+                    'Eco Points' => $eco
+                ]);
+
+                $validador = $intermediario->validaFormularioCadastrarProduto($camposObrigatorios, $eco, $produto);
 
                 if(!empty($validador))
                 {
@@ -42,11 +50,6 @@ class Produto extends Controller
         
     }
 
-    public function cadastrar_produto_sucesso()
-    {
-        
-    }
-
     public function cadastrar_operacao_entrada_produto()
     {
 
@@ -59,21 +62,29 @@ class Produto extends Controller
             {   
                 $intermediario = new ProdutoIntermediario;
                 $quantidade = $_POST['quantidade'];
-                $formataValor = explode(" ", $_POST['real_valor']);
+                $valor_total = $_POST['real_valor'];
                 $produto_id = $_POST['produto_id'];
+                $valor_unitario = $_POST['valor_unitário'];
+            
+                $camposObrigatorios = validarCamposObrigatorios([
+                    'Produto' => $produto_id,
+                    'Quantidade' => $quantidade,
+                    'Valor Unitário' => $valor_unitario,
+                    'Valor Total' => $valor_total
+                ]);
 
-                $real_valor = $formataValor[1];
-                $validaCampos = $intermediario->validaFormularioTiposNumber($real_valor, $quantidade);
+                $validaCampos = $intermediario->validaOperacaoEntrada($camposObrigatorios, $quantidade, $valor_unitario, $valor_total);
                 
                 if(!empty($validaCampos))
                 {
-             
+        
                     return $this->view('produto/operacao_entrada', ['erros' => $validaCampos,
                     'produtos' => $produtos
                     ]);
                 }
 
-        
+                $real_valor = explode(" ", $_POST['real_valor'])[1];
+
                 $produtoModel::cadastrar_operacao_entrada_produto($quantidade, $real_valor, $produto_id);
                 $produtoModel::operacaoEntradaProduto($produto_id, $quantidade);
                 return $this->view('produto/operacao_entrada_sucesso');
@@ -112,7 +123,14 @@ class Produto extends Controller
                 $formataValor = explode(" ", $_POST['eco_valor']);
                 $eco_valor = (float)$formataValor[1];
 
-                $validacao = $intermediario->validaOperacaoSaida($saldo_usuario, $eco_valor, $quantidade);
+                $camposObrigatorios = validarCamposObrigatorios([
+                    'Produto' => $produto_id,
+                    'Usuário' => $usuario_id,
+                    'Quantidade' => $quantidade,
+                    'Saldo' => $saldo_usuario
+                ]);
+
+                $validacao = $intermediario->validaOperacaoSaida($camposObrigatorios, $saldo_usuario, $eco_valor, $quantidade);
 
                 if(!empty($validacao))
                 {   
@@ -125,8 +143,7 @@ class Produto extends Controller
                 $produtoModel::cadastrar_operacao_saida_produto($quantidade, $usuario_id, $produto_id, $eco_valor);
                 $produtoModel::operacaoSaidaProduto($produto_id, $quantidade);
                 $usuarioModel::operacaoSaidaSaldo($usuario_id, $eco_valor);
-                return $this->view('produto/operacao_saida_sucesso');                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-        
+                return $this->view('produto/operacao_saida_sucesso');                                   
             } else {
 
                 return $this->view('produto/operacao_saida', [
@@ -142,43 +159,37 @@ class Produto extends Controller
       
     }
 
-    public function cadastrar_operacao_saida_produto_sucesso()
-    {
-        
-    }
-
     public function consultar_produto()
     {   
 
-        $real_valor = Eco::$eco;
+        $eco_valor = Eco::$eco;
         $produtos = $this->model('Produtos');
-        $select = $produtos::consultar_produtos();
         $dados = $produtos::consultar_produtos();
 
-        if(!empty($_POST['produto_id']) && isset($_POST['produto_id'])) 
-        {
+                if(!empty($_POST['produto_id']) && isset($_POST['produto_id'])) 
+                {
 
-            $filtro = $_POST['produto_id'];
-            $dados = $produtos::consultar_produtos_id($filtro);    
-        } 
+                    $filtro = $_POST['produto_id'];
+                    $dados = $produtos::consultar_produtos_id($filtro);    
+                } 
 
-        if(isset($_POST['submit_quantidade'])) {
-        
-            if(!empty($_POST['quantidade']) && isset($_POST['quantidade'])) 
-            {       
-               
-                $quantidade = $_POST['quantidade'];
-                $real_valor *= $quantidade;
+                if(isset($_POST['submit_quantidade'])) {
                 
-               
-            }  else
-            {
-    
-                 return;
-            }
-        }
+                    if(!empty($_POST['quantidade']) && isset($_POST['quantidade'])) 
+                    {       
+                    
+                        $quantidade = $_POST['quantidade'];
+                        $eco_valor *= $quantidade;
+                        
+                    
+                    }  else
+                    {
+            
+                        return;
+                    }
+                }
        
-        return $this->view('Produto/consultar_produto', ['produto' => $select, 'real' => $real_valor, 'dados' => $dados]);
+        return $this->view('Produto/consultar_produto', ['produto' => $dados, 'real' => $eco_valor]);
     }
     
 }

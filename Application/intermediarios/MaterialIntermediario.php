@@ -61,9 +61,6 @@ class MaterialIntermediario
         try 
         {
 
-                $nome = $_POST['nome'];
-                $eco = $_POST['eco_valor'];
-
                 $conn = new Database();
                 $buscaNome = $conn->executeQuery('SELECT * FROM material WHERE name = :nome', array(
                     ':nome' => $nome

@@ -6,34 +6,81 @@ use Application\core\Database;
 use Application\models\Eco;
 use PDO;
 
+require __DIR__ . '\\../utils/validaCamposTipoNumero.php';
+
 class ProdutoIntermediario 
 {
 
     public $erros = [];
 
-    public function validaFormularioCadastrarProduto()
+    public function validaFormularioCadastrarProduto($errosCampo, $eco, $nome)
     {
-       $this->validaEcoPoint();
-       $this->validaNomeProduto();
+     
+        if(!empty($errosCampo))
+        {   
+         
+            return $this->erros = $errosCampo;   
+        }
+
+       $this->validaEcoPoint($eco);
+       $this->validaNomeProduto($nome);
 
        return $this->erros;
     }
 
-    public function validaOperacaoSaida($saldo, $valorFinal, $quantidade)
+    public function validaOperacaoEntrada($errosCampo, $quantidade, $valor_unitario, $valor_total)
+    {   
+
+        if($valor_total !== "")
+        {
+            $valorFormatado = explode(" ", $_POST['real_valor'])[1];
+        }
+        
+
+        if(!empty($errosCampo))
+        {
+            return $this->erros = $errosCampo;
+        }
+
+        $camposTipoNumero = validarTipoNumero([
+            'Quantidade' => $quantidade,
+            'Valor Unitário' => $valor_unitario,
+            'Valor total' => $valorFormatado
+        ]);
+
+        if(!empty($camposTipoNumero)) {
+           $this->erros = $camposTipoNumero;
+        }
+
+        return $this->erros;
+
+    }
+
+    public function validaOperacaoSaida($errosCampo, $saldo, $valorFinal, $quantidade)
     {
-        $this->validaFormularioTiposNumber(null, $quantidade);
+        if(!empty($errosCampo))
+        {
+            return $this->erros = $errosCampo;
+        }
+
+        $camposTipoNumero = validarTipoNumero([
+            'Quantidade' => $quantidade
+        ]);
+
+        if(!empty($camposTipoNumero)) {
+            $this->erros = $camposTipoNumero;
+         }
+
         $this->verificaSaldo($saldo, $valorFinal);
 
         return $this->erros;
     }
 
-    public function validaNomeProduto()
+    public function validaNomeProduto($produto)
     {
         try
         {   
-            if(!empty($_POST['produto']) && isset($_POST['produto']))
-            {   
-                $produto = $_POST['produto'];
+            
                 $conn = new Database();
                 $buscaProduto = $conn->executeQuery('SELECT * FROM produto WHERE nome = :nome', array(
                 ':nome' => $produto
@@ -45,30 +92,23 @@ class ProdutoIntermediario
                      
                     return $this->erros["produto"] = "O produto informado já existe.";   
                 }
-            } 
-
-            
+              
         } catch(Exception $e)
         {   
             echo("Algo deu errado, por favor, tente novamente.");
         }
     }
 
-    public function validaEcoPoint()
+    public function validaEcoPoint($eco)
     {
         try
         {   
-            if(!empty($_POST['eco_valor']) && isset($_POST['eco_valor']))
-            {   
-                $eco = $_POST['eco_valor'];
-
+             
                 if(!is_numeric($eco)) {
                      
                     return $this->erros["ecoInvalido"] = "O Eco Points deve conter apenas números.";   
                 }
-            } 
-
-            
+             
         } catch(Exception $e)
         {   
             echo("Algo deu errado, por favor, tente novamente.");
