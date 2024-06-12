@@ -94,6 +94,21 @@ class User extends Controller
    public function consultar_materiais_entregues()
    {
       
+
+      if(isset($_POST['submit_consultar']))
+      {  
+         
+         $cpf = $_POST['cpf'];
+
+         $usuarioModel = $this->model('Users');
+         $dados = $usuarioModel::consultarMateriaisEntregues($cpf);
+
+         return $this->view('user/consulta_materiais_entregues', ['query' => $dados,
+         'cpf' => $cpf 
+         ]);
+
+      }
+
       $this->view('user/consulta_materiais_entregues');
    }
 

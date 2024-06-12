@@ -78,4 +78,21 @@ class Users
       ':ID' => $id 
     ));
   }
+
+  public static function consultarMateriaisEntregues($cpf)
+  {
+    $conn = new Database();
+    $result = $conn->executeQuery('SELECT us.nome, mt.name, emu.quantidade, emu.eco_valor FROM usuario AS us INNER JOIN entrega_material_usuario AS emu ON us.id = emu.usuario_id INNER JOIN material AS mt
+    ON mt.id = emu.material_id WHERE us.cpf = :cpf', array(
+      ':cpf' => $cpf
+    ));
+
+    return $result->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  // public static function extrato($cpf)
+  // {
+  //   $conn = new Database();
+  //   $result = $conn->executeQuery('SELECT')
+  // }
 }
