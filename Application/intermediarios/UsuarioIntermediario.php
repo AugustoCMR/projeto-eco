@@ -38,7 +38,7 @@ class UsuarioIntermediario
         if(!is_numeric($cpf))
         {
             $this->erros["cpfIncorreto"] = "O CPF deve conter apenas números.";
-            return $this->erros;       
+            return $this->erros;   
         }
 
         $conn = new Database();
@@ -89,8 +89,8 @@ class UsuarioIntermediario
 
             
         } catch(Exception $e)
-        {   
-            echo("Algo deu errado, por favor, tente novamente.");
+        { 
+             echo("Algo deu errado, por favor, tente novamente.");
         }
     }
 
