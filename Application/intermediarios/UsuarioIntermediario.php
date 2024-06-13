@@ -5,6 +5,8 @@ namespace Application\intermediarios;
 use Application\core\Database;
 use PDO;
 
+require __DIR__ . '\\../utils/validaCamposTipoNumero.php';
+
 class UsuarioIntermediario 
 {
 
@@ -25,6 +27,34 @@ class UsuarioIntermediario
         return $this->erros;
     }
 
+    public function validaConsulta($cpf)
+    {
+
+        if(empty($cpf)) {
+            $this->erros["cpfObrigatorio"] = "O campo CPF é obrigatório.";
+            return $this->erros;
+        }
+
+        if(!is_numeric($cpf))
+        {
+            $this->erros["cpfIncorreto"] = "O CPF deve conter apenas números.";
+            return $this->erros;       
+        }
+
+        $conn = new Database();
+        $buscaCPF = $conn->executeQuery('SELECT * FROM usuario WHERE cpf = :CPF', array(
+            ':CPF' => $cpf
+        ));
+
+        $resultado = $buscaCPF->fetchAll(PDO::FETCH_ASSOC);
+
+        if(empty($resultado)) {
+            $this->erros['cpfInvalido'] = "CPF informado não encontrado.";
+        }
+
+        return $this->erros;
+    }
+
     public function validaCPF()
     {
         try
@@ -40,7 +70,7 @@ class UsuarioIntermediario
 
                 if(strlen($cpf) !== 11)
                 {
-                    return $this->erros["cpfTamanhoInvalido"] = "O CPF deve conter apenas 11 caracteres."; 
+                    return $this->erros["cpfTamanhoInvalido"] = "O CPF deve conter 11 caracteres."; 
                 }
 
                 $conn = new Database();
@@ -49,7 +79,6 @@ class UsuarioIntermediario
                 ));
 
                 $resultado = $buscaCPF->fetchAll(PDO::FETCH_ASSOC);
-
 
                 if(!empty($resultado)) 
                 {

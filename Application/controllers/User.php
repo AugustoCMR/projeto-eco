@@ -5,6 +5,7 @@ use Application\intermediarios\UsuarioIntermediario;
 
 require __DIR__ . '\\../utils/validaCamposObrigatorios.php';
 
+
 class User extends Controller
 {
   
@@ -98,22 +99,61 @@ class User extends Controller
       if(isset($_POST['submit_consultar']))
       {  
          
+         $intermediario = new UsuarioIntermediario;
          $cpf = $_POST['cpf'];
+
+         $validador = $intermediario->validaConsulta($cpf);
+
+         if(!empty($validador)) 
+         {
+            return $this->view('user/consulta_materiais_entregues', [
+               'cpf' => $cpf,
+               'erros' => $validador   
+            ]);
+         }
 
          $usuarioModel = $this->model('Users');
          $dados = $usuarioModel::consultarMateriaisEntregues($cpf);
 
          return $this->view('user/consulta_materiais_entregues', ['query' => $dados,
-         'cpf' => $cpf 
+            'cpf' => $cpf 
          ]);
 
       }
 
-      $this->view('user/consulta_materiais_entregues');
+      return  $this->view('user/consulta_materiais_entregues');
    }
 
    public function extrato()
    {
+
+      if(isset($_POST['submit_consultar']))
+      {  
+
+         $intermediario = new UsuarioIntermediario;
+         $cpf = $_POST['cpf'];
+
+         $validador = $intermediario->validaConsulta($cpf);
+
+         if(!empty($validador)) 
+         {
+            return $this->view('user/extrato', [
+               'cpf' => $cpf,
+               'erros' => $validador   
+            ]);
+         }
+
+         $usuarioModel = $this->model('Users');
+         $dados = $usuarioModel::extrato($cpf);
+
+         return $this->view('user/extrato', [
+            'dados' => $dados,
+            'cpf' => $cpf
+         ]);
+      }
+
+     
+
       $this->view('user/extrato');
    }
 

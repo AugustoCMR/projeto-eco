@@ -20,7 +20,7 @@ CREATE TABLE tipo_residuo (
 
 CREATE TABLE material (
 	id serial primary key unique ,
-	name text,
+	nome text,
   unidade_medida text,
 	eco_valor numeric,
 	tipo_residuo_id integer references tipo_residuo(id)
@@ -31,7 +31,8 @@ CREATE TABLE entrega_material_usuario (
   usuario_id integer references usuario(id),
   material_id integer references material(id),
   quantidade numeric,
-  eco_valor numeric
+  eco_valor numeric,
+  saldo_atual numeric
 );
 
 CREATE TABLE produto (
@@ -53,7 +54,8 @@ CREATE TABLE produto_saida (
   quantidade integer,
   usuario_id integer references usuario(id),
   produto_id integer references produto(id),
-  eco_valor numeric
+  eco_valor numeric,
+  saldo_atual numeric
 );
 
 CREATE TABLE extrato (

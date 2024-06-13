@@ -92,9 +92,55 @@ class Users
     return $result->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  // public static function extrato($cpf)
-  // {
-  //   $conn = new Database();
-  //   $result = $conn->executeQuery('SELECT')
-  // }
+  public static function extrato($cpf)
+  {
+    $conn = new Database();
+    $result = $conn->executeQuery
+    ('SELECT 
+          us.eco_saldo, 
+          mt.name AS nome_material, 
+          NULL AS nome_produto, 
+          emu.saldo_atual AS saldo_atual_entrada, 
+          NULL AS saldo_atual_saida, 
+          emu.eco_valor AS entrada, 
+          NULL AS saida,
+          emu.created_at
+          FROM 
+          usuario AS us
+          INNER JOIN 
+          entrega_material_usuario AS emu ON us.id = emu.usuario_id
+          INNER JOIN 
+          material AS mt ON mt.id = emu.material_id
+            WHERE 
+          us.cpf = :cpf
+
+          UNION ALL
+
+          SELECT 
+          us.eco_saldo, 
+          NULL AS nome_material, 
+          pd.nome AS nome_produto, 
+          NULL AS saldo_atual_entrada, 
+          pds.saldo_atual AS saldo_atual_saida, 
+          NULL AS entrada, 
+          pds.eco_valor AS saida,
+          pds.created_at
+          FROM 
+          usuario AS us
+          INNER JOIN 
+          produto_saida AS pds ON us.id = pds.usuario_id
+          INNER JOIN 
+          produto AS pd ON pd.id = pds.produto_id
+          WHERE 
+          us.cpf = :cpf
+
+          ORDER BY
+          created_at;', array
+          (
+          ':cpf' => $cpf
+          )
+    );
+
+    return $result->fetchAll(PDO::FETCH_ASSOC);
+  }
 }
