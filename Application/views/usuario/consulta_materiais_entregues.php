@@ -24,7 +24,7 @@
             </div>
 
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary font-weight-bold" name="submit_consultar"  value="cadastrar-categoria">Consultar</button>
+                <button type="submit" class="btn btn-primary font-weight-bold" name="submit_consultar">Consultar</button>
         </div>
 
         </form>

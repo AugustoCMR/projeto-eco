@@ -21,6 +21,14 @@ class MaterialIntermediario
         return $this->erros;
     }
 
+   /**
+   * Método para validar os dados do material
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $erroCampo recebe todos os campos do material
+   * @param $nome nome do material
+   * @param $eco valor do material em Eco
+   */
     public function validadorMaterial($erroCampo = null, $nome = null, $eco = null)
     {
 
@@ -40,7 +48,7 @@ class MaterialIntermediario
         {
 
                 $conn = new Database();
-                $buscaNome = $conn->executeQuery('SELECT * FROM tipo_residuo WHERE name = :nome', array(
+                $buscaNome = $conn->executarQuery('SELECT * FROM residuo WHERE nm_residuo = :nome', array(
                     ':nome' => $nome
                 ));
 
@@ -56,13 +64,20 @@ class MaterialIntermediario
         }
     }
 
+    /**
+     * Método para validar o formulário do material
+     * @author Augusto Ribeiro
+     * @created 13/06/2024
+     * @param $nome nome do material
+     * @param $eco valor do eco 
+     */
     public function validaFormularioMaterial($nome, $eco)
     {
         try 
         {
 
                 $conn = new Database();
-                $buscaNome = $conn->executeQuery('SELECT * FROM material WHERE name = :nome', array(
+                $buscaNome = $conn->executarQuery('SELECT * FROM material WHERE nm_material = :nome', array(
                     ':nome' => $nome
                 ));
 
