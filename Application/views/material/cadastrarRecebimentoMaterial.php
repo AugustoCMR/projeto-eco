@@ -5,29 +5,29 @@
         <h1 class="display 4 text-center text-primary">Recebimento de Material</h1>
         <?php
             
-        if (!empty($data['erros'])): 
+        if (!empty($dados['erros'])): 
             ?>
             <div class="alert alert-danger mt-5">
-                <?php foreach ($data['erros'] as $erro): ?>
+                <?php foreach ($dados['erros'] as $erro): ?>
                     <p><?php echo $erro; ?></p>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="../material/cadastro_recebimento_material" class="mt-5">
+        <form method="POST" action="../material/cadastrarMaterialRecebido" class="mt-5">
     
             <div class="mb-3">
                 <label class="font-weight-bold">Usuário</label>
-                <select type="number" name="usuario_id" id="categoria" class="form-control"> 
+                <select type="number" name="idUsuario" id="categoria" class="form-control"> 
                     <option value="">Selecione uma opção</option>
                     <?php 
                        
-                        if(isset($data['usuarios']))
+                        if(isset($dados['usuarios']))
                         { 
                             
-                            foreach($data['usuarios'] as $usuarios)
+                            foreach($dados['usuarios'] as $usuarios)
                             { ?>
-                            <option value="<?=$usuarios['id'] ?>" > <?= $usuarios['nome'] ?></option> 
+                            <option value="<?=$usuarios['id_usuario'] ?>" > <?= $usuarios['nm_usuario'] ?></option> 
                             
                     <?php   } 
                         } ?> 
@@ -37,16 +37,16 @@
 
             <div class="mb-3">
                 <label class="font-weight-bold">Material</label>
-                <select type="number" name="material_id" id="material" class="form-control" onchange="atualizarUnidade()"> 
+                <select type="number" name="idMaterial" id="material" class="form-control" onchange="atualizarUnidade()"> 
                     <option value="">Selecione uma opção</option>
                     <?php 
                        
-                        if(isset($data['materiais']))
+                        if(isset($dados['materiais']))
                         { 
                             
-                            foreach($data['materiais'] as $materiais)
+                            foreach($dados['materiais'] as $materiais)
                             { ?>
-                            <option value="<?=$materiais['id'] ?>" data-unidade="<?=$materiais['unidade_medida']?>" data-eco_valor="<?=$materiais['eco_valor']?>"> <?= $materiais['name']?></option> 
+                            <option value="<?=$materiais['id_material'] ?>" data-unidade="<?=$materiais['nm_unidademedida']?>" data-eco_valor="<?=$materiais['vl_eco']?>"> <?= $materiais['nm_material']?></option> 
                             
                     <?php   } 
                         } ?> 
@@ -56,16 +56,16 @@
 
             <div class="mb-3">
                 <label class="font-weight-bold">Quantidade (<span id="unidade_linha"></span>)</label>
-                <input type="number" name="quantidade" id="quantidade" class="form-control" oninput="atualizarValor()">
+                <input type="number" name="qt_materialentregue" id="quantidade" class="form-control" oninput="atualizarValor()">
             </div>
 
             <div class="mb-3">
                 <label class="font-weight-bold">Eco Points</label>
-                <input type="text" name="eco_valor" id="valorFinal" class="form-control" oninput="atualizarValor()" readonly>
+                <input type="text" name="vl_eco" id="valorFinal" class="form-control" oninput="atualizarValor()" readonly>
             </div>
 
             <div class="mb-3">
-                <button type="submit" class= "btn btn-primary font-weight-bold" name="cadastrar_recebimento_material"  value="cadastrar-categoria">Enviar</button>
+                <button type="submit" class= "btn btn-primary font-weight-bold" name="cadastrarMaterialRecebido">Enviar</button>
             </div>
         </form> 
         
@@ -75,6 +75,11 @@
 </main>
 
 <script>
+     /**
+   * Método para colocar a unidade de medida após o usuário selecionar o material
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
     function atualizarUnidade()
     {
         
@@ -86,6 +91,11 @@
         atualizarValor();   
     }
 
+    /**
+   * Método para atualizar o valor após o usuário digitar a quantidade
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
     function atualizarValor()
     {   
         const material = document.getElementById('material');

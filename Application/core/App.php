@@ -9,15 +9,26 @@ class App
   protected $method = 'index';
   protected $params = [];
 
+  /**
+   * Método executar todos os métodos da URl e preparar o caminho/método da página
+   * @author: Augusto Ribeiro
+   * @created: 13/06/2024
+   */
   public function __construct()
   {
     $URL_ARRAY = $this->parseUrl();
-    $this->getControllerFromUrl($URL_ARRAY);
-    $this->getMethodFromUrl($URL_ARRAY);
-    $this->getParamsFromUrl($URL_ARRAY);
+    $this->getControllerDaUrl($URL_ARRAY);
+    $this->getMethodDaUrl($URL_ARRAY);
+    $this->getParamsDaUrl($URL_ARRAY);
 
     call_user_func_array([$this->controller, $this->method], $this->params);
   }
+
+  /**
+   * Método para pegar a URL da requisição da URI 
+   * @author: Augusto Ribeiro
+   * @created: 13/06/2024
+   */
   private function parseUrl()
   {
     $REQUEST_URI = explode('/', substr(filter_input(INPUT_SERVER, 'REQUEST_URI'), 1));
@@ -25,7 +36,14 @@ class App
     return $REQUEST_URI;
   }
 
-  private function getControllerFromUrl($url)
+  /**
+   * Método para pegar a URL digitada e verificar se existe o controller específicado.
+   * caminho nomeDoArquivoController/nomeDoMétodo/parâmetro
+   * @author: Augusto Ribeiro
+   * @created: 13/06/2024
+   * @param $url url digitada na web
+   */
+  private function getControllerDaUrl($url)
   {
     if ( !empty($url[$this->indexController]) && isset($url[$this->indexController]) ) {
       if ( file_exists('../Application/controllers/' . ucfirst($url[$this->indexController])  . '.php') ) {
@@ -41,7 +59,14 @@ class App
 
   }
 
-  private function getMethodFromUrl($url)
+  /**
+   * Método para pegar a URL digitada e verificar se existe o método específicado.
+   * caminho nomeDoArquivoController/nomeDoMétodo/parâmetro
+   * @author: Augusto Ribeiro
+   * @created: 13/06/2024
+   * @param $url url digitada na web
+   */
+  private function getMethodDaUrl($url)
   {
     if ( !empty($url[1 + $this->indexController]) && isset($url[1 + $this->indexController]) ) {
       if ( method_exists($this->controller, $url[1 + $this->indexController])) {
@@ -55,7 +80,14 @@ class App
  
   }
   
-  private function getParamsFromUrl($url)
+   /**
+   * Método para pegar a URL digitada e verificar se existe algum paramêtro específicado.
+   * caminho nomeDoArquivoController/nomeDoMétodo/parâmetro
+   * @author: Augusto Ribeiro
+   * @created: 13/06/2024
+   * @param $url url digitada na web
+   */
+  private function getParamsDaUrl($url)
   {
     if (count($url) > (2 + $this->indexController)) {
       $this->params = array_slice($url, (2 + $this->indexController));

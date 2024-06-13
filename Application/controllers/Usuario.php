@@ -6,7 +6,7 @@ use Application\intermediarios\UsuarioIntermediario;
 require __DIR__ . '\\../utils/validaCamposObrigatorios.php';
 
 
-class User extends Controller
+class Usuario extends Controller
 {
   
 //   public function index()
@@ -16,27 +16,31 @@ class User extends Controller
 //     $this->view('User/index', ['usuario' => $data]);
 //   }
 
-   public function register_user()
+   public function cadastrar()  
    {
    
-      if(isset($_POST['cadastro_usuario'])) {
+      if(isset($_POST['cadastrarUsuario'])) {
          $intermediario = new UsuarioIntermediario;
          
-         $nome = strtolower($_POST['nome']);
-         $sobrenome = strtolower($_POST['sobrenome']);
-         $email = strtolower($_POST['email']);
+         $nome = strtolower($_POST['nm_usuario']);
+         $email = strtolower($_POST['nm_email']);
+         $cpf = $_POST['nu_cpf'];
          $saldo = 0;
-         $cpf = $_POST['cpf'];
-         $cep = $_POST['cep'];
-         $rua = strtolower($_POST['rua']);
-         $bairro = strtolower($_POST['Bairro']);
-         $numero = strtolower($_POST['numero']);
+         $pais = strtolower($_POST['nm_pais']);
+         $estado = strtolower($_POST['nm_estado']);
+         $cidade = strtolower($_POST['nm_cidade']);
+         $cep = $_POST['nu_cep'];
+         $rua = strtolower($_POST['nm_rua']);
+         $bairro = strtolower($_POST['nm_bairro']);
+         $numero = strtolower($_POST['nm_numero']);
 
          $validaCampos = validarCamposObrigatorios([
             'Nome' => $nome,
-            'Sobrenome'=> $sobrenome,
             'Email' => $email,
             'CPF' => $cpf,
+            'País' => $pais,
+            'Estado' => $estado,
+            'Cidade' => $cidade,
             'CEP' => $cep,
             'Rua' => $rua,
             'Bairro' => $bairro,
@@ -48,11 +52,13 @@ class User extends Controller
          if(!empty($erros)) 
          {
 
-            return $this->view('user/register_user', ['erros' => $erros,
+            return $this->view('usuario/cadastrar', ['erros' => $erros,
             'nome' => $nome,
-            'sobrenome'=> $sobrenome,
             'email' => $email,
             'cpf' => $cpf,
+            'pais' => $pais,
+            'estado' => $estado,
+            'cidade' => $cidade,
             'cep' => $cep,
             'rua' => $rua,
             'bairro' => $bairro,
@@ -60,14 +66,14 @@ class User extends Controller
             ]);
          }
 
-         $Users = $this->model('Users');
-         $data = $Users::register($nome, $sobrenome, $email, $saldo, (int)$cpf, (int)$cep, $rua, $bairro, $numero);
-         return $this->view('user/register_user_success');
+         $Usuarios = $this->model('Usuarios');
+         $Usuarios::cadastrar($nome, $email, $saldo, (int)$cpf, $pais, $estado, $cidade,(int)$cep, $rua, $bairro, $numero);
+         return $this->view('usuario/cadastroSucesso');
       
       } else 
       {
 
-         return $this->view('user/register_user');
+         return $this->view('usuario/cadastrar');
       }   
    }
 

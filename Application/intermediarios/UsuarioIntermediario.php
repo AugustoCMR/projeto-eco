@@ -42,7 +42,7 @@ class UsuarioIntermediario
         }
 
         $conn = new Database();
-        $buscaCPF = $conn->executeQuery('SELECT * FROM usuario WHERE cpf = :CPF', array(
+        $buscaCPF = $conn->executarQuery('SELECT * FROM usuario WHERE nu_cpf = :CPF', array(
             ':CPF' => $cpf
         ));
 
@@ -59,11 +59,11 @@ class UsuarioIntermediario
     {
         try
         {   
-            if(!empty($_POST['cpf']) && isset($_POST['cpf']))
+            if(!empty($_POST['nu_cpf']) && isset($_POST['nu_cpf']))
             {   
-                $cpf = $_POST['cpf'];
+                $cpf = $_POST['nu_cpf'];
 
-                if(!is_numeric($_POST["cpf"])) {
+                if(!is_numeric($_POST["nu_cpf"])) {
                      
                     return $this->erros["cpfInvalido"] = "O CPF deve conter apenas números.";   
                 }
@@ -74,7 +74,7 @@ class UsuarioIntermediario
                 }
 
                 $conn = new Database();
-                $buscaCPF = $conn->executeQuery('SELECT * FROM usuario WHERE cpf = :CPF', array(
+                $buscaCPF = $conn->executarQuery('SELECT * FROM usuario WHERE nu_cpf = :CPF', array(
                 ':CPF' => $cpf
                 ));
 
@@ -98,11 +98,11 @@ class UsuarioIntermediario
     {
         try
         {   
-            if(!empty($_POST['email']) && isset($_POST['email']))
+            if(!empty($_POST['nm_email']) && isset($_POST['nm_email']))
             {   
-                $email = $_POST['email'];
+                $email = $_POST['nm_email'];
                 $conn = new Database();
-                $buscaEmail = $conn->executeQuery('SELECT * FROM usuario WHERE email = :email', array(
+                $buscaEmail = $conn->executarQuery('SELECT * FROM usuario WHERE nm_email = :email', array(
                 ':email' => $email
                 ));
 
@@ -131,9 +131,9 @@ class UsuarioIntermediario
     {
         try
         {   
-           if(!empty($_POST['cep']) && isset($_POST['cep']))
+           if(!empty($_POST['nu_cep']) && isset($_POST['nu_cep']))
            {
-                if(!is_numeric($_POST["cep"])) {
+                if(!is_numeric($_POST["nu_cep"])) {
                     $this->erros["cep"] = "O CEP deve conter apenas números.";
                 }
            }

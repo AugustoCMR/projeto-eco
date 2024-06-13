@@ -87,7 +87,7 @@ CREATE TABLE usuario (
 
 CREATE TABLE residuo (
 	id_residuo serial UNIQUE,
-  nm_resiudo varchar(40) NOT NULL,
+  nm_residuo varchar(40) NOT NULL,
   
   CONSTRAINT pk_residuo PRIMARY KEY(id_residuo)
 );
