@@ -35,7 +35,7 @@ class Material extends Controller
                     return $this->view('material/cadastrarResiduo', ['erros' => $intermediario->erros]);
                 }
 
-                $residuo = $this->model('Materials');
+                $residuo = $this->model('Materiais');
                 $residuo::cadastrarResiduo($nome);
 
                 $this->view('material/cadastroResiduoSucesso');

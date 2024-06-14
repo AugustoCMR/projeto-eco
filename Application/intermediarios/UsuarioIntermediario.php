@@ -12,6 +12,13 @@ class UsuarioIntermediario
 
     public $erros = [];
 
+
+     /**
+   * Método para validar cadastro do usuário
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $errosCampos campos obrigatórios
+   */
     public function validacaoUsuario($errosCampos)
     {   
         
@@ -27,6 +34,12 @@ class UsuarioIntermediario
         return $this->erros;
     }
 
+     /**
+   * Método para validar consultas no banco de dados
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $cpf cpf do Usuário
+   */
     public function validaConsulta($cpf)
     {
 
@@ -55,6 +68,11 @@ class UsuarioIntermediario
         return $this->erros;
     }
 
+     /**
+   * Método para validar o CPF do usuário
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
     public function validaCPF()
     {
         try
@@ -94,6 +112,11 @@ class UsuarioIntermediario
         }
     }
 
+     /**
+   * Método para validar o email do usuário
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
     public function validaEmail()
     {
         try
@@ -127,6 +150,11 @@ class UsuarioIntermediario
         }
     }
 
+     /**
+   * Método para validar o CEP do usuário
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
     public function validaCEP()
     {
         try

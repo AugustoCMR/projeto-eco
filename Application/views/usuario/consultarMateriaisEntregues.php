@@ -6,25 +6,25 @@
 
         <?php 
 
-        if (!empty($data['erros'])): 
+        if (!empty($dados['erros'])): 
             ?>
             <div class="alert alert-danger mt-5">
-                <?php foreach ($data['erros'] as $erro): ?>
+                <?php foreach ($dados['erros'] as $erro): ?>
                     <p><?php echo $erro; ?></p>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
         
-        <form method="POST" action="../user/consultar_materiais_entregues" class="mt-5">
+        <form method="POST" action="../usuario/consultarMateriaisEntregues" class="mt-5">
 
             <div class="mb-3">
                 <label class="font-weight-bold">Consulta:</label>
                 <input type="text" name="cpf"    
-                value="<?= isset($data['cpf']) ? $data['cpf'] : '' ?>" class="form-control" placeholder="Digite o CPF"> 
+                value="<?= isset($dados['cpf']) ? $dados['cpf'] : '' ?>" class="form-control" placeholder="Digite o CPF"> 
             </div>
 
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary font-weight-bold" name="submit_consultar">Consultar</button>
+                <button type="submit" class="btn btn-primary font-weight-bold" name="consultarMateriaisEntregues">Consultar</button>
         </div>
 
         </form>
@@ -39,13 +39,13 @@
           </thead>
           <tbody>
             <?php 
-            if(!empty($data['query'])) 
+            if(!empty($dados['query'])) 
             {
-              foreach ($data['query'] as $materiais) { ?>
+              foreach ($dados['query'] as $materiais) { ?>
                 <tr>
-                  <td><?= $materiais['name'] ?></td>
-                  <td><?= $materiais['quantidade'] ?></td>
-                  <td> € <?= $materiais['eco_valor'] ?></td> 
+                  <td><?= $materiais['nm_material'] ?></td>
+                  <td><?= $materiais['qt_materialentregue'] ?></td>
+                  <td> € <?= $materiais['vl_eco'] ?></td> 
                 </tr> 
            <?php } ?> 
           

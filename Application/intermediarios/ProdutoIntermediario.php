@@ -13,6 +13,14 @@ class ProdutoIntermediario
 
     public $erros = [];
 
+      /**
+   * Método para chamar outros métodos que validam o formulário de cadastro
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $errosCampo armazena campos obrigatórios
+   * @param $eco valor do produto em eco
+   * @param $nome nome do produto
+   */
     public function validaFormularioCadastrarProduto($errosCampo, $eco, $nome)
     {
      
@@ -28,12 +36,21 @@ class ProdutoIntermediario
        return $this->erros;
     }
 
-    public function validaOperacaoEntrada($errosCampo, $quantidade, $valor_unitario, $valor_total)
+        /**
+   * Método para validar o cadastro de entrada dos produtos
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $errosCampo campos obrigatórios do formulário
+   * @param $quantidade quantidade fornecida do produto
+   * @param $valorUnitario valor unitário do produto
+   * @param $valorTotal valor total do produto x quantidade
+   */
+    public function validaOperacaoEntrada($errosCampo, $quantidade, $valorUnitario, $valorTotal)
     {   
 
-        if($valor_total !== "")
+        if($valorTotal !== "")
         {
-            $valorFormatado = explode(" ", $_POST['real_valor'])[1];
+            $valorFormatado = explode(" ", $_POST['vl_real'])[1];
         }
         
 
@@ -44,7 +61,7 @@ class ProdutoIntermediario
 
         $camposTipoNumero = validarTipoNumero([
             'Quantidade' => $quantidade,
-            'Valor Unitário' => $valor_unitario,
+            'Valor Unitário' => $valorUnitario,
             'Valor total' => $valorFormatado
         ]);
 
@@ -56,6 +73,15 @@ class ProdutoIntermediario
 
     }
 
+        /**
+   * Método para validar a retirada do produto
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $errosCampo campos obrigatórios
+   * @param $saldo saldo do usuário
+   * @param $valorFinal valor final da transação
+   * @param $quantidade quantidade do produto retirado
+   */
     public function validaOperacaoSaida($errosCampo, $saldo, $valorFinal, $quantidade)
     {
         if(!empty($errosCampo))
@@ -76,13 +102,19 @@ class ProdutoIntermediario
         return $this->erros;
     }
 
+       /**
+   * Método para validar o nome do produto
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $produto nome do produto
+   */
     public function validaNomeProduto($produto)
     {
         try
         {   
             
                 $conn = new Database();
-                $buscaProduto = $conn->executeQuery('SELECT * FROM produto WHERE nome = :nome', array(
+                $buscaProduto = $conn->executarQuery('SELECT * FROM produto WHERE nm_produto = :nome', array(
                 ':nome' => $produto
                 ));
 
@@ -99,11 +131,16 @@ class ProdutoIntermediario
         }
     }
 
+       /**
+   * Método para chamar validar o campo Eco Points
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $eco valor do produto
+   */
     public function validaEcoPoint($eco)
     {
         try
         {   
-             
                 if(!is_numeric($eco)) {
                      
                     return $this->erros["ecoInvalido"] = "O Eco Points deve conter apenas números.";   

@@ -116,10 +116,10 @@ class Usuarios
   {
     $conn = new Database();
     $consultaSaldo = self::consultarSaldo($id);
-    $saldoAtual = $consultaSaldo[0]['eco_saldo'];
+    $saldoAtual = $consultaSaldo[0]['vl_ecosaldo'];
     $saldoFinal = (float)$saldoAtual - (float)$eco;
 
-    $result = $conn->executeQuery('UPDATE usuario SET eco_saldo = :eco WHERE id = :ID ', array(
+    $result = $conn->executarQuery('UPDATE usuario SET vl_ecosaldo = :eco WHERE id_usuario = :ID ', array(
       ':eco' => $saldoFinal,
       ':ID' => $id 
     ));
@@ -134,8 +134,8 @@ class Usuarios
   public static function consultarMateriaisEntregues($cpf)
   {
     $conn = new Database();
-    $result = $conn->executeQuery('SELECT us.nome, mt.name, emu.quantidade, emu.eco_valor FROM usuario AS us INNER JOIN entrega_material_usuario AS emu ON us.id = emu.usuario_id INNER JOIN material AS mt
-    ON mt.id = emu.material_id WHERE us.cpf = :cpf', array(
+    $result = $conn->executarQuery('SELECT us.nm_usuario, mt.nm_material, me.qt_materialentregue, me.vl_eco FROM usuario AS us INNER JOIN material_entregue AS me ON us.id_usuario = me.id_usuario INNER JOIN material AS mt
+    ON mt.id_material = me.id_material WHERE us.nu_cpf = :cpf', array(
       ':cpf' => $cpf
     ));
 
@@ -151,52 +151,52 @@ class Usuarios
   public static function extrato($cpf)
   {
     $conn = new Database();
-    $result = $conn->executeQuery
+    $result = $conn->executarQuery
     ('SELECT 
-          us.eco_saldo, 
-          mt.name AS nome_material, 
+          us.vl_ecosaldo, 
+          mt.nm_material AS nome_material, 
           NULL AS nome_produto, 
-          emu.saldo_atual AS saldo_atual_entrada, 
+          me.vl_saldoatual AS saldo_atual_entrada, 
           NULL AS saldo_atual_saida, 
-          emu.eco_valor AS entrada, 
+          me.vl_eco AS entrada, 
           NULL AS saida,
-          emu.created_at
+          me.dt_criadoem
           FROM 
           usuario AS us
           INNER JOIN 
-          entrega_material_usuario AS emu ON us.id = emu.usuario_id
+          material_entregue AS me ON us.id_usuario = me.id_usuario
           INNER JOIN 
-          material AS mt ON mt.id = emu.material_id
-            WHERE 
-          us.cpf = :cpf
+          material AS mt ON mt.id_material = me.id_material
+          WHERE 
+          us.nu_cpf = :cpf
 
           UNION ALL
 
           SELECT 
-          us.eco_saldo, 
+          us.vl_ecosaldo, 
           NULL AS nome_material, 
-          pd.nome AS nome_produto, 
+          pd.nm_produto AS nome_produto, 
           NULL AS saldo_atual_entrada, 
-          pds.saldo_atual AS saldo_atual_saida, 
+          pds.vl_saldoatual AS saldo_atual_saida, 
           NULL AS entrada, 
-          pds.eco_valor AS saida,
-          pds.created_at
+          pds.vl_eco AS saida,
+          pds.dt_criadoem
           FROM 
           usuario AS us
           INNER JOIN 
-          produto_saida AS pds ON us.id = pds.usuario_id
+          produto_retirado AS pds ON us.id_usuario = pds.id_usuario
           INNER JOIN 
-          produto AS pd ON pd.id = pds.produto_id
+          produto AS pd ON pd.id_produto = pds.id_produto
           WHERE 
-          us.cpf = :cpf
+          us.nu_cpf = :cpf
 
           ORDER BY
-          created_at;', array
+          dt_criadoem;', array
           (
           ':cpf' => $cpf
           )
     );
 
     return $result->fetchAll(PDO::FETCH_ASSOC);
-  }
+  } 
 }

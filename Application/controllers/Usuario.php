@@ -77,63 +77,62 @@ class Usuario extends Controller
       }   
    }
 
-   public function register_user_success()
-   {
+   // public function register_user_success()
+   // {
     
-    $intermediario = new UsuarioIntermediario();
+   //  $intermediario = new UsuarioIntermediario();
 
-      $nome = $_POST['nome'];
-      $sobrenome = $_POST['sobrenome'];
-      $email = $_POST['email'];
-      $saldo = 0;
-      $cpf = $_POST['cpf'];
-      $cep = $_POST['cep'];
-      $rua = $_POST['rua'];
-      $bairro = $_POST['Bairro'];
-      $numero = $_POST['numero'];
+   //    $nome = $_POST['nome'];
+   //    $sobrenome = $_POST['sobrenome'];
+   //    $email = $_POST['email'];
+   //    $saldo = 0;
+   //    $cpf = $_POST['cpf'];
+   //    $cep = $_POST['cep'];
+   //    $rua = $_POST['rua'];
+   //    $bairro = $_POST['Bairro'];
+   //    $numero = $_POST['numero'];
 
 
-      $Users = $this->model('Users');
-      $data = $Users::register($nome, $sobrenome, $email, $saldo, (int)$cpf, (int)$cep, $rua, $bairro, $numero);
-      $this->view('user/register_user_success', ['erros' => $intermediario->erros]);
-   }
+   //    $Users = $this->model('Users');
+   //    $data = $Users::register($nome, $sobrenome, $email, $saldo, (int)$cpf, (int)$cep, $rua, $bairro, $numero);
+   //    $this->view('user/register_user_success', ['erros' => $intermediario->erros]);
+   // }
 
-   public function consultar_materiais_entregues()
+   public function consultarMateriaisEntregues()
    {
       
-
-      if(isset($_POST['submit_consultar']))
+      if(isset($_POST['consultarMateriaisEntregues']))
       {  
          
          $intermediario = new UsuarioIntermediario;
          $cpf = $_POST['cpf'];
 
-         $validador = $intermediario->validaConsulta($cpf);
+         $validador = $intermediario->validaConsulta($cpf); // ver
 
          if(!empty($validador)) 
          {
-            return $this->view('user/consulta_materiais_entregues', [
+            return $this->view('usuario/consultarMateriaisEntregues', [
                'cpf' => $cpf,
                'erros' => $validador   
             ]);
          }
 
-         $usuarioModel = $this->model('Users');
+         $usuarioModel = $this->model('Usuarios');
          $dados = $usuarioModel::consultarMateriaisEntregues($cpf);
 
-         return $this->view('user/consulta_materiais_entregues', ['query' => $dados,
+         return $this->view('usuario/consultarMateriaisEntregues', ['query' => $dados,
             'cpf' => $cpf 
          ]);
 
       }
 
-      return  $this->view('user/consulta_materiais_entregues');
+      return  $this->view('usuario/consultarMateriaisEntregues');
    }
 
    public function extrato()
    {
 
-      if(isset($_POST['submit_consultar']))
+      if(isset($_POST['consultarExtrato']))
       {  
 
          $intermediario = new UsuarioIntermediario;
@@ -143,16 +142,16 @@ class Usuario extends Controller
 
          if(!empty($validador)) 
          {
-            return $this->view('user/extrato', [
+            return $this->view('usuario/extrato', [
                'cpf' => $cpf,
                'erros' => $validador   
             ]);
          }
 
-         $usuarioModel = $this->model('Users');
+         $usuarioModel = $this->model('Usuarios');
          $dados = $usuarioModel::extrato($cpf);
 
-         return $this->view('user/extrato', [
+         return $this->view('usuario/extrato', [
             'dados' => $dados,
             'cpf' => $cpf
          ]);
@@ -160,7 +159,7 @@ class Usuario extends Controller
 
      
 
-      $this->view('user/extrato');
+      $this->view('usuario/extrato');
    }
 
 }

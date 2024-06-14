@@ -6,25 +6,25 @@
 
         <?php 
 
-        if (!empty($data['erros'])): 
+        if (!empty($dados['erros'])): 
             ?>
             <div class="alert alert-danger mt-5">
-                <?php foreach ($data['erros'] as $erro): ?>
+                <?php foreach ($dados['erros'] as $erro): ?>
                     <p><?php echo $erro; ?></p>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
         
-        <form method="POST" action="../user/extrato" class="mt-5">
+        <form method="POST" action="../usuario/extrato" class="mt-5">
 
             <div class="mb-3">
                 <label class="font-weight-bold">Consulta:</label>
                 <input type="text" name="cpf"    
-                value="<?= isset($data['cpf']) ? $data['cpf'] : '' ?>" class="form-control" placeholder="Digite o CPF"> 
+                value="<?= isset($dados['cpf']) ? $dados['cpf'] : '' ?>" class="form-control" placeholder="Digite o CPF"> 
             </div>
 
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary font-weight-bold" name="submit_consultar"  value="cadastrar-categoria">Consultar</button>
+                <button type="submit" class="btn btn-primary font-weight-bold" name="consultarExtrato" value="cadastrar-categoria">Consultar</button>
         </div>
 
         </form>
@@ -40,9 +40,9 @@
           </thead>
           <tbody>
             <?php 
-            if(!empty($data['dados'])) 
+            if(!empty($dados['dados'])) 
             {
-              foreach ($data['dados'] as $dados) { ?>
+              foreach ($dados['dados'] as $dados) { ?>
                 <tr>
                   <td><?= (isset($dados['nome_material']) ?  $dados['nome_material'] . "(MATERIAL)" : $dados['nome_produto'] . "(PRODUTO)")?></td>
                   <td><?= isset($dados['entrada']) ? "€ " . $dados['entrada'] : "" ?></td>  

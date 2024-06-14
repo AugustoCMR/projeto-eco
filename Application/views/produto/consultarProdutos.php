@@ -4,7 +4,7 @@
       <div class="col-8 offset-2" style="margin-top:100px">
         <h2>Produtos</h2>
 
-        <form class="form-inline my-4" action="../produto/consultar_produto" method="POST" >
+        <form class="form-inline my-4" action="../produto/consultarProdutos" method="POST" >
             <div class="mb-3 mr-5 text-center">
                 <input type="text" name="produto" class="form-control" placeholder="Filtrar Produto">
             </div>
@@ -18,7 +18,7 @@
 
         <div class="alert alert-primary font-weight-bold" role="alert">
           Cotação atual:
-          € <?=$data['cotacao_eco']?> equivale a R$ <?= $data['cotacao_real']?> 
+          € <?=$dados['cotacao_eco']?> equivale a R$ <?= $dados['cotacao_real']?> 
         </div>
     
 
@@ -33,13 +33,13 @@
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($data['produto'] as $produto) { ?>
-            <tr  data-produto-nome="<?= $produto['nome'] ?>">
-              <td><?= $produto['id'] ?></td>
-              <td><?= $produto['nome'] ?></td>
-              <td><?= $produto['quantidade'] ?></td>
-              <td id="eco_valor"><?= '€ ' . (isset($data['eco_valorTabela']) ? $produto['eco_valor'] * $data['eco_valorTabela'] : $produto['eco_valor'] * $data['cotacao_eco']); ?></td>
-              <td id="real_valor"><?= 'R$ ' . (isset ($data['real_valorTabela']) ? $data['real_valorTabela'] * $produto['eco_valor'] : $produto['eco_valor'] * $data['cotacao_real']); ?></td>
+            <?php foreach ($dados['produto'] as $produto) { ?>
+            <tr  data-produto-nome="<?= $produto['nm_produto'] ?>">
+              <td><?= $produto['id_produto'] ?></td>
+              <td><?= $produto['nm_produto'] ?></td>
+              <td><?= $produto['qt_produto'] ?></td>
+              <td id="eco_valor"><?= '€ ' . (isset($dados['vl_ecoTabela']) ? $produto['vl_eco'] * $dados['vl_ecoTabela'] : $produto['vl_eco'] * $dados['cotacao_eco']); ?></td>
+              <td id="real_valor"><?= 'R$ ' . (isset ($dados['real_valorTabela']) ? $dados['real_valorTabela'] * $produto['vl_eco'] : $produto['vl_eco'] * $dados['cotacao_real']); ?></td>
               
             </tr>
             <?php } ?>

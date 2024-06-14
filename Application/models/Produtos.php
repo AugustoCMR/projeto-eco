@@ -5,98 +5,147 @@ namespace Application\models;
 use Application\core\Database;
 use PDO;
 class Produtos
-{
-    public static function cadastrar_produto($nome, $eco_valor)
+{   
+       /**
+   * Método para cadastrar produto no banco
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $produto nome do produto para cadastrar
+   * @param $eco valor do produto em eco
+   */
+    public static function cadastrarProduto($produto, $eco)
     {
         $conn = new Database();
-        $result = $conn->executeQuery('INSERT INTO produto(nome, eco_valor, quantidade) VALUES (:nome, :eco_valor, :quantidade)', array(
-            ':nome' => $nome,
-            ':eco_valor' => $eco_valor,
+        $conn->executarQuery('INSERT INTO produto(nm_produto, vl_eco, qt_produto) VALUES (:produto, :eco_valor, :quantidade)', array(
+            ':produto' => $produto,
+            ':eco_valor' => $eco,
             ':quantidade' => 0
         ));
-
-        return True;
     }
 
-    public static function cadastrar_operacao_entrada_produto($quantidade, $real_valor, $produto_id)
+       /**
+   * Método para cadastrar a operação de entrada do produto no banco
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $quantidade quantidade do produto
+   * @param $real_valor valor do produto em real
+   * @param $idProduto id do produto
+   */
+    public static function cadastrarProdutoEntregue($quantidade, $real_valor, $idProduto)
     {
         $conn = new Database();
-        $result = $conn->executeQuery('INSERT INTO produto_entrada(quantidade, real_valor, produto_id) VALUES(:quantidade, :real_valor, :produto_id)', array(
+        $conn->executarQuery('INSERT INTO produto_entregue(qt_produtoentregue, vl_real, id_produto) VALUES(:quantidade, :real_valor, :idProduto)', array(
             ':quantidade' => $quantidade,
             ':real_valor' => $real_valor,
-            ':produto_id' => $produto_id
+            ':idProduto' => $idProduto
         ));
 
-        return True;
     }
 
-    public static function cadastrar_operacao_saida_produto($quantidade, $usuario_id, $produto_id, $eco_valor, $saldoAtual) 
+       /**
+   * Método para cadastrar a operação de saida do produto no banco
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $quantidade quantidade do produto
+   * @param $idUsuario id do usuário
+   * @param $idProduto id do produto
+   * @param $vl_eco valor em eco da transação
+   * @param $saldoAtual saldo atual do usuário após a transação
+   */
+    public static function cadastrarProdutoSaida($quantidade, $idUsuario, $idProduto, $vl_eco, $saldoAtual) 
     {
         $conn = new Database();
-        $result = $conn->executeQuery('INSERT INTO produto_saida(quantidade, usuario_id, produto_id, eco_valor, saldo_atual) VALUES (:quantidade, :usuario_id, :produto_id, :eco_valor, :saldo)', array(
+        $conn->executarQuery('INSERT INTO produto_retirado(qt_produtoretirado, id_usuario, id_produto, vl_eco, vl_saldoatual) VALUES (:quantidade, :idUsuario, :idProduto, :eco_valor, :saldo)', array(
             ':quantidade' => $quantidade,
-            ':usuario_id' => $usuario_id,
-            ':produto_id' => $produto_id,
-            ':eco_valor' => $eco_valor,
+            ':idUsuario' => $idUsuario,
+            ':idProduto' => $idProduto,
+            ':eco_valor' => $vl_eco,
             ':saldo' => $saldoAtual
-        ));
-
-        return True;
-        
+        ));    
     }
 
-    public static function consultar_produtos()
+        /**
+   * Método para consultar os produtos cadastrados no banco
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
+    public static function consultarProdutos()
     {
         $conn = new Database();
-        $result = $conn->executeQuery('SELECT * FROM produto');
+        $resultado = $conn->executarQuery('SELECT * FROM produto');
 
-        return $result->fetchAll(PDO::FETCH_ASSOC);
+        return $resultado->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function consultar_produtos_id($id)
+        /**
+   * Método para consultar produtos pelo id
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $id id do produto
+   */
+    public static function consultarProduto($id)
     {
         $conn = new Database();
-        $result = $conn->executeQuery('SELECT * FROM produto WHERE id = :ID', array(
+        $result = $conn->executarQuery('SELECT * FROM produto WHERE id_produto = :ID', array(
             ':ID' => $id
         ));
 
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function consultar_produtos_nome($nome)
+          /**
+   * Método para consultar produtos pelo nome
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $nome nome do produto
+   */
+    public static function consultarProdutoNome($nome)
     {
         $conn = new Database();
-        $result = $conn->executeQuery('SELECT * FROM produto WHERE nome ILIKE :nome', array(
+        $result = $conn->executarQuery('SELECT * FROM produto WHERE nm_produto ILIKE :nome', array(
             ':nome' => '%' . $nome . '%'
         ));
 
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
+        /**
+   * Método para aumentar a quantidade de produtos no estoque 
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $quantidade quantidade do produto
+   * @param $id id do produto 
+   */
     public static function operacaoEntradaProduto($id, $quantidade)
     {
         $conn = new Database();
 
-        $produto = self::consultar_produtos_id($id);
-        $quantidadeAtual = $produto[0]['quantidade']; 
+        $produto = self::consultarProduto($id);
+        $quantidadeAtual = $produto[0]['qt_produto']; 
         $quantidadeFinal = $quantidadeAtual + $quantidade;
         
-
-        $result = $conn->executeQuery('UPDATE produto SET quantidade = :quantidade WHERE id = :ID ', array(
+        $result = $conn->executarQuery('UPDATE produto SET qt_produto = :quantidade WHERE id_produto = :ID ', array(
         ':quantidade' => $quantidadeFinal,
         ':ID' => $id 
         ));
     }
 
+          /**
+   * Método para diminuir a quantidade de produtos no banco de dados 
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $quantidade quantidade do produto
+   * @param $id id do produto 
+   */
     public static function operacaoSaidaProduto($id, $quantidade)
     {
         $conn = new Database();
 
-        $produto = self::consultar_produtos_id($id);
-        $quantidadeAtual = $produto[0]['quantidade']; 
+        $produto = self::consultarProduto($id);
+        $quantidadeAtual = $produto[0]['qt_produto']; 
         $quantidadeFinal = $quantidadeAtual - $quantidade;
 
-        $result = $conn->executeQuery('UPDATE produto SET quantidade = :quantidade WHERE id = :ID ', array(
+        $result = $conn->executarQuery('UPDATE produto SET qt_produto = :quantidade WHERE id_produto = :ID ', array(
             ':quantidade' => $quantidadeFinal,
             ':ID' => $id 
         ));

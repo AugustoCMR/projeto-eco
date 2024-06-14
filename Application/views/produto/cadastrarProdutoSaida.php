@@ -8,28 +8,28 @@
         
         <?php
         
-          if (!empty($data['erros'])): 
+          if (!empty($dados['erros'])): 
               ?>
               <div class="alert alert-danger mt-5">
-                  <?php foreach ($data['erros'] as $erro): ?>
+                  <?php foreach ($dados['erros'] as $erro): ?>
                       <p><?php echo $erro; ?></p>
                   <?php endforeach; ?>
               </div>
         <?php endif; ?>
 
-        <form method="POST" action="../produto/cadastrar_operacao_saida_produto" class="mt-5">
+        <form method="POST" action="../produto/cadastrarProdutoSaida" class="mt-5">
     
             <div class="mb-3">
                 <label class="font-weight-bold" >Produto</label>
-                <select type="text" name="produto_id" id="produto" class="form-control" onchange="atualizarQuantidade_Valor()"> 
+                <select type="text" name="idProduto" id="produto" class="form-control" onchange="atualizarQuantidade_Valor()"> 
                     <option value="">Selecione uma opção</option>
                     <?php 
                         
-                        if(isset($data['produtos']))
+                        if(isset($dados['produtos']))
                         { 
-                            foreach($data['produtos'] as $produto)
+                            foreach($dados['produtos'] as $produto)
                             { ?>
-                            <option value="<?=$produto['id'] ?>" data-produto="<?=$produto['quantidade']?>" data-valor="<?=$produto['eco_valor'] ?>"> <?= $produto['nome'] ?></option> 
+                            <option value="<?=$produto['id_produto'] ?>" data-produto="<?=$produto['qt_produto']?>" data-valor="<?=$produto['vl_eco'] ?>"> <?= $produto['nm_produto'] ?></option> 
                             
                     <?php   } 
                         } ?> 
@@ -39,28 +39,28 @@
 
             <label class="font-weight-bold">Valor do Produto(€)</label>
             <div class="mb-3">
-            <input type="text" name="eco_valor"
-            value="<?= isset($data['eco_valor']) ? $data['eco_valor'] : '' ?>" class="form-control" placeholder="Valor do Produto" id="valorUnitario" oninput="atualizaValorFinal()" readonly>
+            <input type="text" name="vl_eco"
+            value="<?= isset($dados['eco_valor']) ? $dados['eco_valor'] : '' ?>" class="form-control" placeholder="Valor do Produto" id="valorUnitario" oninput="atualizaValorFinal()" readonly>
             </div>
 
             <label class="font-weight-bold">Quantidade(<span id="quantidade_linha">Escolha um Produto</span>)</label>
             <div class="mb-3">
-            <input type="number" id="quantidade" name="quantidade"
-            value="<?= isset($data['quantidade']) ? $data['quantidade'] : '' ?>" class="form-control" placeholder="Quantidade" oninput="atualizaValorFinal()" readonly>
+            <input type="number" id="quantidade" name="qt_produtoretirado"
+            value="<?= isset($dados['quantidade']) ? $dados['quantidade'] : '' ?>" class="form-control" placeholder="Quantidade" oninput="atualizaValorFinal()" readonly>
             </div>
             
             <div class="mb-3">
               <label class="font-weight-bold" >Usuario</label>
-              <select type="number" name="usuario_id" id="usuario" class="form-control" onchange="atualizarSaldoUsuario()"> 
+              <select type="number" name="idUsuario" id="usuario" class="form-control" onchange="atualizarSaldoUsuario()"> 
                     <option value="">Selecione uma opção</option>
                     <?php 
                        
-                        if(isset($data['usuarios']))
+                        if(isset($dados['usuarios']))
                         { 
                             
-                            foreach($data['usuarios'] as $usuarios)
+                            foreach($dados['usuarios'] as $usuarios)
                             { ?>
-                            <option value="<?=$usuarios['id'] ?>" data-saldo="<?=$usuarios['eco_saldo']?>" > <?= $usuarios['nome'] ?></option> 
+                            <option value="<?=$usuarios['id_usuario'] ?>" data-saldo="<?=$usuarios['vl_ecosaldo']?>" > <?= $usuarios['nm_usuario'] ?></option> 
                             
                     <?php   } 
                         } ?> 
@@ -71,20 +71,20 @@
         
             <label class="font-weight-bold" style="">Saldo</label>
             <div class="mb-3">
-            <input type="text" name="saldo_usuario" id="saldo_usuario" 
-            value="<?= isset($data['eco_valor']) ? $data['eco_valor'] : '' ?>" class="form-control" placeholder="Saldo" readonly>
+            <input type="text" name="vl_ecosaldo" id="saldo_usuario" 
+            value="<?= isset($dados['eco_valor']) ? $dados['eco_valor'] : '' ?>" class="form-control" placeholder="Saldo" readonly>
             </div>
 
 
             <label class="font-weight-bold">Valor final do Produto(€)</label>
             <div class="mb-3">
-            <input type="text" id="valorFinal" name="eco_valor"
-            value="<?= isset($data['eco_valor']) ? $data['eco_valor'] : '' ?>" class="form-control" placeholder="Valor Final" oninput="atualizarSaldoUsuario_valorFinal()" readonly>
+            <input type="text" id="valorFinal" name="vl_eco"
+            value="<?= isset($dados['eco_valor']) ? $dados['eco_valor'] : '' ?>" class="form-control" placeholder="Valor Final" oninput="atualizarSaldoUsuario_valorFinal()" readonly>
             </div>
 
 
             <div class="mb-3">
-                <button type="submit" class= "btn btn-primary font-weight-bold" name="cadastrar_saida_produto" id="botaoFinalizar" value="cadastrar-categoria" onchange="atualizaValorFinal()" disabled>Finalizar</button>
+                <button type="submit" class= "btn btn-primary font-weight-bold" name="cadastrarProdutoSaida" id="botaoFinalizar" value="cadastrar-categoria" onchange="atualizaValorFinal()" disabled>Finalizar</button>
         </div>
 
            
