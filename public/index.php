@@ -73,17 +73,15 @@
     $app = new App();
     
     ?>
-    
-    <footer class="font-weight-bold">
-        <a href="https://github.com/AfonsoFerroNunes" target="_blank"><i class="fab fa-github" style="color: #ffffff;"></i></a>
-        <p>Afonso Ferro</p>
-        <a href="https://github.com/AugustoCMR" target="_blank"><i class="fab fa-github" style="color: #ffffff;"></i></a>
-        <p>Augusto Ribeiro</p>
-    </footer>
-
-    <div>
+    <div class="font-weight-bold">
+     <footer class="py-3 d-flex align-items-center footer">
+            <a href="https://github.com/AfonsoFerroNunes" target="_blank"><i class="fab fa-github" style="color: #ffffff;"></i></a>
+            <p>Afonso Ferro</p>
+            <a href="https://github.com/AugustoCMR" target="_blank"><i class="fab fa-github" style="color: #ffffff;"></i></a>
+            <p>Augusto Ribeiro</p>
+        </footer>
     </div>
-
+      
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>

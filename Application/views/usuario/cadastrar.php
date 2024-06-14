@@ -82,7 +82,7 @@
           </div>
 
           <div class="mb-3">
-            <button type="submit" class="btn btn-primary font-weight-bold" name="cadastrarUsuario" value="cadastro_usuario">Enviar</button>
+            <button type="submit" class="btn btn-primary font-weight-bold center btn-block" name="cadastrarUsuario" value="cadastro_usuario">Enviar</button>
           </div>
         </form>
       </div>

@@ -1,7 +1,7 @@
 <main>
   <div class="container">
     <div class="row">
-      <div class="col-8 offset-2" style="margin-top:52px">
+      <div class="col-8 offset-2" style="margin-top:50px">
         <h1 class="display 4 text-center text-primary mt-5 titulo">Novo Resíduo</h1>
         <?php
             
