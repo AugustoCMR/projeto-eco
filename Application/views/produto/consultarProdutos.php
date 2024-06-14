@@ -1,9 +1,8 @@
 <main>
   <div class="container">
     <div class="row">
-      <div class="col-8 offset-2" style="margin-top:100px">
-        <h2>Produtos</h2>
-
+      <div class="col-8 offset-2" style="margin-top:99px">
+        <h1 class="display-5 text-center text-primary titulo">Produtos</h1>
         <form class="form-inline my-4" action="../produto/consultarProdutos" method="POST" >
             <div class="mb-3 mr-5 text-center">
                 <input type="text" name="produto" class="form-control" placeholder="Filtrar Produto">
@@ -47,5 +46,6 @@
         </table>
       </div>
     </div>
-  </div>
+    <iframe width="1" height="22" frameborder="0"></iframe>
+ </div>
 </main>

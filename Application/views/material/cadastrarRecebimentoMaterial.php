@@ -1,8 +1,8 @@
 <main>
   <div class="container">
     <div class="row">
-      <div class="col-8 offset-2" style="margin-top:40px">
-        <h1 class="display 4 text-center text-primary">Recebimento de Material</h1>
+      <div class="col-8 offset-2" style="margin-top:50px">
+        <h1 class="display 4 text-center text-primary mt-5 titulo">Recebimento de Material</h1>
         <?php
             
         if (!empty($dados['erros'])): 

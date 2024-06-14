@@ -1,7 +1,7 @@
 <main>
   <div class="container">
     <div class="row">
-      <div class="col-8 offset-2" style="margin-top:100px">
+      <div class="col-8 offset-2" style="margin-top:95px">
         <h1 class="display-5 text-center text-primary mt-1 titulo">Materiais Entregues</h1>
 
         <?php 
@@ -55,6 +55,6 @@
         
       </div>
     </div>
-    <iframe width="1" height="45" frameborder="0"></iframe>
+    <iframe width="1" height="50" frameborder="0"></iframe>
   </div>
 </main>

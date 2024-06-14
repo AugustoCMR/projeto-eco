@@ -1,7 +1,7 @@
 <main>
   <div class="container">
     <div class="row">
-      <div class="col-8 offset-2" style="margin-top:40px">
+      <div class="col-8 offset-2" style="margin-top:50px">
         <h1 class="display 2 text-center text-primary mt-5 titulo">Cadastrar Produto</h1>
         <?php
             
@@ -35,5 +35,5 @@
       </div>
     </div>
   </div>
-  <iframe width="1" height="54" frameborder="0"></iframe>
+  <iframe width="1" height="32" frameborder="0"></iframe>
 </main>
