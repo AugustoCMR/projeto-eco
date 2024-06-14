@@ -6,9 +6,9 @@ use PDO;
 class Database extends PDO
 {
 
-  private $DB_NAME = 'eco';
+  private $DB_NAME = 'eco_teste';
   private $DB_USER = 'postgres';
-  private $DB_PASSWORD = 'admin';
+  private $DB_PASSWORD = '200121mg';
   private $DB_HOST = 'localhost';
   private $DB_PORT = 5432;
 
