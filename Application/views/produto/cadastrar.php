@@ -26,13 +26,8 @@
                 <input type="number" name="vl_eco" class="form-control">
         </div>
 
-<<<<<<< HEAD:Application/views/produto/cadastrar_produto.php
-        <div class="mb-1">
-                <button type="submit" class= "btn btn-primary font-weight-bold" name="cadastrar_produto" value="cadastrar-categoria">Enviar</button>
-=======
         <div class="mb-3">
                 <button type="submit" class= "btn btn-primary font-weight-bold" name="cadastrarProduto" value="cadastrar-categoria">Enviar</button>
->>>>>>> augusto:Application/views/produto/cadastrar.php
         </div>
 
         </form>

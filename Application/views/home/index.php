@@ -9,7 +9,7 @@
 <main>
     <div class="container">
         <div class="row">
-            <div class="col-8 offset-2" style="margin-top:26px">
+            <div class="col-8 offset-2" style="margin-top:75px">
                 <div>
                     <img src="../../public/assets/img/eco.jpeg" class="imagem-redimensionada">
                 </div>

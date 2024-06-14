@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-8 offset-2" style="margin-top:100px">
-        <h1 class="text-center">Cadastrar Usuário</h1>
+        <h1 class="text-center text-primary">Cadastrar Usuário</h1>
         <?php 
 
         if (!empty($dados['erros'])): 

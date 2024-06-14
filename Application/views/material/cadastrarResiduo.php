@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-8 offset-2" style="margin-top:40px">
-        <h1 class="display 4 text-center text-primary mt-5 titulo">Novo Resíduo</h1>
+        <h1 class="display 4 text-center text-primary mt-4 titulo">Novo Resíduo</h1>
         <?php
             
         if (!empty($dados['erros'])): 
@@ -21,18 +21,13 @@
                 <input type="text" name="nm_residuo" class="form-control">
             </div>
 
-<<<<<<< HEAD:Application/views/material/register_type_residue.php
-            <div class="mb-1">
-                <button type="submit" class= "btn btn-primary font-weight-bold" name="cadastrar_residuo" style="" value="cadastrar-categoria">Enviar</button>
-=======
             <div class="mb-3">
                 <button type="submit" class= "btn btn-primary font-weight-bold" name="cadastrarResiduo">Enviar</button>
->>>>>>> augusto:Application/views/material/cadastrarResiduo.php
             </div>
             </form>
         
         </div>
       </div>
     </div>
-    <iframe width="1" height="140" frameborder="0"></iframe>
+    <iframe width="1" height="128" frameborder="0"></iframe>
 </main>
