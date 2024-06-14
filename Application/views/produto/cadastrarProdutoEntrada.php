@@ -1,8 +1,8 @@
 <main>
   <div class="container">
     <div class="row">
-      <div class="col-8 offset-2" style="margin-top:100px">
-        <h1 class="display-5 text-center text-primary font-weight-bold titulo">Operação de Entrada</h1>
+      <div class="col-8 offset-2" style="margin-top:99px">
+        <h1 class="display-5 text-center text-primary titulo">Operação de Entrada</h1>
         
         <?php
         

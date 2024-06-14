@@ -1,7 +1,7 @@
 <main>
   <div class="container">
     <div class="row">
-      <div class="col-8 offset-2" style="margin-top:50px">
+      <div class="col-8 offset-2" style="margin-top:49px">
         <h1 class="display-5 text-center text-primary mt-5 titulo">Extrato</h1>
 
         <?php 
@@ -57,6 +57,6 @@
         
       </div>
     </div>
-    <iframe width="1" height="51" frameborder="0"></iframe>
+    <iframe width="1" height="52" frameborder="0"></iframe>
   </div>
 </main>
