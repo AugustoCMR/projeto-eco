@@ -77,26 +77,35 @@ class Usuario extends Controller
       }   
    }
 
-   // public function register_user_success()
-   // {
-    
-   //  $intermediario = new UsuarioIntermediario();
+    /**
+   * Método para encaminhar o usuário para a view escolhida
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
+  public function cadastroSucesso()
+  {
+      try 
+      {
+          if(!empty($_POST['menu']) && isset($_POST['menu']))
+          {
+              return $this->view('home/index');
 
-   //    $nome = $_POST['nome'];
-   //    $sobrenome = $_POST['sobrenome'];
-   //    $email = $_POST['email'];
-   //    $saldo = 0;
-   //    $cpf = $_POST['cpf'];
-   //    $cep = $_POST['cep'];
-   //    $rua = $_POST['rua'];
-   //    $bairro = $_POST['Bairro'];
-   //    $numero = $_POST['numero'];
+          } else if(!empty($_POST['listar']) && isset($_POST['listar']))
+          {
+              return $this->view('home/index');
+          } else if(!empty($_POST['cadastrar']) && isset($_POST['cadastrar']))
+          {
+              return $this->view('usuario/cadastrar');
+          } else {
+              return $this->view('usuario/cadastroSucesso');
+          }
 
-
-   //    $Users = $this->model('Users');
-   //    $data = $Users::register($nome, $sobrenome, $email, $saldo, (int)$cpf, (int)$cep, $rua, $bairro, $numero);
-   //    $this->view('user/register_user_success', ['erros' => $intermediario->erros]);
-   // }
+      } catch (Exception $e) 
+      {
+          echo("Algo deu errado, por favor, tente novamente.");
+          echo $e;
+      }    
+  }
 
    public function consultarMateriaisEntregues()
    {

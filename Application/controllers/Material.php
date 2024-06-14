@@ -51,6 +51,36 @@ class Material extends Controller
         }    
     }
 
+     /**
+   * Método para encaminhar o usuário para a view escolhida
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
+    public function cadastrarResiduoSucesso()
+    {
+        try 
+        {
+            if(!empty($_POST['menu']) && isset($_POST['menu']))
+            {
+                return $this->view('home/index');
+
+            } else if(!empty($_POST['listar']) && isset($_POST['listar']))
+            {
+                return $this->view('home/index');
+            } else if(!empty($_POST['cadastrar']) && isset($_POST['cadastrar']))
+            {
+                return $this->view('material/cadastrarResiduo');
+            } else {
+                return $this->view('material/cadastroResiduoSucesso');
+            }
+
+        } catch (Exception $e) 
+        {
+            echo("Algo deu errado, por favor, tente novamente.");
+            echo $e;
+        }    
+    }
+
     /**
    * Método para cadastrar o Material
    * @author Augusto Ribeiro
@@ -102,6 +132,36 @@ class Material extends Controller
             echo $e;
         }
         
+    }
+
+     /**
+   * Método para encaminhar o usuário para a view escolhida
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
+    public function cadastroMaterialSucesso()
+    {
+        try 
+        {
+            if(!empty($_POST['menu']) && isset($_POST['menu']))
+            {
+                return $this->view('home/index');
+
+            } else if(!empty($_POST['listar']) && isset($_POST['listar']))
+            {
+                return $this->view('home/index');
+            } else if(!empty($_POST['cadastrar']) && isset($_POST['cadastrar']))
+            {
+                return $this->view('material/cadastrarMaterial');
+            } else {
+                return $this->view('material/cadastroMaterialSucesso');
+            }
+
+        } catch (Exception $e) 
+        {
+            echo("Algo deu errado, por favor, tente novamente.");
+            echo $e;
+        }    
     }
 
        /**
@@ -166,4 +226,34 @@ class Material extends Controller
             echo($e);
         }
     }
+
+     /**
+   * Método para encaminhar o usuário para a view escolhida
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
+  public function cadastroMaterialRecebidoSucesso()
+  {
+      try 
+      {
+          if(!empty($_POST['menu']) && isset($_POST['menu']))
+          {
+              return $this->view('home/index');
+
+          } else if(!empty($_POST['listar']) && isset($_POST['listar']))
+          {
+              return $this->view('usuario/consultarMateriaisEntregues');
+          } else if(!empty($_POST['cadastrar']) && isset($_POST['cadastrar']))
+          {
+              return $this->view('material/cadastrarRecebimentoMaterial');
+          } else {
+              return $this->view('material/cadastroMaterialRecebidoSucesso');
+          }
+
+      } catch (Exception $e) 
+      {
+          echo("Algo deu errado, por favor, tente novamente.");
+          echo $e;
+      }    
+  }
 }

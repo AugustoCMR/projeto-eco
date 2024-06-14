@@ -55,6 +55,47 @@ class Produto extends Controller
         
     }
 
+    /**
+   * Método para encaminhar o usuário para a view escolhida
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
+    public function cadastroProdutoSucesso()
+  {
+      try   
+      {     
+        
+        $cotacao_eco = Eco::$eco;
+        $cotacao_real = Eco::$real;
+        $produtos = $this->model('Produtos');
+        $dados = $produtos::consultarProdutos();
+
+          if(!empty($_POST['menu']) && isset($_POST['menu']))
+          {
+            return $this->view('home/index');
+
+          } else if(!empty($_POST['listar']) && isset($_POST['listar']))
+          {
+            return $this->view('Produto/consultarProdutos', [
+            'produto' => $dados, 
+            'cotacao_real' => $cotacao_real,
+            'cotacao_eco' => $cotacao_eco
+        ]);
+          } else if(!empty($_POST['cadastrar']) && isset($_POST['cadastrar']))
+          {
+            return $this->view('produto/cadastrar');
+          } else 
+          {
+            return $this->view('produto/cadastroProdutoSucesso');
+          }
+
+      } catch (Exception $e) 
+      {
+          echo("Algo deu errado, por favor, tente novamente.");
+          echo $e;
+      }    
+  }
+
      /**
    * Método para cadastrar a operação de entrada do produto
    * @author Augusto Ribeiro
@@ -112,6 +153,45 @@ class Produto extends Controller
             echo $e;
         }
     } 
+
+     /**
+   * Método para encaminhar o usuário para a view escolhida
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
+    public function cadastroProdutoEntradaSucesso()
+    {
+        $cotacao_eco = Eco::$eco;
+        $cotacao_real = Eco::$real;
+        $produtos = $this->model('Produtos');
+        $dados = $produtos::consultarProdutos();
+        try 
+        {
+            if(!empty($_POST['menu']) && isset($_POST['menu']))
+            {
+                return $this->view('home/index');
+
+            } else if(!empty($_POST['listar']) && isset($_POST['listar']))
+            {
+                return $this->view('produto/consultarProdutos', [
+                    'produto' => $dados, 
+                    'cotacao_real' => $cotacao_real,
+                    'cotacao_eco' => $cotacao_eco
+                ]);
+
+            } else if(!empty($_POST['cadastrar']) && isset($_POST['cadastrar']))
+            {
+                return $this->view('produto/cadastrarProdutoEntrada');
+            } else {
+                return $this->view('produto/cadastroProdutoEntradaSucesso');
+            }
+
+        } catch (Exception $e) 
+        {
+            echo("Algo deu errado, por favor, tente novamente.");
+            echo $e;
+        }    
+    }
 
       /**
    * Método para cadastrar a operação de saida do produto
@@ -176,6 +256,45 @@ class Produto extends Controller
         }
 
       
+    }
+
+    /**
+   * Método para encaminhar o usuário para a view escolhida
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
+    public function cadastroProdutoSaidaSucesso()
+    {
+        $cotacao_eco = Eco::$eco;
+        $cotacao_real = Eco::$real;
+        $produtos = $this->model('Produtos');
+        $dados = $produtos::consultarProdutos();
+        try 
+        {
+            if(!empty($_POST['menu']) && isset($_POST['menu']))
+            {
+                return $this->view('home/index');
+
+            } else if(!empty($_POST['listar']) && isset($_POST['listar']))
+            {
+                return $this->view('produto/consultarProdutos', [
+                    'produto' => $dados, 
+                    'cotacao_real' => $cotacao_real,
+                    'cotacao_eco' => $cotacao_eco
+                ]);
+
+            } else if(!empty($_POST['cadastrar']) && isset($_POST['cadastrar']))
+            {
+                return $this->view('produto/cadastrarProdutoSaida');
+            } else {
+                return $this->view('produto/cadastroProdutoSaidaSucesso');
+            }
+
+        } catch (Exception $e) 
+        {
+            echo("Algo deu errado, por favor, tente novamente.");
+            echo $e;
+        }    
     }
 
      /**
