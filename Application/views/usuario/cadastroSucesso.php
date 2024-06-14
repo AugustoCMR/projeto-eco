@@ -2,24 +2,22 @@
   <div class="container">
     <div class="row">
       <div class="col-8 offset-2" style="margin-top:100px">
-        <h1 class="display-5 text-center text-primary mt-1 titulo">Materiais Entregues</h1>
+        <h1 class="display-5 text-center text-primary mt-1 titulo">Usuário cadastrado com sucesso</h1>
 
         <div class="container text-center">
 
-    <h1 class="display-4 text-primary font-weight-bold mt-5 titulo">Veículo cadastrado com sucesso!</h1>
-
-            <form method="POST">
+            <form method="POST" action="../usuario/cadastroSucesso">
                 <div class="mt-5">
                     <button class="btn btn-primary mr-3" name="menu" value="inicio">
                         Voltar ao início
                     </button>
 
-                    <button  name= "listar-veiculos" value="listar" class="btn btn-primary mr-3">
-                        Lista de veiculos
+                    <button  name= "listar" value="listar" class="btn btn-primary mr-3">
+                        Lista de Usuários
                     </button>
 
-                    <button class="btn btn-primary" name="cadastrar-veiculo" value="cadastrar">
-                        Cadastrar outro veiculo
+                    <button class="btn btn-primary" name="cadastrar" value="cadastrar">
+                        Cadastrar novo Usuário
                     </button>
                 </div>
             </form>
