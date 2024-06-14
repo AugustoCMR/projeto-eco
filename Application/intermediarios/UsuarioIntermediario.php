@@ -5,43 +5,98 @@ namespace Application\intermediarios;
 use Application\core\Database;
 use PDO;
 
+require __DIR__ . '\\../utils/validaCamposTipoNumero.php';
+
 class UsuarioIntermediario 
 {
 
     public $erros = [];
 
-    public function __construct()
-    {
-        $this->validaCPF();
+
+     /**
+   * Método para validar cadastro do usuário
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $errosCampos campos obrigatórios
+   */
+    public function validacaoUsuario($errosCampos)
+    {   
+        
+        if(!empty($errosCampos)) 
+        {
+           return $this->erros = $errosCampos;
+        }
+        
         $this->validaEmail();
+        $this->validaCPF();
         $this->validaCEP();
+
+        return $this->erros;
     }
 
+     /**
+   * Método para validar consultas no banco de dados
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $cpf cpf do Usuário
+   */
+    public function validaConsulta($cpf)
+    {
+
+        if(empty($cpf)) {
+            $this->erros["cpfObrigatorio"] = "O campo CPF é obrigatório.";
+            return $this->erros;
+        }
+
+        if(!is_numeric($cpf))
+        {
+            $this->erros["cpfIncorreto"] = "O CPF deve conter apenas números.";
+            return $this->erros;   
+        }
+
+        $conn = new Database();
+        $buscaCPF = $conn->executarQuery('SELECT * FROM usuario WHERE nu_cpf = :CPF', array(
+            ':CPF' => $cpf
+        ));
+
+        $resultado = $buscaCPF->fetchAll(PDO::FETCH_ASSOC);
+
+        if(empty($resultado)) {
+            $this->erros['cpfInvalido'] = "CPF informado não encontrado.";
+        }
+
+        return $this->erros;
+    }
+
+     /**
+   * Método para validar o CPF do usuário
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
     public function validaCPF()
     {
         try
         {   
-            if(!empty($_POST['cpf']) && isset($_POST['cpf']))
+            if(!empty($_POST['nu_cpf']) && isset($_POST['nu_cpf']))
             {   
-                $cpf = $_POST['cpf'];
+                $cpf = $_POST['nu_cpf'];
 
-                if(!is_numeric($_POST["cpf"])) {
+                if(!is_numeric($_POST["nu_cpf"])) {
                      
                     return $this->erros["cpfInvalido"] = "O CPF deve conter apenas números.";   
                 }
 
                 if(strlen($cpf) !== 11)
                 {
-                    return $this->erros["cpfTamanhoInvalido"] = "O CPF deve conter apenas 11 caracteres."; 
+                    return $this->erros["cpfTamanhoInvalido"] = "O CPF deve conter 11 caracteres."; 
                 }
 
                 $conn = new Database();
-                $buscaCPF = $conn->executeQuery('SELECT * FROM usuario WHERE cpf = :CPF', array(
+                $buscaCPF = $conn->executarQuery('SELECT * FROM usuario WHERE nu_cpf = :CPF', array(
                 ':CPF' => $cpf
                 ));
 
                 $resultado = $buscaCPF->fetchAll(PDO::FETCH_ASSOC);
-
 
                 if(!empty($resultado)) 
                 {
@@ -52,20 +107,25 @@ class UsuarioIntermediario
 
             
         } catch(Exception $e)
-        {   
-            echo("Algo deu errado, por favor, tente novamente.");
+        { 
+             echo("Algo deu errado, por favor, tente novamente.");
         }
     }
 
+     /**
+   * Método para validar o email do usuário
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
     public function validaEmail()
     {
         try
         {   
-            if(!empty($_POST['email']) && isset($_POST['email']))
+            if(!empty($_POST['nm_email']) && isset($_POST['nm_email']))
             {   
-                $email = $_POST['email'];
+                $email = $_POST['nm_email'];
                 $conn = new Database();
-                $buscaEmail = $conn->executeQuery('SELECT * FROM usuario WHERE email = :email', array(
+                $buscaEmail = $conn->executarQuery('SELECT * FROM usuario WHERE nm_email = :email', array(
                 ':email' => $email
                 ));
 
@@ -74,7 +134,7 @@ class UsuarioIntermediario
                 if(!empty($resultado)) 
                 {
                     
-                    $this->erros['email'] = "O e-mail informado já existe.";
+                   return $this->erros['email'] = "O e-mail informado já existe.";
                 }
             }
             
@@ -90,13 +150,18 @@ class UsuarioIntermediario
         }
     }
 
+     /**
+   * Método para validar o CEP do usuário
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
     public function validaCEP()
     {
         try
         {   
-           if(!empty($_POST['cep']) && isset($_POST['cep']))
+           if(!empty($_POST['nu_cep']) && isset($_POST['nu_cep']))
            {
-                if(!is_numeric($_POST["cep"])) {
+                if(!is_numeric($_POST["nu_cep"])) {
                     $this->erros["cep"] = "O CEP deve conter apenas números.";
                 }
            }

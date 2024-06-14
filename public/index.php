@@ -27,9 +27,9 @@
                         Usuário
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/user/register_user">Cadastrar usuário</a>
-                        <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/user/consultar_materiais_entregues">Consulta Materiais Entregues</a>
-                        <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/user/extrato">Extrato</a>
+                        <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/usuario/cadastrar">Cadastrar usuário</a>
+                        <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/usuario/consultarMateriaisEntregues">Consulta Materiais Entregues</a>
+                        <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/usuario/extrato">Extrato</a>
                     </div>
                 </div>
 
@@ -38,9 +38,9 @@
                        Material
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="nav-item nav-link font-weight-bold" href="/projeto-eco/public/material/register_type_residue">Cadastrar Tipo de Resíduo</a>
-                        <a class="nav-item nav-link font-weight-bold" href="/projeto-eco/public/material/register_material">Cadastrar Material</a>
-                        <a class="nav-item nav-link font-weight-bold" href="/projeto-eco/public/material/cadastro_recebimento_material">Cadastrar Recebimento de Material</a>
+                        <a class="nav-item nav-link font-weight-bold" href="/projeto-eco/public/material/cadastrarResiduo">Cadastrar Tipo de Resíduo</a>
+                        <a class="nav-item nav-link font-weight-bold" href="/projeto-eco/public/material/cadastrarMaterial">Cadastrar Material</a>
+                        <a class="nav-item nav-link font-weight-bold" href="/projeto-eco/public/material/cadastrarMaterialRecebido">Cadastrar Recebimento de Material</a>
                     </div>
                 </div>
 
@@ -49,10 +49,17 @@
                         Produto
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+<<<<<<< HEAD
                         <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/produto/cadastrar_produto">Cadastrar Produto</a>
                         <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/produto/cadastrar_operacao_entrada_produto">Operação de Entrada</a>
                         <a class="nav-item nav-link text-nowrap font-weight-bold" href="/projeto-eco/public/produto/cadastrar_operacao_saida_produto">Operação de Saída</a>
                         <a class="nav-item nav-link text-nowrap font-weight-bold" href="/projeto-eco/public/produto/consultar_produto" >Consultar produto</a>
+=======
+                        <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/produto/cadastrar">Cadastrar Produto</a>
+                        <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/produto/cadastrarProdutoEntregue">Operação Entrada de Produto</a>
+                        <a class="nav-item nav-link text-nowrap font-weight-bold" href="/projeto-eco/public/produto/cadastrarProdutoSaida">Operação de Saída</a>
+                        <a class="nav-item nav-link text-nowrap font-weight-bold" href="/projeto-eco/public/produto/consultarProdutos">Consultar produto</a>
+>>>>>>> augusto
                     </div>
                 </div>
             </div>

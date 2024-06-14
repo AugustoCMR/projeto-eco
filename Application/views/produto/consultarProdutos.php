@@ -1,0 +1,51 @@
+<main>
+  <div class="container">
+    <div class="row">
+      <div class="col-8 offset-2" style="margin-top:100px">
+        <h2>Produtos</h2>
+
+        <form class="form-inline my-4" action="../produto/consultarProdutos" method="POST" >
+            <div class="mb-3 mr-5 text-center">
+                <input type="text" name="produto" class="form-control" placeholder="Filtrar Produto">
+            </div>
+            
+            <div class="mb-3 " role="alert"> 
+                <input type="number" name="quantidade" id="quantidade" class="form-control" placeholder="Simular Valores">
+                <button id="btnCalcular" type="submit" name="submit_quantidade" class="btn btn-primary font-weight-bold" >Calcular</button>
+            </div>
+               
+        </form>
+
+        <div class="alert alert-primary font-weight-bold" role="alert">
+          Cotação atual:
+          € <?=$dados['cotacao_eco']?> equivale a R$ <?= $dados['cotacao_real']?> 
+        </div>
+    
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nome</th>
+              <th scope="col">Quantidade em Estoque</th>
+              <th id = "eco_valor_titulo" scope="col">Eco Points</th>
+              <th id = "real_valor_titulo" scope="col">Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($dados['produto'] as $produto) { ?>
+            <tr  data-produto-nome="<?= $produto['nm_produto'] ?>">
+              <td><?= $produto['id_produto'] ?></td>
+              <td><?= $produto['nm_produto'] ?></td>
+              <td><?= $produto['qt_produto'] ?></td>
+              <td id="eco_valor"><?= '€ ' . (isset($dados['vl_ecoTabela']) ? $produto['vl_eco'] * $dados['vl_ecoTabela'] : $produto['vl_eco'] * $dados['cotacao_eco']); ?></td>
+              <td id="real_valor"><?= 'R$ ' . (isset ($dados['real_valorTabela']) ? $dados['real_valorTabela'] * $produto['vl_eco'] : $produto['vl_eco'] * $dados['cotacao_real']); ?></td>
+              
+            </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>

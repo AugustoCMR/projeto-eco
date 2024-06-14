@@ -5,29 +5,34 @@
         <h1 class="display 2 text-center text-primary mt-5 titulo">Cadastrar Produto</h1>
         <?php
             
-        if (!empty($data['erros'])): 
+        if (!empty($dados['erros'])): 
             ?>
             <div class="alert alert-danger mt-5">
-                <?php foreach ($data['erros'] as $erro): ?>
+                <?php foreach ($dados['erros'] as $erro): ?>
                     <p><?php echo $erro; ?></p>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
 
         
-        <form method="POST" action="../produto/cadastrar_produto" class="mt-5">
+        <form method="POST" action="../produto/cadastrar" class="mt-5">
 
         <div class="mb-3">
                 <label class="font-weight-bold">Produto</label>
-                <input type="text" name="produto" class="form-control">
+                <input type="text" name="nm_produto" class="form-control">
         </div>
         <div class="mb-3">
                 <label class="font-weight-bold">Eco Points</label>
-                <input type="text" name="eco_valor" class="form-control">
+                <input type="number" name="vl_eco" class="form-control">
         </div>
 
+<<<<<<< HEAD:Application/views/produto/cadastrar_produto.php
         <div class="mb-1">
                 <button type="submit" class= "btn btn-primary font-weight-bold" name="cadastrar_produto" value="cadastrar-categoria">Enviar</button>
+=======
+        <div class="mb-3">
+                <button type="submit" class= "btn btn-primary font-weight-bold" name="cadastrarProduto" value="cadastrar-categoria">Enviar</button>
+>>>>>>> augusto:Application/views/produto/cadastrar.php
         </div>
 
         </form>

@@ -5,24 +5,29 @@
         <h1 class="display 4 text-center text-primary mt-5 titulo">Novo Resíduo</h1>
         <?php
             
-        if (!empty($data['erros'])): 
+        if (!empty($dados['erros'])): 
             ?>
             <div class="alert alert-danger mt-5">
-                <?php foreach ($data['erros'] as $erro): ?>
+                <?php foreach ($dados['erros'] as $erro): ?>
                     <p><?php echo $erro; ?></p>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="../material/register_type_residue" class="mt-5">
+        <form method="POST" action="../material/cadastrarResiduo" class="mt-5">
     
             <div class="mb-3">
-                <label class="font-weight-bold" style="">Nome</label>
-                <input type="text" name="nome" class="form-control">
+                <label class="font-weight-bold">Nome do Resíduo</label>
+                <input type="text" name="nm_residuo" class="form-control">
             </div>
 
+<<<<<<< HEAD:Application/views/material/register_type_residue.php
             <div class="mb-1">
                 <button type="submit" class= "btn btn-primary font-weight-bold" name="cadastrar_residuo" style="" value="cadastrar-categoria">Enviar</button>
+=======
+            <div class="mb-3">
+                <button type="submit" class= "btn btn-primary font-weight-bold" name="cadastrarResiduo">Enviar</button>
+>>>>>>> augusto:Application/views/material/cadastrarResiduo.php
             </div>
             </form>
         

@@ -3,28 +3,118 @@
 namespace Application\intermediarios;
 
 use Application\core\Database;
+use Application\models\Eco;
 use PDO;
+
+require __DIR__ . '\\../utils/validaCamposTipoNumero.php';
 
 class ProdutoIntermediario 
 {
 
     public $erros = [];
 
-    public function __construct()
+      /**
+   * Método para chamar outros métodos que validam o formulário de cadastro
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $errosCampo armazena campos obrigatórios
+   * @param $eco valor do produto em eco
+   * @param $nome nome do produto
+   */
+    public function validaFormularioCadastrarProduto($errosCampo, $eco, $nome)
     {
-       $this->validaEcoPoint();
-       $this->validaNomeProduto();
+     
+        if(!empty($errosCampo))
+        {   
+         
+            return $this->erros = $errosCampo;   
+        }
+
+       $this->validaEcoPoint($eco);
+       $this->validaNomeProduto($nome);
+
+       return $this->erros;
     }
 
-    public function validaNomeProduto()
+        /**
+   * Método para validar o cadastro de entrada dos produtos
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $errosCampo campos obrigatórios do formulário
+   * @param $quantidade quantidade fornecida do produto
+   * @param $valorUnitario valor unitário do produto
+   * @param $valorTotal valor total do produto x quantidade
+   */
+    public function validaOperacaoEntrada($errosCampo, $quantidade, $valorUnitario, $valorTotal)
+    {   
+
+        if($valorTotal !== "")
+        {
+            $valorFormatado = explode(" ", $_POST['vl_real'])[1];
+        }
+        
+
+        if(!empty($errosCampo))
+        {
+            return $this->erros = $errosCampo;
+        }
+
+        $camposTipoNumero = validarTipoNumero([
+            'Quantidade' => $quantidade,
+            'Valor Unitário' => $valorUnitario,
+            'Valor total' => $valorFormatado
+        ]);
+
+        if(!empty($camposTipoNumero)) {
+           $this->erros = $camposTipoNumero;
+        }
+
+        return $this->erros;
+
+    }
+
+        /**
+   * Método para validar a retirada do produto
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $errosCampo campos obrigatórios
+   * @param $saldo saldo do usuário
+   * @param $valorFinal valor final da transação
+   * @param $quantidade quantidade do produto retirado
+   */
+    public function validaOperacaoSaida($errosCampo, $saldo, $valorFinal, $quantidade)
+    {
+        if(!empty($errosCampo))
+        {
+            return $this->erros = $errosCampo;
+        }
+
+        $camposTipoNumero = validarTipoNumero([
+            'Quantidade' => $quantidade
+        ]);
+
+        if(!empty($camposTipoNumero)) {
+            $this->erros = $camposTipoNumero;
+         }
+
+        $this->verificaSaldo($saldo, $valorFinal);
+
+        return $this->erros;
+    }
+
+       /**
+   * Método para validar o nome do produto
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $produto nome do produto
+   */
+    public function validaNomeProduto($produto)
     {
         try
         {   
-            if(!empty($_POST['produto']) && isset($_POST['produto']))
-            {   
-                $produto = $_POST['produto'];
+            
                 $conn = new Database();
-                $buscaProduto = $conn->executeQuery('SELECT * FROM produto WHERE nome = :nome', array(
+                $buscaProduto = $conn->executarQuery('SELECT * FROM produto WHERE nm_produto = :nome', array(
                 ':nome' => $produto
                 ));
 
@@ -34,57 +124,62 @@ class ProdutoIntermediario
                      
                     return $this->erros["produto"] = "O produto informado já existe.";   
                 }
-            } 
-
-            
+              
         } catch(Exception $e)
         {   
             echo("Algo deu errado, por favor, tente novamente.");
         }
     }
 
-    public function validaEcoPoint()
+       /**
+   * Método para chamar validar o campo Eco Points
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $eco valor do produto
+   */
+    public function validaEcoPoint($eco)
     {
         try
         {   
-            if(!empty($_POST['eco_valor']) && isset($_POST['eco_valor']))
-            {   
-                $eco = $_POST['eco_valor'];
-
                 if(!is_numeric($eco)) {
                      
                     return $this->erros["ecoInvalido"] = "O Eco Points deve conter apenas números.";   
                 }
-            } 
-
-            
+             
         } catch(Exception $e)
         {   
             echo("Algo deu errado, por favor, tente novamente.");
         }
     }
 
-    public function validaFormularioOperacaoEntrada($valor, $quantidade)
+    public function validaFormularioTiposNumber($valor = Null, $quantidade = Null)
     {
         try
         {   
         
-                if(!is_numeric($valor)) {
+                if($valor !== null && !is_numeric($valor)) {
                      
-                    $this->erros["valorInvalido"] = "O valor deve conter apenas números.";   
+                    return $this->erros["valorInvalido"] = "O valor deve conter apenas números.";   
                 }
 
-                if(!is_numeric($quantidade)) {
+                if($quantidade !== null && !is_numeric($quantidade)) {
                      
-                    $this->erros["quantidadeInvalida"] = "A quantidade deve conter apenas números.";   
+                    return $this->erros["quantidadeInvalida"] = "A quantidade deve conter apenas números.";   
                 }
 
-                return $this->erros;
+                
 
         } catch(Exception $e)
 
         {   
             echo("Algo deu errado, por favor, tente novamente.");
+        }
+    }
+
+    public function verificaSaldo($saldo, $valorFinal)
+    {
+        if($valorFinal > $saldo) {
+           return $this->erros['saldoInvalido'] = "Saldo insuficiente";
         }
     }
 }

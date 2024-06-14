@@ -6,5 +6,6 @@ use PDO;
 
 class Eco 
 {
-    public static $real = 5;
+    public static $eco = 2;
+    public static $real = 1;
 }

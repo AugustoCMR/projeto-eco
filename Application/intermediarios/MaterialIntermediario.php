@@ -9,31 +9,46 @@ class MaterialIntermediario
 {
     public $erros = [];
 
-    public function validadorResiduo()
+    public function validadorResiduo($erroCampo, $nome)
     {
-        $this->validaNomeResiduo();
+        if(!empty($erroCampo))
+        {
+            return $this->erros = $erroCampo;
+        }
+
+        $this->validaNomeResiduo($nome);
 
         return $this->erros;
     }
 
-    public function validadorMaterial()
+   /**
+   * Método para validar os dados do material
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $erroCampo recebe todos os campos do material
+   * @param $nome nome do material
+   * @param $eco valor do material em Eco
+   */
+    public function validadorMaterial($erroCampo = null, $nome = null, $eco = null)
     {
-        $this->validaFormularioMaterial();
+
+        if(!empty($erroCampo))
+        {
+            return $this->erros = $erroCampo;
+        }
+        
+        $this->validaFormularioMaterial($nome, $eco);
 
         return $this->erros;
     }
 
-    public function validaNomeResiduo()
+    public function validaNomeResiduo($nome)
     {
         try 
         {
-            
-            if(!empty($_POST['nome']) && isset($_POST['nome']))
-            {
-                $nome = $_POST['nome'];
 
                 $conn = new Database();
-                $buscaNome = $conn->executeQuery('SELECT * FROM tipo_residuo WHERE name = :nome', array(
+                $buscaNome = $conn->executarQuery('SELECT * FROM residuo WHERE nm_residuo = :nome', array(
                     ':nome' => $nome
                 ));
 
@@ -41,27 +56,28 @@ class MaterialIntermediario
 
                 if(!empty($resultado))
                 {
-                    $this->erros['nome'] = 'O resíduo informado já existe.';
+                    return $this->erros['nome'] = 'O Resíduo informado já existe.';
                 }
-            }
             
         } catch (Exception $e) {
             echo("Algo deu errado, por favor, tente novamente.");
         }
     }
 
-    public function validaFormularioMaterial()
+    /**
+     * Método para validar o formulário do material
+     * @author Augusto Ribeiro
+     * @created 13/06/2024
+     * @param $nome nome do material
+     * @param $eco valor do eco 
+     */
+    public function validaFormularioMaterial($nome, $eco)
     {
         try 
         {
-            
-            if(!empty($_POST['nome']) && isset($_POST['nome']))
-            {
-                $nome = $_POST['nome'];
-                $eco = $_POST['eco_valor'];
 
                 $conn = new Database();
-                $buscaNome = $conn->executeQuery('SELECT * FROM material WHERE name = :nome', array(
+                $buscaNome = $conn->executarQuery('SELECT * FROM material WHERE nm_material = :nome', array(
                     ':nome' => $nome
                 ));
 
@@ -76,7 +92,6 @@ class MaterialIntermediario
                 {
                     $this->erros['eco_valor'] = 'O valor informado deve ser númerico.';
                 }
-            }
             
         } catch (Exception $e) {
             echo("Algo deu errado, por favor, tente novamente.");
