@@ -55,7 +55,7 @@
                     </select>
             </div>
 
-            <div class="mb-3">
+            <div class="mb-1">
                 <button type="submit" class= "btn btn-primary font-weight-bold" name="cadastrar_material"  value="cadastrar-categoria">Enviar</button>
             </div>
         </form>

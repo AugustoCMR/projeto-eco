@@ -1,8 +1,8 @@
 <main>
   <div class="container">
     <div class="row">
-      <div class="col-8 offset-2" style="margin-top:100px">
-        <h1 class="display 4 text-center text-primary">Cadastrar Produto</h1>
+      <div class="col-8 offset-2" style="margin-top:40px">
+        <h1 class="display 2 text-center text-primary mt-5 titulo">Cadastrar Produto</h1>
         <?php
             
         if (!empty($data['erros'])): 
@@ -26,7 +26,7 @@
                 <input type="text" name="eco_valor" class="form-control">
         </div>
 
-        <div class="mb-3">
+        <div class="mb-1">
                 <button type="submit" class= "btn btn-primary font-weight-bold" name="cadastrar_produto" value="cadastrar-categoria">Enviar</button>
         </div>
 
@@ -35,4 +35,5 @@
       </div>
     </div>
   </div>
+  <iframe width="1" height="54" frameborder="0"></iframe>
 </main>

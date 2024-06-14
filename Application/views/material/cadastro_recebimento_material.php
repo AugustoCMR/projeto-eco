@@ -1,7 +1,7 @@
 <main>
   <div class="container">
     <div class="row">
-      <div class="col-8 offset-2" style="margin-top:100px">
+      <div class="col-8 offset-2" style="margin-top:40px">
         <h1 class="display 4 text-center text-primary">Recebimento de Material</h1>
         <?php
             

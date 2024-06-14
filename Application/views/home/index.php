@@ -1,25 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Planeta Eco</title>  
-</head>
-
-<body>
-
-<!DOCTYPE html>
-<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planeta Eco</title>
 </head>
 <body>
-    <h1 class="display-4 text-center text-primary font-weight-bold mt-5 titulo">Planeta Eco</h1>
+
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col-8 offset-2" style="margin-top:26px">
+                <div>
+                    <img src="../../public/assets/img/eco.jpeg" class="imagem-redimensionada">
+                </div>
+            </div> 
+        </div>
+        <iframe width="1" height="78" frameborder="0"></iframe>
+    </div>
+</main>
+
 </body>
 </html>
-  
-
-    

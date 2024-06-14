@@ -1,8 +1,8 @@
 <main>
   <div class="container">
     <div class="row">
-      <div class="col-8 offset-2" style="margin-top:100px">
-        <h1 class="display 4 text-center text-primary">Novo Resíduo</h1>
+      <div class="col-8 offset-2" style="margin-top:40px">
+        <h1 class="display 4 text-center text-primary mt-5 titulo">Novo Resíduo</h1>
         <?php
             
         if (!empty($data['erros'])): 
@@ -21,12 +21,13 @@
                 <input type="text" name="nome" class="form-control">
             </div>
 
-            <div class="mb-3">
+            <div class="mb-1">
                 <button type="submit" class= "btn btn-primary font-weight-bold" name="cadastrar_residuo" style="" value="cadastrar-categoria">Enviar</button>
             </div>
-        </form>
+            </form>
         
+        </div>
       </div>
     </div>
-  </div>
+    <iframe width="1" height="140" frameborder="0"></iframe>
 </main>

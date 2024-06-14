@@ -1,17 +1,17 @@
 <main>
   <div class="container">
     <div class="row">
-      <div class="col-8 offset-2" style="margin-top:100px">
-        <h1 class="display-4 text-center text-primary font-weight-bold mt-5 titulo">Consultar Materiais Entregues</h1>
+      <div class="col-8 offset-2" style="margin-top:40px">
+        <h1 class="display 4 text-center text-primary font-Merich mt-5 titulo">Consultar Materiais Entregues</h1>
         
 
 
         <form method="POST" action="../material/register_material_success" class="mt-5">
     
             <div class="mb-3">
-                <label class="font-weight-bold" style="">Usuario</label>
+                <label class="font-weight-bold" style="">Usuário</label>
                 <input type="text" style="" name="name"    
-                value="<?= isset($data['name']) ? $data['name'] : '' ?>" class="form-control" placeholder="Nome do Usuario">
+                value="<?= isset($data['name']) ? $data['name'] : '' ?>" class="form-control" placeholder="Nome do Usuário">
             </div>
 
             <label class="font-weight-bold" style="">Materiais Entregues</label>
@@ -30,7 +30,7 @@
             </div>
 
 
-            <div class="mb-3">
+            <div class="mb-5">
                 <button type="submit" class= "btn btn-primary font-weight-bold" name="dados-categoria"  value="cadastrar-categoria">Enviar</button>
         </div>
 
