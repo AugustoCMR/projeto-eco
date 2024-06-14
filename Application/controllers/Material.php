@@ -256,4 +256,19 @@ class Material extends Controller
           echo $e;
       }    
   }
+
+     /**
+   * Método para consultar materiais
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
+  public function consultarMateriais()
+  {   
+      $materiais = $this->model('Materiais');
+      $dados = $materiais::buscarMateriais();
+
+      return $this->view('material/consultarMateriais', [
+          'materiais' => $dados
+      ]);
+  }
 }

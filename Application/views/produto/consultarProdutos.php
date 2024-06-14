@@ -46,6 +46,5 @@
         </table>
       </div>
     </div>
-    <iframe width="1" height="22" frameborder="0"></iframe>
  </div>
 </main>

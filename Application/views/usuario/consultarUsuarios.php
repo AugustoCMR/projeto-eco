@@ -1,0 +1,58 @@
+<main>
+  <div class="container">
+  <h1 class="display-5 text-center text-primary titulo" style="margin-top:90px">Usuários</h1>
+    <div class="row">
+    
+      <div class="col-8" style="margin-top:px">
+        
+        <form class="form-inline my-4" action="../produto/consultarProdutos" method="POST" >
+            <div class="mb-3 mr-5 text-center">
+                <input type="text" name="produto" class="form-control" placeholder="Filtrar Usuários">
+            </div>     
+        </form>
+
+        <table class="table table-striped table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nome</th>
+              <th scope="col">Email</th>
+              <th id = "eco_valor_titulo" scope="col">Saldo</th>
+              <th scope="col">CPF</th>
+              <th scope="col">País</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Cidade</th>
+              <th scope="col">CEP</th>
+              <th scope="col">Rua</th>
+              <th scope="col">Bairro</th>
+              <th scope="col">Número</th>
+              <th scope="col">Ações</th> 
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($dados['usuarios'] as $usuario) { ?>
+            <tr">
+              <td><?= $usuario['id_usuario'] ?></td>
+              <td><?= $usuario['nm_usuario'] ?></td>
+              <td><?= $usuario['nm_email'] ?></td>
+              <td><?= $usuario['vl_ecosaldo'] ?></td>
+              <td><?= $usuario['nu_cpf'] ?></td>
+              <td><?= $usuario['nm_pais'] ?></td>
+              <td><?= $usuario['nm_estado'] ?></td>
+              <td><?= $usuario['nm_cidade'] ?></td>
+              <td><?= $usuario['nu_cep'] ?></td>
+              <td><?= $usuario['nm_rua'] ?></td>
+              <td><?= $usuario['nm_bairro'] ?></td>
+              <td><?= $usuario['nm_numero'] ?></td>
+              <td>
+                <button class='btn btn-success font-weight-bold'>Editar</button>
+                <button class='btn btn-danger font-weight-bold mt-3'>Deletar</button>
+              </td>
+            </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+ </div>
+</main>

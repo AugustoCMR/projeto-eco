@@ -55,6 +55,5 @@
         
       </div>
     </div>
-    <iframe width="1" height="50" frameborder="0"></iframe>
   </div>
 </main>

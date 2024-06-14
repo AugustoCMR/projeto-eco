@@ -38,3 +38,15 @@ footer {
 .titulo {
 font-family: 'Roboto mono', sans-serif;
 }
+
+.container
+{
+  display: flex;
+  flex-direction: column;
+  min-height: 70vh;
+}
+
+.container main {
+  flex: 1 1 0;
+  border: 0;
+}

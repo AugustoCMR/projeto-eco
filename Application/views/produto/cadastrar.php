@@ -6,7 +6,7 @@
         <?php
             
         if (!empty($dados['erros'])): 
-            ?>
+            ?>  
             <div class="alert alert-danger mt-5">
                 <?php foreach ($dados['erros'] as $erro): ?>
                     <p><?php echo $erro; ?></p>
@@ -35,5 +35,4 @@
       </div>
     </div>
   </div>
-  <iframe width="1" height="32" frameborder="0"></iframe>
 </main>

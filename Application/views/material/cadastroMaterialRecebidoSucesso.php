@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-8 offset-2" style="margin-top:100px">
-        <h1 class="display-5 text-center text-primary mt-1 titulo">Material cadastrado</h1>
+        <h1 class="display-5 text-center text-primary mt-1 titulo">Material Recebido Cadastrado</h1>
 
         <div class="container text-center">
 
@@ -25,6 +25,6 @@
         
         </div>
     </div>
-    <iframe width="1" height="45" frameborder="0"></iframe>
   </div>
 </main>
+

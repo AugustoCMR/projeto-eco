@@ -171,4 +171,19 @@ class Usuario extends Controller
       $this->view('usuario/extrato');
    }
 
+     /**
+   * Método para consultar usuários
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
+  public function consultarUsuarios()
+  {   
+      $produtos = $this->model('Usuarios');
+      $dados = $produtos::buscarUsuarios();
+
+      return $this->view('usuario/consultarUsuarios', [
+          'usuarios' => $dados
+      ]);
+  }
+
 }

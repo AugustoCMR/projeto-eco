@@ -29,5 +29,4 @@
         </div>
       </div>
     </div>
-    <iframe width="1" height="116" frameborder="0"></iframe>
 </main>
