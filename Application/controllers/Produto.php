@@ -55,6 +55,136 @@ class Produto extends Controller
         
     }
 
+      /**
+   * Método para editar o produto
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $id id do produto
+   */
+  public function editar($id = null)
+    {
+       try {
+        $produtoModel = $this->model('Produtos');
+        $produto = $produtoModel::consultarProduto($id);
+        
+
+        if(isset($_POST['editarProduto']))
+        {
+            $intermediario = new ProdutoIntermediario;
+            $id = $_POST['editarProduto'];
+            $produto = $produtoModel::consultarProduto($id);
+
+            $nome = strtolower($_POST['nm_produto']);
+            $eco = $_POST['vl_eco'];
+            $quantidade = $_POST['qt_produto'];
+
+            $camposObrigatorios = validarCamposObrigatorios([
+                'Produto' => $nome,
+                'Eco Points' => $eco
+            ]);
+
+            $validador = $intermediario->validaFormularioCadastrarProduto($camposObrigatorios, $eco,  $nome, $produto[0]['nm_produto']);
+
+            if(!empty($validador))
+            {
+                return $this->view('produto/editar', ['erros' => $validador,
+                'produto' => $produto
+                ]);
+            }
+
+            $produtoModel::editar($nome, $eco, $quantidade, $id);
+
+            return $this->view('produto/editadoSucesso');
+        } else
+        {   
+            return $this->view('produto/editar', [
+                'produto' => $produto
+            ]);
+        }
+       } catch (Exception $e) {
+        echo("Algo deu errado, por favor, tente novamente.");
+        echo $e;
+       }    
+    }
+
+        /**
+   * Método para deletar o produto
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $id id do produto
+   */
+    public function deletar($id)
+    {
+        try {
+            $intermediario = new ProdutoIntermediario;
+            
+            $cotacao_eco = Eco::$eco;
+            $cotacao_real = Eco::$real;
+
+            $produtoModel = $this->model('Produtos');
+            $dados = $produtoModel::consultarProdutos();
+            $erros = $intermediario->validaDeletar($id);
+    
+            if(!empty($erros))
+            {
+                return $this->view('produto/consultarProdutos', [
+                'produto' => $dados,
+                'cotacao_real' => $cotacao_real,
+                'cotacao_eco' => $cotacao_eco,
+                'erros' => $erros
+                ]);
+            }
+    
+            $produtoModel::deletar($id);
+            $dadosAtualizados = $produtoModel::consultarProdutos();
+          
+            return $this->view('produto/consultarProdutos', [
+                'produto' => $dadosAtualizados,
+                'cotacao_real' => $cotacao_real,
+                'cotacao_eco' => $cotacao_eco
+        ]);
+    
+        } catch (Exception $e) {
+            echo("Algo deu errado, por favor, tente novamente.");
+            echo $e;
+        }
+    }
+
+       /**
+   * Método para encaminhar o usuário para a view escolhida
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
+  public function editadoSucesso()
+  {
+      try 
+      {
+          if(!empty($_POST['menu']) && isset($_POST['menu']))
+          {
+              return $this->view('home/index');
+
+          } else if(!empty($_POST['listar']) && isset($_POST['listar']))
+          {   
+              $produtos = $this->model('produtos');
+              $dados = $produtos::consultarProdutos();
+              $cotacao_eco = Eco::$eco;
+              $cotacao_real = Eco::$real;
+              return $this->view('produto/consultarProdutos',[
+                'produto' => $dados,
+                'cotacao_real' => $cotacao_real,
+                'cotacao_eco' => $cotacao_eco
+              ]);
+          }  else {
+              return $this->view('produto/cadastroProdutoSucesso');
+          }
+
+      } catch (Exception $e) 
+      {
+          echo("Algo deu errado, por favor, tente novamente.");
+          echo $e;
+      }    
+  }
+
     /**
    * Método para encaminhar o usuário para a view escolhida
    * @author Augusto Ribeiro

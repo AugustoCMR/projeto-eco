@@ -43,13 +43,32 @@ class MaterialIntermediario
         return $this->erros;
     }
 
+    /**
+   * Método para validar o material á ser deletado
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $id id do material
+   */
+  public function validaDeletarMaterial($id)
+  {
+    $conn = new Database();
+    $query = $conn->executarQuery('SELECT * FROM material_entregue WHERE id_material = :id', array(
+        ':id' => $id
+    ));
+    $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+
+    if(!empty($resultado))
+    {
+        $this->erros['registros'] = "Não é possível deletar, material possuí registros";
+        return $this->erros;
+    }
+  }
+
     public function validaNomeResiduo($nome)
     {
         try 
         {
-                $nomePost = $_POST['nm_material'];
-
-                if($nome === $nomePost)
+      
 
                 $conn = new Database();
                 $buscaNome = $conn->executarQuery('SELECT * FROM residuo WHERE nm_residuo = :nome', array(

@@ -14,7 +14,7 @@
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="../material/cadastrarMaterial" class="mt-5">
+        <form method="POST" action="/projeto-eco/public/material/cadastrarMaterial" class="mt-5">
     
             <div class="mb-3">
                 <label class="font-weight-bold">Material</label>

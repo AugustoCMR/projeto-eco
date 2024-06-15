@@ -105,6 +105,12 @@ class Usuarios
     ));
   }
 
+   /**
+   * Método para deletar usuário
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $id Id do usuário
+   */
   public static function deletar($id)
   {
     $conn = new Database();

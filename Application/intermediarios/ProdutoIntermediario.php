@@ -20,8 +20,9 @@ class ProdutoIntermediario
    * @param $errosCampo armazena campos obrigatórios
    * @param $eco valor do produto em eco
    * @param $nome nome do produto
+   * @param $nomeEdicao nome do produto para edição se requisitado
    */
-    public function validaFormularioCadastrarProduto($errosCampo, $eco, $nome)
+    public function validaFormularioCadastrarProduto($errosCampo, $eco, $nome, $nomeEdicao = null)
     {
      
         if(!empty($errosCampo))
@@ -31,10 +32,36 @@ class ProdutoIntermediario
         }
 
        $this->validaEcoPoint($eco);
-       $this->validaNomeProduto($nome);
+       $this->validaNomeProduto($nome, $nomeEdicao);
 
        return $this->erros;
     }
+
+       /**
+   * Método para validar a operação deletar produto
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $id id do produto
+   */
+  public function validaDeletar($id)
+  {
+   
+    $conn = new Database();
+    $buscarRegistros = $conn->executarQuery('SELECT * FROM produto_retirado WHERE id_produto = :id', array(
+        ':id' => $id
+    ));
+
+    $resultado = $buscarRegistros->fetchAll(PDO::FETCH_ASSOC);
+
+    if(!empty($resultado))
+    {
+        $this->erros['registros'] = "Não é possível deletar, produtos possuí registros";
+        return $this->erros;
+    }
+
+  }
+
+
 
         /**
    * Método para validar o cadastro de entrada dos produtos
@@ -108,7 +135,7 @@ class ProdutoIntermediario
    * @created 13/06/2024
    * @param $produto nome do produto
    */
-    public function validaNomeProduto($produto)
+    public function validaNomeProduto($produto, $nomeEdicao = null)
     {
         try
         {   
@@ -119,6 +146,11 @@ class ProdutoIntermediario
                 ));
 
                 $resultado = $buscaProduto->fetchAll(PDO::FETCH_ASSOC);
+
+                if($produto === $nomeEdicao)
+                {
+                    return;
+                }
 
                 if(!empty($resultado)) {
                      

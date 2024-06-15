@@ -57,30 +57,9 @@
               <td><?= $usuario['nm_numero'] ?></td>
               <td>
                 <button class='btn btn-success font-weight-bold' onclick="window.location.href='/projeto-eco/public/usuario/editar/<?=$usuario['id_usuario']?>'">Editar</button>
-                <div class="container">
-                <button class='btn btn-danger font-weight-bold mt-3' data-toggle="modal" data-target="#confirmDeleteModal">
-                      Deletar Usuário
+                <button class='btn btn-danger font-weight-bold delete-button mt-3' id="deletar" onclick="confirmarExclusao(<?=$usuario['id_usuario']?>)">
+                  Deletar
                 </button>
-              </div>
-              <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                          <div class="modal-header">
-                              <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Exclusão</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                                  <span aria-hidden="true">&times;</span>
-                              </button>
-                          </div>
-                          <div class="modal-body">
-                              Tem certeza que deseja excluir este usuário?
-                          </div>
-                          <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                              <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Deletar</button>
-                          </div>
-                      </div>
-                  </div>
-              </div>
               </td>
             </tr>
             <?php } ?>
@@ -92,19 +71,13 @@
 </main>
 
 <script>
-   /**
-   * Método para enviar o controller/método via URL
-   * @author Augusto Ribeiro
-   * @created 13/06/2024
-   */
-    document.addEventListener("DOMContentLoaded", function() {
- 
-        document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
-         
-            var usuarioId = <?= $usuario['id_usuario'] ?>;
-        
-            window.location.href = '/projeto-eco/public/usuario/deletar/' + usuarioId;
-        });
-    });
+function confirmarExclusao(idProduto) {
+  if (confirm('Tem certeza que deseja excluir?')) {
+    location.href = '/projeto-eco/public/usuario/deletar/' + idProduto;
+  } else {
+
+    return false;
+  }
+}
 </script>
 

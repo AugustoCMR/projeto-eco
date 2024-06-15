@@ -16,7 +16,7 @@
           </div>
       <?php endif; ?>
         
-        <form class="form-inline my-4" action="../material/consultarMateriais" method="POST" >
+        <form class="form-inline my-4" action="/projeto-eco/public/material/consultarMateriais" method="POST" >
             <div class="mb-3 mr-5 text-center">
                 <input type="text" name="produto" class="form-control" placeholder="Filtrar Usuários">
             </div>     
@@ -43,13 +43,27 @@
               <td><?= $material['id_residuo'] ?></td>
               <td>
                 <button class='btn btn-success font-weight-bold' onclick="window.location.href='/projeto-eco/public/material/editarMaterial/<?=$material['id_material']?>'">Editar</button>
-                <button class='btn btn-danger font-weight-bold mt-3'>Deletar</button>
+                <button class='btn btn-danger font-weight-bold delete-button' id="deletar" onclick="confirmarExclusao(<?=$material['id_material']?>)" >
+                  Deletar
+                </button>
               </td>
             </tr>
             <?php } ?>
           </tbody>
         </table>
+       
       </div>
     </div>
  </div>
 </main>
+
+<script>
+function confirmarExclusao(idMaterial) {
+  if (confirm('Tem certeza que deseja excluir?')) {
+    location.href = '/projeto-eco/public/material/deletarMaterial/' + idMaterial;
+  } else {
+
+    return false;
+  }
+}
+</script>
