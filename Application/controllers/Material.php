@@ -134,6 +134,64 @@ class Material extends Controller
         
     }
 
+      /**
+   * Método para atualizar material cadastrado
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $id id do material
+   */
+    public function editarMaterial($id = null)
+    {
+       try {
+        $materialModel = $this->model('Materiais');
+        $material = $materialModel::buscarMaterial($id);
+        $residuos = $materialModel::buscarResiduos();
+
+        if(isset($_POST['editarMaterial']))
+        {
+            $intermediario = new MaterialIntermediario;
+            $id = $_POST['editarMaterial'];
+            $material = $materialModel::buscarMaterial($id);
+
+            $nome = strtolower($_POST['nm_material']);
+            $eco = $_POST['vl_eco'];
+            $unidadeMedida = $_POST['nm_unidademedida'];
+            $idResiduo = $_POST['idResiduo'];
+
+            $camposObrigatorios = validarCamposObrigatorios([
+                'Material' => $nome,
+                'Eco Points' => $eco,
+                'Unidade de Medida' => $unidadeMedida,
+                'Tipo do Resíduo' => $idResiduo
+            ]);
+
+            $validador = $intermediario->validadorMaterial($camposObrigatorios, $nome, $eco, $material[0]['nm_material']);
+
+            if(!empty($validador))
+            {
+                return $this->view('material/editarMaterial', ['erros' => $validador,
+                'residuos' => $residuos,
+                'material' => $material
+                ]);
+            }
+
+            $materialModel::editarMaterial($nome, $unidadeMedida, $eco, $idResiduo);
+
+            return $this->view('material/materialEditadoSucesso');
+        } else
+        {
+            return $this->view('material/editarMaterial', ['residuos' => $residuos,
+                'material' => $material
+            ]);
+        }
+       } catch (Exception $e) {
+        echo("Algo deu errado, por favor, tente novamente.");
+        echo $e;
+       }
+
+        
+    }
+
      /**
    * Método para encaminhar o usuário para a view escolhida
    * @author Augusto Ribeiro

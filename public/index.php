@@ -6,7 +6,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <link rel="stylesheet" href="../../public/assets/css/style.css">
+        <link rel="stylesheet" href="/projeto-eco/public/assets/css/style.css">
      </head>
 
 
@@ -14,7 +14,7 @@
         <header>
             <nav class="navbar navbar-expand-lg navbar-light bg-primary">
 
-                <a class="navbar-brand" href="/projeto-eco/public/home/index"><button class="btn btn-light"><img src="../../public/assets/img/icone.png" alt=""></button>
+                <a class="navbar-brand" href="/projeto-eco/public/home/index"><button class="btn btn-light"><img src="/projeto-eco/public/assets/img/icone.png" alt=""></button>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

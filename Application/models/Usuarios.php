@@ -70,6 +70,50 @@ class Usuarios
   }
 
     /**
+   * Método para cadastrar usuário
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $nome nome do usuário
+   * @param $email email do usuário
+   * @param $saldo saldo do usuário em eco
+   * @param $cpf cpf do usuário
+   * @param $país país do usuário
+   * @param $estado estado do usuário
+   * @param $cidade cidade do usuário
+   * @param $cep cep do usuário
+   * @param $rua rua do usuário
+   * @param $bairro bairro do usuário
+   * @param $numero número da casa do usuário
+   */
+  public static function editar($id, $nome, $email, $cpf, $pais, $estado, $cidade, $cep, $rua, $bairro, $numero)
+  {
+    $conn = new Database();
+    $conn->executarQuery('UPDATE usuario
+    SET nm_usuario = :nome, nm_email = :email, nu_cpf = :cpf, nm_pais = :pais, nm_estado = :estado, nm_cidade = :cidade, nu_cep = :cep, nm_rua = :rua, nm_bairro = :bairro, nm_numero = :numero
+    WHERE id_usuario = :id', array(
+       ':nome' => $nome,
+       ':email' => $email,
+       ':cpf' => $cpf,
+       ':pais' => $pais,
+       ':estado' => $estado,
+       ':cidade' => $cidade, 
+       ':cep' => $cep,
+       ':rua' => $rua,
+       ':bairro' => $bairro,
+       ':numero' => $numero,
+       ':id' => $id
+    ));
+  }
+
+  public static function deletar($id)
+  {
+    $conn = new Database();
+    $conn->executarQuery('DELETE FROM usuario WHERE id_usuario = :id', array(
+      ':id' => $id
+    ));
+  }
+
+    /**
    * Método para consultar saldo do usuário
    * @author Augusto Ribeiro
    * @created 13/06/2024

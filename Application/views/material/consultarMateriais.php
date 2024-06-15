@@ -1,9 +1,20 @@
 <main>
   <div class="container">
-  <h1 class="display-5 text-center text-primary titulo" style="margin-top:90px">Usuários</h1>
+  <h1 class="display-5 text-center text-primary titulo" style="margin-top:90px">Materiais</h1>
     <div class="row">
     
       <div class="col-8 offset-2" style="margin-top:px">
+
+      <?php
+      
+      if (!empty($dados['erros'])): 
+          ?>
+          <div class="alert alert-danger mt-5">
+              <?php foreach ($dados['erros'] as $erro): ?>
+                  <p><?php echo $erro; ?></p>
+              <?php endforeach; ?>
+          </div>
+      <?php endif; ?>
         
         <form class="form-inline my-4" action="../material/consultarMateriais" method="POST" >
             <div class="mb-3 mr-5 text-center">
@@ -11,7 +22,7 @@
             </div>     
         </form>
 
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover text-center">
           <thead class="thead-light">
             <tr>
               <th scope="col">ID</th>
@@ -31,7 +42,7 @@
               <td><?= $material['vl_eco'] ?></td>
               <td><?= $material['id_residuo'] ?></td>
               <td>
-                <button class='btn btn-success font-weight-bold'>Editar</button>
+                <button class='btn btn-success font-weight-bold' onclick="window.location.href='/projeto-eco/public/material/editarMaterial/<?=$material['id_material']?>'">Editar</button>
                 <button class='btn btn-danger font-weight-bold mt-3'>Deletar</button>
               </td>
             </tr>

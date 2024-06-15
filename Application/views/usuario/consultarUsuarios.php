@@ -5,13 +5,24 @@
     
       <div class="col-8" style="margin-top:px">
         
+      <?php
+      
+      if (!empty($dados['erros'])): 
+          ?>
+          <div class="alert alert-danger mt-5">
+              <?php foreach ($dados['erros'] as $erro): ?>
+                  <p><?php echo $erro; ?></p>
+              <?php endforeach; ?>
+          </div>
+      <?php endif; ?>
+
         <form class="form-inline my-4" action="../produto/consultarProdutos" method="POST" >
             <div class="mb-3 mr-5 text-center">
                 <input type="text" name="produto" class="form-control" placeholder="Filtrar Usuários">
             </div>     
         </form>
 
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover text-center">
           <thead class="thead-light">
             <tr>
               <th scope="col">ID</th>
@@ -45,8 +56,31 @@
               <td><?= $usuario['nm_bairro'] ?></td>
               <td><?= $usuario['nm_numero'] ?></td>
               <td>
-                <button class='btn btn-success font-weight-bold'>Editar</button>
-                <button class='btn btn-danger font-weight-bold mt-3'>Deletar</button>
+                <button class='btn btn-success font-weight-bold' onclick="window.location.href='/projeto-eco/public/usuario/editar/<?=$usuario['id_usuario']?>'">Editar</button>
+                <div class="container">
+                <button class='btn btn-danger font-weight-bold mt-3' data-toggle="modal" data-target="#confirmDeleteModal">
+                      Deletar Usuário
+                </button>
+              </div>
+              <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Exclusão</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+                          <div class="modal-body">
+                              Tem certeza que deseja excluir este usuário?
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                              <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Deletar</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
               </td>
             </tr>
             <?php } ?>
@@ -56,3 +90,21 @@
     </div>
  </div>
 </main>
+
+<script>
+   /**
+   * Método para enviar o controller/método via URL
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
+    document.addEventListener("DOMContentLoaded", function() {
+ 
+        document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+         
+            var usuarioId = <?= $usuario['id_usuario'] ?>;
+        
+            window.location.href = '/projeto-eco/public/usuario/deletar/' + usuarioId;
+        });
+    });
+</script>
+

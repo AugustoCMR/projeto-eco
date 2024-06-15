@@ -41,6 +41,26 @@ class Materiais
       ));   
   }
 
+  /**
+   * Método para atualizar material
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $nome nome do material
+   * @param $unidadeMedida unidade de medida do material
+   * @param $ecoValor valor do material calculado
+   * @param $residuoId id do residuo referente ao material
+   */
+  public static function editarMaterial($material, $unidadeMedida, $ecoValor, $residuoId)
+  {
+      $conn = new Database();   
+      $conn->executarQuery('UPDATE material SET nm_material = :nome, nm_unidademedida = :unidadeMedida, vl_eco = :eco, id_residuo = :idResiduo', array(
+        ':nome' => $material,
+        ':unidadeMedida' => $unidadeMedida,
+        ':eco' => $ecoValor,
+        ':idResiduo' => $residuoId
+      ));
+  }
+
      /**
    * Método para buscar Resíduos no Banco
    * @author Augusto Ribeiro
@@ -64,6 +84,23 @@ class Materiais
     {
         $conn = new Database();
         $buscarMateriais = $conn->executarQuery('SELECT * FROM material');
+
+        return $buscarMateriais->fetchAll(PDO::FETCH_ASSOC);
+   
+    }
+
+       /**
+   * Método para buscar material cadastrado
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $id id do material
+   */
+  public static function buscarMaterial($id)
+    {
+        $conn = new Database();
+        $buscarMateriais = $conn->executarQuery('SELECT * FROM material WHERE id_material = :id', array(
+            ':id' => $id
+        ));
 
         return $buscarMateriais->fetchAll(PDO::FETCH_ASSOC);
    
