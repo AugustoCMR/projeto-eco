@@ -1,3 +1,13 @@
+body {     
+  margin: 0;
+  padding: 0;
+  background-color: #ECF3FB;
+}
+
+main {
+  margin-bottom: 20%;
+}
+
 main .img-container img {
   margin-top: 5%;
   width: 100vw;
@@ -7,29 +17,46 @@ main .img-container img {
   object-position: -10px -1000px;
 }
 
-body, html { 
-  position: absolute;     
-  width: 100%; 
-  height: 100%; 
-  padding: 0px;
-  margin: 0px;
-  background-color: #ECF3FB;
-}
 
 footer {
-  margin-top: 35em; 
-  width: 100%;
   display: flex;
+  margin-top: 35em;
   justify-content: center;
+  align-items: center;
   gap: 20px; 
   color: white;
   background-color: #007bff;
+  padding: 0;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; 
+  padding: 20px 0;
+}
+
+.footer-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-item a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.footer-item p {
+  margin: 0;
+  padding-top: 5px;
 }
 
 .imagem-redimensionada {
   width: 100%;
   height: auto; 
-  margin: 0; 
+  margin-top: 10em; 
   display: block; 
 }
 

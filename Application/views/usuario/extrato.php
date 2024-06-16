@@ -27,6 +27,19 @@
                 <button type="submit" class="btn btn-primary font-weight-bold" name="consultarExtrato" value="cadastrar-categoria">Consultar</button>
         </div>
 
+        <?php
+        if(isset($_POST['consultarExtrato']))
+        { ?>
+          <div class="alert alert-primary font-weight-bold" role="alert">
+          Usuário:
+          <?=isset($dados['usuario'][0]['nm_usuario']) ? ucfirst($dados['usuario'][0]['nm_usuario']) : 'Usuário não encontrado'?>
+          </div> 
+          <div class="alert alert-primary font-weight-bold" role="alert">
+          Saldo atual:
+          <?=isset($dados['usuario'][0]['vl_ecosaldo']) ? '€ ' . ucfirst($dados['usuario'][0]['vl_ecosaldo']) : '€ 0'?>
+          </div> 
+        <?php  }  ?>
+
         </form>
 
         <table class="table">

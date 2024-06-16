@@ -119,6 +119,22 @@ class Usuarios
     ));
   }
 
+   /**
+   * Método para consultar usuário por cpf
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $cpf cpf do usuário
+   */
+  public static function buscarUsuarioCPF($cpf)
+  {
+    $conn = new Database();
+    $resultado = $conn->executarQuery('SELECT * FROM usuario WHERE nu_cpf = :cpf', array(
+      ':cpf' => $cpf
+    ));
+
+    return $resultado->fetchAll(PDO::FETCH_ASSOC);
+  }
+
     /**
    * Método para consultar saldo do usuário
    * @author Augusto Ribeiro
@@ -203,7 +219,7 @@ class Usuarios
     $conn = new Database();
     $result = $conn->executarQuery
     ('SELECT 
-          us.vl_ecosaldo, 
+          us.vl_ecosaldo, us.nm_usuario,
           mt.nm_material AS nome_material, 
           NULL AS nome_produto, 
           me.vl_saldoatual AS saldo_atual_entrada, 
@@ -223,7 +239,7 @@ class Usuarios
           UNION ALL
 
           SELECT 
-          us.vl_ecosaldo, 
+          us.vl_ecosaldo, us.nm_usuario,
           NULL AS nome_material, 
           pd.nm_produto AS nome_produto, 
           NULL AS saldo_atual_entrada, 

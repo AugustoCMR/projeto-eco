@@ -13,7 +13,7 @@
                             </button>
 
                             <button  name= "listar" value="listar" class="btn btn-primary mr-3">
-                                Lista de materiais
+                                Lista de materiais recebidos
                             </button>
 
                             <button class="btn btn-primary" name="cadastrar" value="cadastrar">

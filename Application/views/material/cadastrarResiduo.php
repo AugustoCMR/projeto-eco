@@ -24,7 +24,7 @@
             <div class="mb-3">
                 <button type="submit" class= "btn btn-primary font-weight-bold" name="cadastrarResiduo">Enviar</button>
             </div>
-            </form>
+        </form>        
         
         </div>
       </div>

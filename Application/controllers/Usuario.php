@@ -276,10 +276,12 @@ class Usuario extends Controller
          }
 
          $usuarioModel = $this->model('Usuarios');
+         $usuario = $usuarioModel::buscarUsuarioCPF($cpf);
          $dados = $usuarioModel::consultarMateriaisEntregues($cpf);
 
          return $this->view('usuario/consultarMateriaisEntregues', ['query' => $dados,
-            'cpf' => $cpf 
+            'cpf' => $cpf,
+            'usuario' => $usuario    
          ]);
 
       }
@@ -306,17 +308,19 @@ class Usuario extends Controller
          if(!empty($validador)) 
          {
             return $this->view('usuario/extrato', [
-               'cpf' => $cpf,
+               'cpf' => $cpf,   
                'erros' => $validador   
             ]);
          }
 
          $usuarioModel = $this->model('Usuarios');
+         $usuario = $usuarioModel::buscarUsuarioCPF($cpf);
          $dados = $usuarioModel::extrato($cpf);
 
          return $this->view('usuario/extrato', [
             'dados' => $dados,
-            'cpf' => $cpf
+            'cpf' => $cpf,
+            'usuario' => $usuario
          ]);
       }
 
