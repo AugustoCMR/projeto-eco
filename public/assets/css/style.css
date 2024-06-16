@@ -12,15 +12,16 @@ body, html {
   width: 100%; 
   height: 100%; 
   padding: 0px;
+  margin: 0px;
   background-color: #ECF3FB;
 }
 
 footer {
-  margin-top: 20%;
+  margin-top: 35em; 
   width: 100%;
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 20px; 
   color: white;
   background-color: #007bff;
 }
@@ -34,31 +35,5 @@ footer {
 
 .titulo {
 font-family: 'Roboto mono', sans-serif;
-}
-
-/* Estilo para o modal personalizado */
-.custom-modal {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, 0.7);
-  z-index: 1000;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-}
-
-.modal-content {
-  background: white;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  z-index: 1001;
-  width: 300px;
-  text-align: center;
-  border-radius: 5px;
 }
 

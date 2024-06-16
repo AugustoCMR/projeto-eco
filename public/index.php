@@ -74,7 +74,7 @@
     
     ?>
     <div class="font-weight-bold">
-     <footer class="py-3 d-flex align-items-center footer">
+     <footer class="footer">
             <a href="https://github.com/AfonsoFerroNunes" target="_blank"><i class="fab fa-github" style="color: #ffffff;"></i></a>
             <p>Afonso Ferro</p>
             <a href="https://github.com/AugustoCMR" target="_blank"><i class="fab fa-github" style="color: #ffffff;"></i></a>
