@@ -49,7 +49,7 @@
               <td><?= ucfirst($produto['nm_produto']) ?></td>
               <td><?= $produto['qt_produto'] ?></td>
               <td id="eco_valor"><?= '€ ' . (isset($dados['quantidade']) ? $produto['vl_eco'] * $dados['quantidade'] : $produto['vl_eco']); ?></td>
-              <td id="real_valor"><?= 'R$ ' . (isset ($dados['quantidade']) ? number_format(($produto['vl_eco'] / $dados['cotacao_eco']) * $dados['quantidade'], 2, ',', '.') : number_format($produto['vl_eco'] / $dados['cotacao_eco'], 2, ',', '.')); ?></td>
+              <td id="real_valor"><?= 'R$ ' . (isset ($dados['quantidade']) ? number_format(($produto['vl_eco'] * $dados['cotacao_real'] / $dados['cotacao_eco']) * $dados['quantidade'], 2, ',', '.') : number_format($produto['vl_eco'] * $dados['cotacao_real'] / $dados['cotacao_eco'], 2, ',', '.')); ?></td>
               <td>
                 <button class='btn btn-success font-weight-bold mb-3' onclick="window.location.href='/projeto-eco/public/produto/editar/<?=$produto['id_produto']?>'">Editar</button>
                 <button class='btn btn-danger font-weight-bold delete-button mb-3' id="deletar" onclick="confirmarExclusao(<?=$produto['id_produto']?>)">Deletar</button>
