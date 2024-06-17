@@ -20,7 +20,7 @@ main .img-container img {
 
 footer {
   display: flex;
-  margin-top: 35em;
+  margin-top: 10em;
   justify-content: center;
   align-items: center;
   gap: 20px; 
