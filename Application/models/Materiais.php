@@ -100,7 +100,9 @@ class Materiais
     public static function buscarMateriais()
     {
         $conn = new Database();
-        $buscarMateriais = $conn->executarQuery('SELECT * FROM material');
+        $buscarMateriais = $conn->executarQuery('SELECT * FROM material
+        INNER JOIN residuo
+        ON material.id_residuo = residuo.id_residuo');
 
         return $buscarMateriais->fetchAll(PDO::FETCH_ASSOC);
    

@@ -22,7 +22,7 @@
                 <input type="text" name="nm_produto" class="form-control">
         </div>
         <div class="mb-3">
-                <label class="font-weight-bold">Eco Points</label>
+                <label class="font-weight-bold">Eco Points(Valor Unitário)</label>
                 <input type="number" name="vl_eco" class="form-control">
         </div>
 

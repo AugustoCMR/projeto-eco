@@ -452,14 +452,14 @@ class Produto extends Controller
                     {       
                         
                         $quantidade = $_POST['quantidade'];
-                        $eco = $cotacao_eco * $quantidade;
-                        $real = $cotacao_real * $quantidade;
+                        // $eco = $cotacao_eco * $quantidade;
+                        // $real = $cotacao_real * $quantidade;
                         
                         return $this->view('Produto/consultarProdutos', [
                             'produto' => $dados,
                             'quantidade' => $quantidade,
-                            'vl_ecoTabela' => $eco,
-                            'real_valorTabela' => $real,
+                            // 'vl_ecoTabela' => $eco,
+                            // 'real_valorTabela' => $real,
                             'cotacao_real' => $cotacao_real,
                             'cotacao_eco' => $cotacao_eco
                         ]);

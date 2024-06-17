@@ -49,25 +49,31 @@
               <th id = "real_valor_titulo" scope="col">Entradas</th>
               <th id = "real_valor_titulo" scope="col">Saidas</th>
               <th id = "real_valor_titulo" scope="col">Saldo</th>
+              <th id = "real_valor_titulo" scope="col">Data</th>
             </tr>
           </thead>
           <tbody>
             <?php 
             if(!empty($dados['dados'])) 
             {
-              foreach ($dados['dados'] as $dados) { ?>
+              foreach ($dados['dados'] as $dados) { 
+                
+                $dataFormatada = explode(' ', $dados['dt_criadoem']);
+                $dataOriginal = $dataFormatada[0];
+                $data = DateTime::createFromFormat('Y-m-d', $dataOriginal)->format('d/m/Y')
+                ?>
                 <tr>
                   <td><?= (isset($dados['nome_material']) ?  $dados['nome_material'] . "(MATERIAL)" : $dados['nome_produto'] . "(PRODUTO)")?></td>
                   <td><?= isset($dados['entrada']) ? "€ " . $dados['entrada'] : "" ?></td>  
                   <td><?= isset($dados['saida']) ? "€ " . $dados['saida'] : "" ?></td> 
                   <td><?= (isset($dados['saldo_atual_entrada']) ? "€ " . $dados['saldo_atual_entrada'] : "€ " . $dados['saldo_atual_saida'] ) ?></td> 
+                  <td><?= $data ?></td> 
                 </tr> 
            <?php } ?> 
           
             <?php } ?>
           </tbody>
         </table>
-        
       </div>
     </div>
   </div>

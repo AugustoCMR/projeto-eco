@@ -257,7 +257,8 @@ class Usuarios
           us.nu_cpf = :cpf
 
           ORDER BY
-          dt_criadoem;', array
+          dt_criadoem DESC;
+          ', array
           (
           ':cpf' => $cpf
           )

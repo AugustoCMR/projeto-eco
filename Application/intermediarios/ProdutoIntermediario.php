@@ -55,7 +55,7 @@ class ProdutoIntermediario
 
     if(!empty($resultado))
     {
-        $this->erros['registros'] = "Não é possível deletar, produtos possuí registros";
+        $this->erros['registros'] = "Não é possível deletar, produto possuí registros";
         return $this->erros;
     }
 

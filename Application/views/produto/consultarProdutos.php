@@ -16,12 +16,9 @@
         <?php endif; ?>
 
         <form class="form-inline my-4" action="../produto/consultarProdutos" method="POST" >
-            <div class="mb-3 mr-5 text-center">
-                <input type="text" name="produto" class="form-control" placeholder="Filtrar Produto">
-            </div>
-            
+             
           <div class="mb-3 " role="alert"> 
-                  <input type="number" name="quantidade" id="quantidade" class="form-control" placeholder="Simular Valores">
+                  <input type="number" name="quantidade" id="quantidade" class="form-control" placeholder="Digite a quantidade">
                   <button id="btnCalcular" type="submit" name="submit_quantidade" class="btn btn-primary font-weight-bold" >Calcular</button>
           </div>
                
@@ -48,10 +45,10 @@
             <?php foreach ($dados['produto'] as $produto) { ?>
             <tr  data-produto-nome="<?= $produto['nm_produto'] ?>">
               <td><?= $produto['id_produto'] ?></td>
-              <td><?= $produto['nm_produto'] ?></td>
+              <td><?= ucfirst($produto['nm_produto']) ?></td>
               <td><?= $produto['qt_produto'] ?></td>
-              <td id="eco_valor"><?= '€ ' . (isset($dados['vl_ecoTabela']) ? $produto['vl_eco'] * $dados['vl_ecoTabela'] : $produto['vl_eco'] * $dados['cotacao_eco']); ?></td>
-              <td id="real_valor"><?= 'R$ ' . (isset ($dados['real_valorTabela']) ? $dados['real_valorTabela'] * $produto['vl_eco'] : $produto['vl_eco'] * $dados['cotacao_real']); ?></td>
+              <td id="eco_valor"><?= '€ ' . (isset($dados['quantidade']) ? $produto['vl_eco'] * $dados['quantidade'] : $produto['vl_eco']); ?></td>
+              <td id="real_valor"><?= 'R$ ' . (isset ($dados['quantidade']) ? ($produto['vl_eco'] / $dados['cotacao_eco']) * $dados['quantidade'] : $produto['vl_eco'] / $dados['cotacao_eco']); ?></td>
               <td>
                 <button class='btn btn-success font-weight-bold' onclick="window.location.href='/projeto-eco/public/produto/editar/<?=$produto['id_produto']?>'">Editar</button>
                 <button class='btn btn-danger font-weight-bold delete-button' id="deletar" onclick="confirmarExclusao(<?=$produto['id_produto']?>)">Deletar</button>
@@ -66,6 +63,12 @@
 </main>
 
 <script>
+     /**
+   * Método para confirmar exclusão do produto
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param idProduto id do produto
+   */
 function confirmarExclusao(idProduto) {
   if (confirm('Tem certeza que deseja excluir?')) {
     location.href = '/projeto-eco/public/produto/deletar/' + idProduto;

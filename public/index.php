@@ -55,7 +55,7 @@
                             <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/produto/cadastrar">Cadastrar Produto</a>
                             <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/produto/cadastrarProdutoEntregue">Operação Entrada de Produto</a>
                             <a class="nav-item nav-link text-nowrap font-weight-bold" href="/projeto-eco/public/produto/cadastrarProdutoSaida">Operação de Saída</a>
-                            <a class="nav-item nav-link text-nowrap font-weight-bold" href="/projeto-eco/public/produto/consultarProdutos">Consultar produto</a>
+                            <a class="nav-item nav-link text-nowrap font-weight-bold" href="/projeto-eco/public/produto/consultarProdutos">Consultar produtos e Cotação</a>
                         </div>
                     </div>
                 </div>

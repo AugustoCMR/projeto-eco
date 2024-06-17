@@ -60,7 +60,7 @@
                             
                             foreach($dados['usuarios'] as $usuarios)
                             { ?>
-                            <option value="<?=$usuarios['id_usuario'] ?>" data-saldo="<?=$usuarios['vl_ecosaldo']?>" > <?= $usuarios['nm_usuario'] ?></option> 
+                            <option value="<?=$usuarios['id_usuario'] ?>" data-saldo="<?=$usuarios['vl_ecosaldo']?>" > <?= ucfirst($usuarios['nm_usuario']) ?> - CPF: <?=$usuarios['nu_cpf']?></option> 
                             
                     <?php   } 
                         } ?> 
