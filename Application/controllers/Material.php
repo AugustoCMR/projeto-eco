@@ -64,9 +64,6 @@ class Material extends Controller
             {
                 return $this->view('home/index');
 
-            } else if(!empty($_POST['listar']) && isset($_POST['listar']))
-            {
-                return $this->view('home/index');
             } else if(!empty($_POST['cadastrar']) && isset($_POST['cadastrar']))
             {
                 return $this->view('material/cadastrarResiduo');

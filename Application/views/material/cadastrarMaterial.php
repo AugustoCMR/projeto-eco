@@ -70,13 +70,10 @@ function formatarValor(input) {
    
     let valor = input.value.replace(/\D/g, '');
 
-    if (valor.length > 0) {
-     
-        valor = (parseFloat(valor) / 100).toFixed(2).replace('.', ',');
+    valor = valor.replace(/(\d+)(\d{2})$/, "$1,$2");
 
-        input.value = valor;
-    } else {
-        input.value = '';
-    }
+    valor = valor.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+
+    input.value = valor;
 }
 </script>
