@@ -25,6 +25,9 @@ class Produto extends Controller
                 $produto = strtolower($_POST['nm_produto']);
                 $eco = $_POST['vl_eco'];
 
+                $eco = str_replace(',', '.', $eco);
+                $eco = preg_replace('/\.(?=.*\.)/', '', $eco);
+
                 $camposObrigatorios = validarCamposObrigatorios([
                     'Produto' => $produto,
                     'Eco Points' => $eco
@@ -77,6 +80,9 @@ class Produto extends Controller
             $nome = strtolower($_POST['nm_produto']);
             $eco = $_POST['vl_eco'];
             $quantidade = $_POST['qt_produto'];
+
+            $eco = str_replace(',', '.', $eco);
+            $eco = preg_replace('/\.(?=.*\.)/', '', $eco);
 
             $camposObrigatorios = validarCamposObrigatorios([
                 'Produto' => $nome,
