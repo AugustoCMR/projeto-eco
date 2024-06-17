@@ -221,6 +221,11 @@ class Usuario extends Controller
       }    
   }
 
+  /**
+   * Método para encaminhar o usuário para a view escolhida
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
   public function editadoSucesso()
   {
       try 

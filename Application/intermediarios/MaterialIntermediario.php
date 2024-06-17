@@ -64,7 +64,12 @@ class MaterialIntermediario
         return $this->erros;
     }
   }
-
+/**
+   * Metodo para validar o nome do residuo
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $nome Nome do Residuo
+   */
     public function validaNomeResiduo($nome)
     {
         try 
