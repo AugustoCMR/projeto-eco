@@ -152,4 +152,37 @@ class Produtos
         
     }
 
+    /**
+   * Método para atualizar produto
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $produto nome do produto
+   * @param $ecoValor valor do produto
+   * @param $quantidade quantidade do produto
+   * @param $id id do produto
+   */
+  public static function editar($produto, $ecoValor, $quantidade, $id)
+  {
+      $conn = new Database();   
+      $conn->executarQuery('UPDATE produto SET nm_produto = :nome, vl_eco = :eco, qt_produto = :quantidade WHERE id_produto = :id', array(
+        ':nome' => $produto,
+        ':eco' => $ecoValor,
+        ':quantidade' => $quantidade,
+        ':id' => $id
+      ));
+  }
+
+  /**
+   * Método para deletar produto
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $id id do produto
+   */
+  public static function deletar($id)
+  {
+      $conn = new Database();   
+      $conn->executarQuery('DELETE FROM produto WHERE id_produto = :id', array(
+        ':id' => $id
+      ));
+  }
 }

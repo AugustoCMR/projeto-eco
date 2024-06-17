@@ -34,6 +34,52 @@ class UsuarioIntermediario
         return $this->erros;
     }
 
+       /**
+   * Método para validar edição do usuário
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $errosCampos campos obrigatórios
+   * @param $cpfEnviado cpf enviado pelo requisitante ao atualizar cadastro
+   * @param $emailEnviado email enviado pelo requisitante ao atualizar cadastro
+   */
+
+   public function validacaoEditarUsuario($errosCampos, $cpfEnviado, $emailEnviado)
+   {   
+       
+       if(!empty($errosCampos)) 
+       {
+          return $this->erros = $errosCampos;
+       }
+       
+       $this->validaEmail($emailEnviado);
+       $this->validaCPF($cpfEnviado);
+       $this->validaCEP();
+
+       return $this->erros;
+   }
+
+        /**
+   * Método para validar deletar usuário
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $id id do usuário
+   */
+   public function validaDeletarUsuario($id)
+   {
+    $conn = new Database();
+    $query = $conn->executarQuery('SELECT * FROM material_entregue WHERE id_usuario = :id', array(
+        ':id' => $id
+    ));
+
+    $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+
+    if(!empty($resultado))
+    {
+        $this->erros['registros'] = "Não é possível deletar, usuário possuí registros";
+        return $this->erros;
+    }
+   }
+
      /**
    * Método para validar consultas no banco de dados
    * @author Augusto Ribeiro
@@ -72,8 +118,9 @@ class UsuarioIntermediario
    * Método para validar o CPF do usuário
    * @author Augusto Ribeiro
    * @created 13/06/2024
+   * @param $cpfRecebido variável para receber o cpf requisitante em casos de edição
    */
-    public function validaCPF()
+    public function validaCPF($cpfRecebido = null)
     {
         try
         {   
@@ -89,6 +136,11 @@ class UsuarioIntermediario
                 if(strlen($cpf) !== 11)
                 {
                     return $this->erros["cpfTamanhoInvalido"] = "O CPF deve conter 11 caracteres."; 
+                }
+
+                if($cpf === $cpfRecebido)
+                {
+                    return;
                 }
 
                 $conn = new Database();
@@ -116,14 +168,27 @@ class UsuarioIntermediario
    * Método para validar o email do usuário
    * @author Augusto Ribeiro
    * @created 13/06/2024
+   * @param $emailRecebido variável para receber o email requisitante em casos de edição
    */
-    public function validaEmail()
+    public function validaEmail($emailRecebido = null)
     {
         try
         {   
+            
             if(!empty($_POST['nm_email']) && isset($_POST['nm_email']))
             {   
                 $email = $_POST['nm_email'];
+
+                if(!filter_var($email, FILTER_VALIDATE_EMAIL)) 
+                {
+                $this->erros['emailInvalido'] = "O e-mail informado é inválido.";
+                }
+
+                if($email === $emailRecebido)
+                {
+                    return;
+                }
+
                 $conn = new Database();
                 $buscaEmail = $conn->executarQuery('SELECT * FROM usuario WHERE nm_email = :email', array(
                 ':email' => $email
@@ -136,14 +201,7 @@ class UsuarioIntermediario
                     
                    return $this->erros['email'] = "O e-mail informado já existe.";
                 }
-            }
-            
-            if(!filter_var($email, FILTER_VALIDATE_EMAIL)) 
-            {
-                $this->erros['emailInvalido'] = "O e-mail informado é inválido.";
-            }
-
-            
+            } 
         } catch(Exception $e)
         {   
             echo("Algo deu errado, por favor, tente novamente.");

@@ -6,7 +6,7 @@
         <?php
             
         if (!empty($dados['erros'])): 
-            ?>
+            ?>  
             <div class="alert alert-danger mt-5">
                 <?php foreach ($dados['erros'] as $erro): ?>
                     <p><?php echo $erro; ?></p>
@@ -22,7 +22,7 @@
                 <input type="text" name="nm_produto" class="form-control">
         </div>
         <div class="mb-3">
-                <label class="font-weight-bold">Eco Points</label>
+                <label class="font-weight-bold">Eco Points(Valor Unitário)</label>
                 <input type="number" name="vl_eco" class="form-control">
         </div>
 
@@ -35,5 +35,4 @@
       </div>
     </div>
   </div>
-  <iframe width="1" height="32" frameborder="0"></iframe>
 </main>

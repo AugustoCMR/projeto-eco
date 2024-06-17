@@ -27,7 +27,7 @@
                             
                             foreach($dados['usuarios'] as $usuarios)
                             { ?>
-                            <option value="<?=$usuarios['id_usuario'] ?>" > <?= $usuarios['nm_usuario'] ?></option> 
+                            <option value="<?=$usuarios['id_usuario'] ?>" > <?= ucfirst($usuarios['nm_usuario']) ?> - CPF: <?=$usuarios['nu_cpf']?></option> 
                             
                     <?php   } 
                         } ?> 

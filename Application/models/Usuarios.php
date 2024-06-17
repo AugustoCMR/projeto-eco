@@ -70,6 +70,72 @@ class Usuarios
   }
 
     /**
+   * Método para cadastrar usuário
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $nome nome do usuário
+   * @param $email email do usuário
+   * @param $saldo saldo do usuário em eco
+   * @param $cpf cpf do usuário
+   * @param $país país do usuário
+   * @param $estado estado do usuário
+   * @param $cidade cidade do usuário
+   * @param $cep cep do usuário
+   * @param $rua rua do usuário
+   * @param $bairro bairro do usuário
+   * @param $numero número da casa do usuário
+   */
+  public static function editar($id, $nome, $email, $cpf, $pais, $estado, $cidade, $cep, $rua, $bairro, $numero)
+  {
+    $conn = new Database();
+    $conn->executarQuery('UPDATE usuario
+    SET nm_usuario = :nome, nm_email = :email, nu_cpf = :cpf, nm_pais = :pais, nm_estado = :estado, nm_cidade = :cidade, nu_cep = :cep, nm_rua = :rua, nm_bairro = :bairro, nm_numero = :numero
+    WHERE id_usuario = :id', array(
+       ':nome' => $nome,
+       ':email' => $email,
+       ':cpf' => $cpf,
+       ':pais' => $pais,
+       ':estado' => $estado,
+       ':cidade' => $cidade, 
+       ':cep' => $cep,
+       ':rua' => $rua,
+       ':bairro' => $bairro,
+       ':numero' => $numero,
+       ':id' => $id
+    ));
+  }
+
+   /**
+   * Método para deletar usuário
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $id Id do usuário
+   */
+  public static function deletar($id)
+  {
+    $conn = new Database();
+    $conn->executarQuery('DELETE FROM usuario WHERE id_usuario = :id', array(
+      ':id' => $id
+    ));
+  }
+
+   /**
+   * Método para consultar usuário por cpf
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $cpf cpf do usuário
+   */
+  public static function buscarUsuarioCPF($cpf)
+  {
+    $conn = new Database();
+    $resultado = $conn->executarQuery('SELECT * FROM usuario WHERE nu_cpf = :cpf', array(
+      ':cpf' => $cpf
+    ));
+
+    return $resultado->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+    /**
    * Método para consultar saldo do usuário
    * @author Augusto Ribeiro
    * @created 13/06/2024
@@ -153,7 +219,7 @@ class Usuarios
     $conn = new Database();
     $result = $conn->executarQuery
     ('SELECT 
-          us.vl_ecosaldo, 
+          us.vl_ecosaldo, us.nm_usuario,
           mt.nm_material AS nome_material, 
           NULL AS nome_produto, 
           me.vl_saldoatual AS saldo_atual_entrada, 
@@ -173,7 +239,7 @@ class Usuarios
           UNION ALL
 
           SELECT 
-          us.vl_ecosaldo, 
+          us.vl_ecosaldo, us.nm_usuario,
           NULL AS nome_material, 
           pd.nm_produto AS nome_produto, 
           NULL AS saldo_atual_entrada, 
@@ -191,7 +257,8 @@ class Usuarios
           us.nu_cpf = :cpf
 
           ORDER BY
-          dt_criadoem;', array
+          dt_criadoem DESC;
+          ', array
           (
           ':cpf' => $cpf
           )

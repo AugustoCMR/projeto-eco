@@ -67,5 +67,9 @@ class Database extends PDO
     $stmt->execute();
     return $stmt;
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> augusto
 }
 

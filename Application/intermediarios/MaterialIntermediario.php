@@ -28,8 +28,9 @@ class MaterialIntermediario
    * @param $erroCampo recebe todos os campos do material
    * @param $nome nome do material
    * @param $eco valor do material em Eco
+   * @param $nomeEdicao variável para verificar edição de cadastro
    */
-    public function validadorMaterial($erroCampo = null, $nome = null, $eco = null)
+    public function validadorMaterial($erroCampo = null, $nome = null, $eco = null, $nomeEdicao = null)
     {
 
         if(!empty($erroCampo))
@@ -37,15 +38,37 @@ class MaterialIntermediario
             return $this->erros = $erroCampo;
         }
         
-        $this->validaFormularioMaterial($nome, $eco);
+        $this->validaFormularioMaterial($nome, $eco, $nomeEdicao);
 
         return $this->erros;
     }
+
+    /**
+   * Método para validar o material á ser deletado
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $id id do material
+   */
+  public function validaDeletarMaterial($id)
+  {
+    $conn = new Database();
+    $query = $conn->executarQuery('SELECT * FROM material_entregue WHERE id_material = :id', array(
+        ':id' => $id
+    ));
+    $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+
+    if(!empty($resultado))
+    {
+        $this->erros['registros'] = "Não é possível deletar, material possuí registros";
+        return $this->erros;
+    }
+  }
 
     public function validaNomeResiduo($nome)
     {
         try 
         {
+      
 
                 $conn = new Database();
                 $buscaNome = $conn->executarQuery('SELECT * FROM residuo WHERE nm_residuo = :nome', array(
@@ -71,7 +94,7 @@ class MaterialIntermediario
      * @param $nome nome do material
      * @param $eco valor do eco 
      */
-    public function validaFormularioMaterial($nome, $eco)
+    public function validaFormularioMaterial($nome, $eco, $nomeEdicao)
     {
         try 
         {
@@ -82,6 +105,11 @@ class MaterialIntermediario
                 ));
 
                 $resultado = $buscaNome->fetchAll(PDO::FETCH_ASSOC);
+
+                if($nome === $nomeEdicao)
+                {
+                    return;
+                }
 
                 if(!empty($resultado))
                 {

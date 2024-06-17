@@ -14,10 +14,13 @@
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
+
+       
         
         <form method="POST" action="../usuario/consultarMateriaisEntregues" class="mt-5">
 
             <div class="mb-3">
+             
                 <label class="font-weight-bold">Consulta:</label>
                 <input type="text" name="cpf"    
                 value="<?= isset($dados['cpf']) ? $dados['cpf'] : '' ?>" class="form-control" placeholder="Digite o CPF"> 
@@ -26,7 +29,16 @@
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary font-weight-bold" name="consultarMateriaisEntregues">Consultar</button>
         </div>
-
+        <?php
+        if(isset($_POST['consultarMateriaisEntregues']))
+        { ?>
+          <div class="alert alert-primary font-weight-bold" role="alert">
+          Usuário:
+          <?=isset($dados['usuario'][0]['nm_usuario']) ? ucfirst($dados['usuario'][0]['nm_usuario']) : 'Usuário não encontrado'?>
+          </div> 
+      <?php  }  ?>
+        
+      
         </form>
 
         <table class="table">
@@ -55,6 +67,5 @@
         
       </div>
     </div>
-    <iframe width="1" height="50" frameborder="0"></iframe>
   </div>
 </main>
