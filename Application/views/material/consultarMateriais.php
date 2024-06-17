@@ -36,8 +36,8 @@
               <td><?= $material['vl_eco'] ?></td>
               <td><?= ucfirst($material['nm_residuo']) ?></td>
               <td>
-                <button class='btn btn-success font-weight-bold' onclick="window.location.href='/projeto-eco/public/material/editarMaterial/<?=$material['id_material']?>'">Editar</button>
-                <button class='btn btn-danger font-weight-bold delete-button' id="deletar" onclick="confirmarExclusao(<?=$material['id_material']?>)" >
+                <button class='btn btn-success font-weight-bold mb-3' onclick="window.location.href='/projeto-eco/public/material/editarMaterial/<?=$material['id_material']?>'">Editar</button>
+                <button class='btn btn-danger font-weight-bold delete-button mb-3' id="deletar" onclick="confirmarExclusao(<?=$material['id_material']?>)" >
                   Deletar
                 </button>
               </td>
