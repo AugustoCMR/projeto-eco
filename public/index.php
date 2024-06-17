@@ -77,10 +77,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 
     <footer>
+        <a href="https://github.com/AfonsoFerroNunes"><i class="fab fa-github" style="color: #ffffff;"></i></a>
         <p>AfonsoFerroNunes</p>
-        <a href="https://github.com/AfonsoFerroNunes" target="_blank"><i class="fab fa-github" style="color: #ffffff;"></i></a>
+        <a href="https://github.com/AugustoCMR"><i class="fab fa-github" style="color: #ffffff;"></i></a>
         <p>AugustoCMR</p>
-        <a href="https://github.com/AugustoCMR" target="_blank"><i class="fab fa-github" style="color: #ffffff;"></i></a>
 </footer>
     
     </body>
