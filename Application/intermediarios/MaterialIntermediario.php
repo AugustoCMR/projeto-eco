@@ -3,6 +3,7 @@
 namespace Application\intermediarios;
 
 use Application\core\Database;
+use Exception;
 use PDO;
 
 class MaterialIntermediario
