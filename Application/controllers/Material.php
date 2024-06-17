@@ -103,6 +103,9 @@ class Material extends Controller
                 $unidadeMedida = $_POST['nm_unidademedida'];
                 $idResiduo = $_POST['idResiduo'];
 
+                $eco = str_replace(',', '.', $eco);
+                $eco = preg_replace('/\.(?=.*\.)/', '', $eco);
+
                 $camposObrigatorios = validarCamposObrigatorios([
                     'Material' => $nome,
                     'Eco Points' => $eco,
@@ -157,6 +160,9 @@ class Material extends Controller
             $eco = $_POST['vl_eco'];
             $unidadeMedida = $_POST['nm_unidademedida'];
             $idResiduo = $_POST['idResiduo'];
+
+            $eco = str_replace(',', '.', $eco);
+            $eco = preg_replace('/\.(?=.*\.)/', '', $eco);
 
             $camposObrigatorios = validarCamposObrigatorios([
                 'Material' => $nome,

@@ -32,7 +32,7 @@
 
             <div class="mb-3">
                 <label class="font-weight-bold" >Eco Points</label>
-                <input type="text" name="vl_eco" class="form-control">
+                <input type="text" name="vl_eco" class="form-control" oninput="formatarValor(this)">
             </div>
 
             <div class="mb-3">
@@ -64,3 +64,19 @@
     </div>
   </div>
 </main>
+
+<script>
+function formatarValor(input) {
+   
+    let valor = input.value.replace(/\D/g, '');
+
+    if (valor.length > 0) {
+     
+        valor = (parseFloat(valor) / 100).toFixed(2).replace('.', ',');
+
+        input.value = valor;
+    } else {
+        input.value = '';
+    }
+}
+</script>
