@@ -183,7 +183,13 @@ class ProdutoIntermediario
             echo("Algo deu errado, por favor, tente novamente.");
         }
     }
-
+    /**
+     * Metodo para validar inputs do tipo number
+     * @author Augusto Ribeiro
+     * @created 13/06/2024
+     * @param $valor Valor input
+     * @param $quantidade Quantidade input
+     */
     public function validaFormularioTiposNumber($valor = Null, $quantidade = Null)
     {
         try
@@ -207,7 +213,13 @@ class ProdutoIntermediario
             echo("Algo deu errado, por favor, tente novamente.");
         }
     }
-
+/**
+   * Metodo para verificar o saldo do usuário
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $saldo Saldo do usuário
+   * @param $valorFinal Valor total da transação de saida do produto
+   */
     public function verificaSaldo($saldo, $valorFinal)
     {
         if($valorFinal > $saldo) {
