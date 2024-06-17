@@ -51,7 +51,7 @@
               <td id="real_valor"><?= 'R$ ' . (isset ($dados['quantidade']) ? ($produto['vl_eco'] / $dados['cotacao_eco']) * $dados['quantidade'] : $produto['vl_eco'] / $dados['cotacao_eco']); ?></td>
               <td>
                 <button class='btn btn-success font-weight-bold mb-3' onclick="window.location.href='/projeto-eco/public/produto/editar/<?=$produto['id_produto']?>'">Editar</button>
-                <button class='btn btn-danger font-weight-bold delete-button' id="deletar" onclick="confirmarExclusao(<?=$produto['id_produto']?>)">Deletar</button>
+                <button class='btn btn-danger font-weight-bold delete-button mb-3' id="deletar" onclick="confirmarExclusao(<?=$produto['id_produto']?>)">Deletar</button>
               </td>
             </tr>
             <?php } ?>
