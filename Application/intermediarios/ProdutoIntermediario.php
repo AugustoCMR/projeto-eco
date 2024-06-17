@@ -4,6 +4,7 @@ namespace Application\intermediarios;
 
 use Application\core\Database;
 use Application\models\Eco;
+use Exception;
 use PDO;
 
 require __DIR__ . '\\../utils/validaCamposTipoNumero.php';
@@ -47,11 +48,11 @@ class ProdutoIntermediario
   {
    
     $conn = new Database();
-    $buscarRegistros = $conn->executarQuery('SELECT * FROM produto_retirado WHERE id_produto = :id', array(
+    $buscarRegistrosEntrada = $conn->executarQuery('SELECT * FROM produto_entregue WHERE id_produto = :id', array(
         ':id' => $id
     ));
 
-    $resultado = $buscarRegistros->fetchAll(PDO::FETCH_ASSOC);
+    $resultado = $buscarRegistrosEntrada->fetchAll(PDO::FETCH_ASSOC);
 
     if(!empty($resultado))
     {
