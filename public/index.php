@@ -57,8 +57,11 @@
                             </div>
                         </div>
                     </div>
+                    <div class="alert alert-primary text-center font-weight-bold mt-3 " role="alert">
+                            Cotação atual: €
+                         </div>
                 </div>
-            <h1 class="navbar-title text-light text-center mx-auto titulo">Planeta Eco</h1>
+            <h1 class="navbar-title text-light titulo">Planeta Eco</h1>
         </nav>
     </header>
 
