@@ -19,20 +19,11 @@ main .img-container img {
 
 
 footer {
-<<<<<<< HEAD
-  margin-top: 40px; 
-  margin-bottom: 0;
-  width: 100%;
-  height: 80px;
-  padding: 30px;
-  background-color: #007bff;
-=======
   display: flex;
   margin-top: 35em;
   justify-content: center;
   align-items: center;
   gap: 20px; 
->>>>>>> augusto
   color: white;
   background-color: #007bff;
   padding: 0;
@@ -41,9 +32,6 @@ footer {
 .footer-container {
   display: flex;
   justify-content: center;
-<<<<<<< HEAD
-  gap: 10px;
-=======
   align-items: center;
   gap: 20px; 
   padding: 20px 0;
@@ -63,7 +51,6 @@ footer {
 .footer-item p {
   margin: 0;
   padding-top: 5px;
->>>>>>> augusto
 }
 
 .imagem-redimensionada {

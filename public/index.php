@@ -24,7 +24,7 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <div class="dropdown mr-2">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-primary dropdown-toggle mt-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Usuário
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -36,7 +36,7 @@
                     </div>
 
                     <div class="dropdown mr-2">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-primary dropdown-toggle mt-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Material
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="dropdown mr-2">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-primary dropdown-toggle mt-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Produto
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -58,16 +58,12 @@
                             <a class="nav-item nav-link text-nowrap font-weight-bold" href="/projeto-eco/public/produto/consultarProdutos">Consultar produtos e Cotação</a>
                         </div>
                     </div>
-                    <div class="alert alert-primary text-center font-weight-bold mt-3 " role="alert">
+                    <div class="alert alert-primary text-center font-weight-bold mt-2 " role="alert">
                             Cotação atual: €
                          </div>
                 </div>
-<<<<<<< HEAD
-            <h1 class="navbar-title text-light titulo">Planeta Eco</h1>
-=======
             </div>
             <h1 class="navbar-title text-light mx-auto titulo">Planeta Eco</h1>
->>>>>>> augusto
         </nav>
 
         </header>
@@ -75,15 +71,6 @@
         <?php
         require '../Application/autoload.php';
 
-<<<<<<< HEAD
-    <footer>
-        <a href="https://github.com/AfonsoFerroNunes"><i class="fab fa-github" style="color: #ffffff;"></i></a>
-        <p>AfonsoFerroNunes</p>
-        <a href="https://github.com/AugustoCMR"><i class="fab fa-github" style="color: #ffffff;"></i></a>
-        <p>AugustoCMR</p>
-</footer>
-    
-=======
         use Application\core\App;
         use Application\core\Controller;
 
@@ -108,7 +95,6 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
->>>>>>> augusto
     </body>
 
 </html>
