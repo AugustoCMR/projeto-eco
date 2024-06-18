@@ -62,6 +62,16 @@
                             Cotação atual: €
                          </div>
                 </div>
+                <?php 
+                    require '../Application/autoload.php';
+                    use Application\models\Eco;
+
+                    $eco = Eco::$eco;
+                    $real = Eco::$real;
+                ?>
+                    <div class="alert alert-primary text-center font-weight-bold mt-3" role="alert">
+                            Cotação atual: € <?=$eco?> equivale a R$ <?= $real?> 
+                    </div>    
             </div>
             <h1 class="navbar-title text-light mx-auto titulo">Planeta Eco</h1>
         </nav>
@@ -69,7 +79,7 @@
         </header>
 
         <?php
-        require '../Application/autoload.php';
+        // require '../Application/autoload.php';
 
         use Application\core\App;
         use Application\core\Controller;

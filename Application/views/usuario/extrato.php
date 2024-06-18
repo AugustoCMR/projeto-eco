@@ -19,7 +19,7 @@
 
             <div class="mb-3">
                 <label class="font-weight-bold">Consulta:</label>
-                <input type="text" name="cpf"    
+                <input type="number" name="cpf"    
                 value="<?= isset($dados['cpf']) ? $dados['cpf'] : '' ?>" class="form-control" placeholder="Digite o CPF"> 
             </div>
 

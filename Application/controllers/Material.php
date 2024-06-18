@@ -64,9 +64,6 @@ class Material extends Controller
             {
                 return $this->view('home/index');
 
-            } else if(!empty($_POST['listar']) && isset($_POST['listar']))
-            {
-                return $this->view('home/index');
             } else if(!empty($_POST['cadastrar']) && isset($_POST['cadastrar']))
             {
                 return $this->view('material/cadastrarResiduo');
@@ -102,6 +99,9 @@ class Material extends Controller
                 $eco = $_POST['vl_eco'];
                 $unidadeMedida = $_POST['nm_unidademedida'];
                 $idResiduo = $_POST['idResiduo'];
+
+                $eco = str_replace(',', '.', $eco);
+                $eco = preg_replace('/\.(?=.*\.)/', '', $eco);
 
                 $camposObrigatorios = validarCamposObrigatorios([
                     'Material' => $nome,
@@ -157,6 +157,9 @@ class Material extends Controller
             $eco = $_POST['vl_eco'];
             $unidadeMedida = $_POST['nm_unidademedida'];
             $idResiduo = $_POST['idResiduo'];
+
+            $eco = str_replace(',', '.', $eco);
+            $eco = preg_replace('/\.(?=.*\.)/', '', $eco);
 
             $camposObrigatorios = validarCamposObrigatorios([
                 'Material' => $nome,

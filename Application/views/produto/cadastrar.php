@@ -23,12 +23,12 @@
         </div>
         <div class="mb-3">
                 <label class="font-weight-bold">Eco Points(Valor Unitário)</label>
-                <input type="number" name="vl_eco" class="form-control">
+                <input type="text" name="vl_eco" class="form-control" oninput="formatarValor(this)">
         </div>
 
         <div class="mb-3">
                 <button type="submit" class= "btn btn-primary font-weight-bold" name="cadastrarProduto" value="cadastrar-categoria">Enviar</button>
-        </div>
+        </div>  
 
         </form>
         
@@ -36,3 +36,16 @@
     </div>
   </div>
 </main>
+
+<script>
+function formatarValor(input) {
+   
+    let valor = input.value.replace(/\D/g, '');
+
+    valor = valor.replace(/(\d+)(\d{2})$/, "$1,$2");
+
+    valor = valor.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
+
+    input.value = valor;
+}
+</script>

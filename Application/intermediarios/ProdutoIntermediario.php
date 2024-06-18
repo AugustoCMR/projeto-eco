@@ -4,6 +4,7 @@ namespace Application\intermediarios;
 
 use Application\core\Database;
 use Application\models\Eco;
+use Exception;
 use PDO;
 
 require __DIR__ . '\\../utils/validaCamposTipoNumero.php';
@@ -47,11 +48,11 @@ class ProdutoIntermediario
   {
    
     $conn = new Database();
-    $buscarRegistros = $conn->executarQuery('SELECT * FROM produto_retirado WHERE id_produto = :id', array(
+    $buscarRegistrosEntrada = $conn->executarQuery('SELECT * FROM produto_entregue WHERE id_produto = :id', array(
         ':id' => $id
     ));
 
-    $resultado = $buscarRegistros->fetchAll(PDO::FETCH_ASSOC);
+    $resultado = $buscarRegistrosEntrada->fetchAll(PDO::FETCH_ASSOC);
 
     if(!empty($resultado))
     {
@@ -183,7 +184,13 @@ class ProdutoIntermediario
             echo("Algo deu errado, por favor, tente novamente.");
         }
     }
-
+    /**
+     * Metodo para validar inputs do tipo number
+     * @author Augusto Ribeiro
+     * @created 13/06/2024
+     * @param $valor Valor input
+     * @param $quantidade Quantidade input
+     */
     public function validaFormularioTiposNumber($valor = Null, $quantidade = Null)
     {
         try
@@ -207,7 +214,13 @@ class ProdutoIntermediario
             echo("Algo deu errado, por favor, tente novamente.");
         }
     }
-
+/**
+   * Metodo para verificar o saldo do usuário
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $saldo Saldo do usuário
+   * @param $valorFinal Valor total da transação de saida do produto
+   */
     public function verificaSaldo($saldo, $valorFinal)
     {
         if($valorFinal > $saldo) {

@@ -12,10 +12,6 @@
                                 Voltar ao início
                             </button>
 
-                            <button  name= "listar" value="listar" class="btn btn-primary mr-3">
-                                Lista de resíduos
-                            </button>
-
                             <button class="btn btn-primary" name="cadastrar" value="cadastrar">
                                 Cadastrar novo Resíduo
                             </button>

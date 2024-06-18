@@ -30,7 +30,7 @@
 
               <div class="mb-3">
                 <label class="font-weight-bold">CPF</label>
-                <input type="text" name="nu_cpf"
+                <input type="number" name="nu_cpf"
                 value="<?= isset($dados['nu_cpf']) ? $dados['nu_cpf'] : '' ?>" class="form-control" placeholder="Digite apenas números">
               </div>
 
@@ -57,7 +57,7 @@
 
               <div class="mb-3">
                 <label class="font-weight-bold">CEP</label>
-                <input type="text" name="nu_cep"
+                <input type="number" name="nu_cep"
                 value="<?= isset($dados['nu_cep']) ? $dados['nu_cep'] : '' ?>" class="form-control" placeholder="Digite apenas números">
               </div>
 
