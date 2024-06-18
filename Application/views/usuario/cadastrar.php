@@ -19,7 +19,7 @@
               <div class="mb-3">
                 <label class="font-weight-bold">Nome</label>
                 <input type="text" name="nm_usuario"    
-                value="<?= isset($dados['nm_nome']) ? $dados['nm_nome'] : '' ?>" class="form-control" placeholder="Nome">
+                value="<?= isset($dados['nm_usuario']) ? $dados['nm_usuario'] : '' ?>" class="form-control" placeholder="Nome">
               </div>
 
               <div class="mb-3">

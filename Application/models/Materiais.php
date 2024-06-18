@@ -21,6 +21,22 @@ class Materiais
         ));
     }
 
+    /**
+   * Método para editar Resíduo
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $id id do residuo
+   */
+
+   public static function editarResiduo($id, $nome)
+   {
+    $conn = new Database();
+    $conn->executarQuery('UPDATE residuo SET nm_residuo = :residuo WHERE id_residuo = :id', array(
+        ':residuo' => $nome,
+        ':id' => $id
+    ));
+   }
+
    /**
    * Método para cadastrar material
    * @author Augusto Ribeiro
@@ -91,6 +107,21 @@ class Materiais
         return $buscarResiduos->fetchAll(PDO::FETCH_ASSOC);
     }
 
+     /**
+   * Método para buscar um Resíduo no Banco
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $id id do Residuo
+   */
+    public static function buscarResiduo($idResiduo)
+    {
+        $conn = new Database();
+        $buscarResiduo = $conn->executarQuery('SELECT * FROM residuo WHERE id_residuo = :id', array(
+            ':id' => $idResiduo
+        ));
+    
+        return $buscarResiduo->fetchAll(PDO::FETCH_ASSOC);
+    }
     
       /**
    * Método para buscar materiais cadastrados

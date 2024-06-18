@@ -52,6 +52,82 @@ class Material extends Controller
     }
 
      /**
+   * Método para consultar resíduos
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
+    public function consultarResiduos()
+    {
+        try {
+            $residuoModel = $this->model('Materiais');
+            $residuos = $residuoModel::buscarResiduos();
+
+            return $this->view('material/consultarResiduos', [
+                'residuos' => $residuos
+            ]);
+
+        } catch (Exception $e) 
+        {
+            echo "Ocorreu um erro";
+            echo  $e;
+        }
+        
+    }
+
+    
+     /**
+   * Método para editar residuo
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
+    public function editarResiduo($id = null)
+    {
+        try {
+            
+            $residuoModel = $this->model('Materiais');
+            $residuo = $residuoModel::buscarResiduo($id);
+
+            if(isset($_POST['editarResiduo']))
+            {
+            
+                $intermediario = new MaterialIntermediario;
+                $id = $_POST['editarResiduo'];
+                $residuo = $residuoModel::buscarResiduo($id);
+
+                $nm_residuo = strtolower($_POST['nm_residuo']);
+
+                $camposObrigatorios = validarCamposObrigatorios([
+                    'Resíduo' => $nm_residuo
+                ]);   
+
+                $validador = $intermediario->validadorResiduo($camposObrigatorios, strtolower($residuo[0]['nm_residuo']), $nm_residuo);
+
+                if(!empty($validador))
+                {
+                    return $this->view('material/editarResiduo', [
+                        'erros' => $validador,
+                        'residuo' => $residuo
+                    ]);
+                }
+
+                $residuoModel::editarResiduo($id, $nm_residuo);
+
+                return $this->view('material/editarResiduoSuccesso');
+            } else
+            {
+                
+                return $this->view('material/editarResiduo', [
+                    'residuo' => $residuo
+                ]);
+            }
+        } catch (Exception $e) 
+        {
+            echo "Ocorreu um erro";
+            echo $e;
+        }
+    }
+
+     /**
    * Método para encaminhar o usuário para a view escolhida
    * @author Augusto Ribeiro
    * @created 13/06/2024

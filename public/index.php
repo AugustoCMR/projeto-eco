@@ -43,7 +43,8 @@
                             <a class="nav-item nav-link font-weight-bold" href="/projeto-eco/public/material/cadastrarResiduo">Cadastrar Tipo de Resíduo</a>
                             <a class="nav-item nav-link font-weight-bold" href="/projeto-eco/public/material/cadastrarMaterial">Cadastrar Material</a>
                             <a class="nav-item nav-link font-weight-bold" href="/projeto-eco/public/material/cadastrarMaterialRecebido">Cadastrar Recebimento de Material</a>
-                            <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/material/consultarMateriais">Consultar Materiais</a>
+                            <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/material/consultarResiduos">Consultar Resíduos</a>
+                            <a class="nav-item nav-link font-weight-bold text-nowrap" href="/projeto-eco/public/material/consultarMateriais">Consultar Materiais</a>  
                         </div>
                     </div>
 

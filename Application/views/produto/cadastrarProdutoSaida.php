@@ -39,7 +39,7 @@
 
             <label class="font-weight-bold">Valor do Produto(€)</label>
             <div class="mb-3">
-            <input type="text" name="vl_eco"
+            <input type="text" name="vl_ecoProduto"
             value="<?= isset($dados['eco_valor']) ? $dados['eco_valor'] : '' ?>" class="form-control" placeholder="Valor do Produto" id="valorUnitario" oninput="atualizaValorFinal()" readonly>
             </div>
 
@@ -78,7 +78,7 @@
 
             <label class="font-weight-bold">Valor final do Produto(€)</label>
             <div class="mb-3">
-            <input type="text" id="valorFinal" name="vl_eco"
+            <input type="text" id="valorFinal" name="vl_ecoTotal"
             value="<?= isset($dados['eco_valor']) ? $dados['eco_valor'] : '' ?>" class="form-control" placeholder="Valor Final" oninput="atualizarSaldoUsuario_valorFinal()" readonly>
             </div>
 
@@ -106,7 +106,7 @@
     document.getElementById('quantidade_linha').innerText = 
     quantidade || 'Sem estoque';
     document.getElementById('quantidade').value='';
-
+    
     const quantidadeInput = document.getElementById('quantidade');
     quantidadeInput.max = quantidade || 0;
 

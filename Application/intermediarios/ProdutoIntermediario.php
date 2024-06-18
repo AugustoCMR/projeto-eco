@@ -4,6 +4,8 @@ namespace Application\intermediarios;
 
 use Application\core\Database;
 use Application\models\Eco;
+use Application\models\Usuarios;
+use Application\models\Produtos;
 use Exception;
 use PDO;
 
@@ -110,7 +112,7 @@ class ProdutoIntermediario
    * @param $valorFinal valor final da transação
    * @param $quantidade quantidade do produto retirado
    */
-    public function validaOperacaoSaida($errosCampo, $saldo, $valorFinal, $quantidade)
+    public function validaOperacaoSaida($errosCampo, $saldo, $valorFinal, $valorProduto, $quantidade, $idUsuario, $idProduto)
     {
         if(!empty($errosCampo))
         {
@@ -118,14 +120,18 @@ class ProdutoIntermediario
         }
 
         $camposTipoNumero = validarTipoNumero([
-            'Quantidade' => $quantidade
+            'Quantidade' => $quantidade,
+            'Valor do Produto' => $valorProduto,
+            'Valor final do Produto' => $valorFinal,
+            'Saldo' => $saldo
         ]);
 
         if(!empty($camposTipoNumero)) {
             $this->erros = $camposTipoNumero;
          }
 
-        $this->verificaSaldo($saldo, $valorFinal);
+        $this->consultaQuantidadeProduto($idProduto, $quantidade);
+        $this->verificaSaldo($idUsuario, $valorFinal);
 
         return $this->erros;
     }
@@ -221,10 +227,32 @@ class ProdutoIntermediario
    * @param $saldo Saldo do usuário
    * @param $valorFinal Valor total da transação de saida do produto
    */
-    public function verificaSaldo($saldo, $valorFinal)
+    public function verificaSaldo($idUsuario, $valorFinal)
+    {   
+        $saldo = Usuarios::consultarSaldo($idUsuario);
+
+        if($valorFinal > $saldo[0]['vl_ecosaldo']) {
+    
+            $this->erros["saldoInsuficiente"] = "Saldo Insuficiente para esta operação";
+           return $this->erros;
+        } 
+    }
+
+    /**
+   * Metodo para verificar a quantidade do produto
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $idProduto id do produto
+   * @param $quantidadeDigitada quantidade digitada no formulário
+   */
+    public function consultaQuantidadeProduto($idProduto, $quantidadeDigitada)
     {
-        if($valorFinal > $saldo) {
-           return $this->erros['saldoInvalido'] = "Saldo insuficiente";
+        $produto = Produtos::consultarProduto($idProduto);
+        $quantidade = $produto[0]['qt_produto'];
+
+        if($quantidade < $quantidadeDigitada)
+        {
+            $this->erros['quantidadeInsuficiente'] = "Quantidade Insuficiente para esta operação";
         }
     }
 }

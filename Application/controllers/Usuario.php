@@ -8,13 +8,6 @@ require __DIR__ . '\\../utils/validaCamposObrigatorios.php';
 
 class Usuario extends Controller
 {
-  
-//   public function index()
-//   {
-//     $Users = $this->model('Users'); 
-//     $data = $Users::findAll();
-//     $this->view('User/index', ['usuario' => $data]);
-//   }
 
    /**
    * Método para cadastrar Usuário
@@ -58,16 +51,16 @@ class Usuario extends Controller
          {
 
             return $this->view('usuario/cadastrar', ['erros' => $erros,
-            'nome' => $nome,
-            'email' => $email,
-            'cpf' => $cpf,
-            'pais' => $pais,
-            'estado' => $estado,
-            'cidade' => $cidade,
-            'cep' => $cep,
-            'rua' => $rua,
-            'bairro' => $bairro,
-            'numero' => $numero     
+            'nm_usuario' => $nome,
+            'nm_email' => $email,
+            'nu_cpf' => $cpf,
+            'nm_pais' => $pais,
+            'nm_estado' => $estado,
+            'nm_cidade' => $cidade,
+            'nu_cep' => $cep,
+            'nm_rua' => $rua,
+            'nm_bairro' => $bairro,
+            'nm_numero' => $numero     
             ]);
          }
 

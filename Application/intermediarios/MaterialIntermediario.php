@@ -10,14 +10,22 @@ class MaterialIntermediario
 {
     public $erros = [];
 
-    public function validadorResiduo($erroCampo, $nome)
+     /**
+   * Método para validar os dados do resíduo
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $erroCampo recebe todos os campos do resíduo
+   * @param $nome nome do resíduo
+   * @param $nomeEditado variável para verificar edição de resíduo
+   */
+    public function validadorResiduo($erroCampo = null, $nome = null, $nomeEditado = null)
     {
         if(!empty($erroCampo))
         {
             return $this->erros = $erroCampo;
         }
 
-        $this->validaNomeResiduo($nome);
+        $this->validaNomeResiduo($nome, $nomeEditado);
 
         return $this->erros;
     }
@@ -70,7 +78,7 @@ class MaterialIntermediario
    * @created 13/06/2024
    * @param $nome Nome do Residuo
    */
-    public function validaNomeResiduo($nome)
+    public function validaNomeResiduo($nome, $nomeEditado)
     {
         try 
         {
@@ -82,6 +90,14 @@ class MaterialIntermediario
                 ));
 
                 $resultado = $buscaNome->fetchAll(PDO::FETCH_ASSOC);
+
+                var_dump($nome);
+                var_dump($nomeEditado);
+                var_dump($resultado);
+                if($nome === $nomeEditado)
+                {
+                    return;
+                }
 
                 if(!empty($resultado))
                 {
