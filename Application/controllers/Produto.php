@@ -244,6 +244,8 @@ class Produto extends Controller
             
             $produtoModel = $this->model('Produtos');
             $produtos = $produtoModel::consultarProdutos();
+            $cotacao_real = Eco::$real;
+            $cotacao_eco = Eco::$eco;
     
             if(isset($_POST['cadastrarProdutoEntregue']))
             {   
@@ -252,7 +254,8 @@ class Produto extends Controller
                 $quantidade = $_POST['qt_produtoentregue'];
                 $valor_total = $_POST['vl_real'];
                 $idProduto = $_POST['idProduto'];
-                $valor_unitario = $_POST['vl_unitario'];
+                $formataValor = explode(" ", $_POST['vl_unitario']);
+                $valor_unitario = isset($formataValor[1]) ? (float)$formataValor[1] : '';
             
                 $camposObrigatorios = validarCamposObrigatorios([
                     'Produto' => $idProduto,
@@ -267,7 +270,10 @@ class Produto extends Controller
                 {
         
                     return $this->view('produto/cadastrarProdutoEntrada', ['erros' => $validaCampos,
-                    'produtos' => $produtos
+                    'produtos' => $produtos,
+                    'cotacao_real' => $cotacao_real,
+                    'cotacao_eco' =>
+                    $cotacao_eco
                     ]);
                 }
 
@@ -280,7 +286,10 @@ class Produto extends Controller
             } else 
             {
                 return $this->view('produto/cadastrarProdutoEntrada', [
-                    'produtos' => $produtos
+                    'produtos' => $produtos,
+                    'cotacao_real' => $cotacao_real,
+                    'cotacao_eco' =>
+                    $cotacao_eco
                 ]);
             }
 
