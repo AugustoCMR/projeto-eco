@@ -22,8 +22,9 @@
                 <input type="text" name="nm_residuo" class="form-control" value="<?= ucfirst($residuo['nm_residuo']) ?>">
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3 d-flex justify-content-between flex-row-reverse">
                 <button type="submit" class= "btn btn-primary font-weight-bold" name="editarResiduo" value="<?= $residuo['id_residuo'] ?>">Editar</button>
+                <button type="button" class="btn btn-primary font-weight-bold" onclick="window.location.href='/projeto-eco/public/material/consultarResiduos'">Retornar</button>
             </div>
         </form>        
         

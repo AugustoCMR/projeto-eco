@@ -31,7 +31,7 @@
               <td><?= ucfirst($residuo['nm_residuo']) ?></td>
               <td>
                 <button class='btn btn-success font-weight-bold mb-3' onclick="window.location.href='/projeto-eco/public/material/editarResiduo/<?=$residuo['id_residuo']?>'">Editar</button>
-                <button class='btn btn-danger font-weight-bold delete-button mb-3' id="deletar" onclick="confirmarExclusao(<?=$material['id_material']?>)" >
+                <button class='btn btn-danger font-weight-bold delete-button mb-3' id="deletar" onclick="confirmarExclusao(<?=$residuo['id_residuo']?>)" >
                   Deletar
                 </button>
               </td>
@@ -46,9 +46,9 @@
 </main>
 
 <script>
-function confirmarExclusao(idMaterial) {
+function confirmarExclusao(idResiduo) {
   if (confirm('Tem certeza que deseja excluir?')) {
-    location.href = '/projeto-eco/public/material/deletarMaterial/' + idMaterial;
+    location.href = '/projeto-eco/public/material/deletarResiduo/' + idResiduo;
   } else {
 
     return false;

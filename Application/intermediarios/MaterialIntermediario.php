@@ -18,14 +18,27 @@ class MaterialIntermediario
    * @param $nome nome do resíduo
    * @param $nomeEditado variável para verificar edição de resíduo
    */
-    public function validadorResiduo($erroCampo = null, $nome = null, $nomeEditado = null)
+    public function validadorResiduo($erroCampo = null, $nome = null)
     {
         if(!empty($erroCampo))
         {
             return $this->erros = $erroCampo;
         }
 
-        $this->validaNomeResiduo($nome, $nomeEditado);
+        $this->validaNomeResiduo($nome);
+
+        return $this->erros;
+    }
+
+    public function validadorResiduoEditar($erroCampo, $nome, $nomeEditado)
+    {
+        if(!empty($erroCampo))
+        {
+            return $this->erros =
+            $erroCampo;
+        }
+
+        $this->validaNomeResiduoEditar($nome, $nomeEditado);
 
         return $this->erros;
     }
@@ -72,32 +85,45 @@ class MaterialIntermediario
         return $this->erros;
     }
   }
+
+      /**
+   * Método para validar o residuo á ser deletado
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $id id do residuo
+   */
+  public function validaDeletarResiduo($id)
+  {
+    $conn = new Database();
+    $query = $conn->executarQuery('SELECT * FROM material WHERE id_residuo = :id', array(
+        ':id' => $id
+    ));
+    $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+
+    if(!empty($resultado))
+    {
+        $this->erros['registros'] = "Não é possível deletar, resíduo possuí registros";
+        return $this->erros;
+    }
+  }  
+
 /**
    * Metodo para validar o nome do residuo
    * @author Augusto Ribeiro
    * @created 13/06/2024
    * @param $nome Nome do Residuo
    */
-    public function validaNomeResiduo($nome, $nomeEditado)
+    public function validaNomeResiduo($nome)
     {
         try 
-        {
-      
-
+        {   
+            
                 $conn = new Database();
                 $buscaNome = $conn->executarQuery('SELECT * FROM residuo WHERE nm_residuo = :nome', array(
                     ':nome' => $nome
                 ));
 
                 $resultado = $buscaNome->fetchAll(PDO::FETCH_ASSOC);
-
-                var_dump($nome);
-                var_dump($nomeEditado);
-                var_dump($resultado);
-                if($nome === $nomeEditado)
-                {
-                    return;
-                }
 
                 if(!empty($resultado))
                 {
@@ -148,5 +174,36 @@ class MaterialIntermediario
         }
     }
 
-    
+    /**
+   * Metodo para validar o nome do residuo na edição
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $nome Nome do Residuo
+   * @param $nomeEditado novo nome
+   */
+    public function validaNomeResiduoEditar($nome, $nomeEditado)
+    {
+        try 
+        {
+          
+                if($nome === $nomeEditado)
+                {                           return;
+                }
+               
+                $conn = new Database();
+                $buscaNome = $conn->executarQuery('SELECT * FROM residuo WHERE nm_residuo = :nome', array(
+                    ':nome' => $nomeEditado
+                ));
+
+                $resultado = $buscaNome->fetchAll(PDO::FETCH_ASSOC);
+
+                if(!empty($resultado))
+                {
+                    $this->erros['nomeResiduo'] = 'O Resíduo informado já existe.';
+                }
+            
+        } catch (Exception $e) {
+            echo("Algo deu errado, por favor, tente novamente.");
+        }
+    }
 }

@@ -38,6 +38,20 @@ class Materiais
    }
 
    /**
+   * Método para deletar Resíduo
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $id id do residuo
+   */
+  public static function deletarResiduo($id)
+  {
+    $conn = new Database();
+    $conn->executarQuery('DELETE FROM residuo WHERE id_residuo = :id', array(
+        ':id' => $id
+    ));
+  }
+
+   /**
    * Método para cadastrar material
    * @author Augusto Ribeiro
    * @created 13/06/2024

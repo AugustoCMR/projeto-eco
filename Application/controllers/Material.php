@@ -100,7 +100,7 @@ class Material extends Controller
                     'Resíduo' => $nm_residuo
                 ]);   
 
-                $validador = $intermediario->validadorResiduo($camposObrigatorios, strtolower($residuo[0]['nm_residuo']), $nm_residuo);
+                $validador = $intermediario->validadorResiduoEditar($camposObrigatorios, strtolower($residuo[0]['nm_residuo']), $nm_residuo);
 
                 if(!empty($validador))
                 {
@@ -126,6 +126,43 @@ class Material extends Controller
             echo $e;
         }
     }
+
+      /**
+   * Método para deletar Resíduo
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
+    public function deletarResiduo($id = null)
+    {
+        try 
+        {
+
+            $intermediario = new MaterialIntermediario;
+
+            $residuoModel = $this->model('Materiais');
+            $dados = $residuoModel::buscarResiduos();
+            $erros = $intermediario->validaDeletarResiduo($id);
+
+            if(!empty($erros))
+            {
+                return $this->view('material/consultarResiduos', [
+                'residuos' => $dados,
+                'erros' => $erros
+                ]);
+            }
+
+            $residuoModel::deletarResiduo($id);
+            $dadosAtualizados = $residuoModel::buscarResiduos();
+        
+            return $this->view('material/consultarResiduos', [
+                'residuos' => $dadosAtualizados
+            ]);
+            } catch (Exception $e) 
+        {
+            echo "Ocorreu um erro";
+            echo $e;
+        }
+    } 
 
      /**
    * Método para encaminhar o usuário para a view escolhida
