@@ -34,8 +34,9 @@
                     
                     </select>
             </div>
-
-            <div class="mb-3">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="mb-3">
                 <label class="font-weight-bold">Material</label>
                 <select type="number" name="idMaterial" id="material" class="form-control" onchange="atualizarUnidade()"> 
                     <option value="">Selecione uma opção</option>
@@ -52,12 +53,19 @@
                         } ?> 
                     
                     </select>
+                    </div>
             </div>
 
-            <div class="mb-3">
+            <div class="col-md-5">
+                <div class="mb-3">
                 <label class="font-weight-bold">Quantidade (<span id="unidade_linha"></span>)</label>
                 <input type="number" name="qt_materialentregue" id="quantidade" class="form-control" oninput="atualizarValor()">
+                </div>
             </div>
+            <div class="col-md-2 d-flex align-items-end mb-3">
+                    <button type="button" class="btn btn-primary" onclick="someFunction()">+</button>
+                </div>
+        </div>
 
             <div class="mb-3">
                 <label class="font-weight-bold">Eco Points</label>

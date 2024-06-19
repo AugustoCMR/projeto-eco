@@ -23,7 +23,7 @@
 
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <div class="dropdown mr-2">
+                    <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle mt-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Usuário
                         </button>
@@ -35,7 +35,7 @@
                         </div>
                     </div>
 
-                    <div class="dropdown mr-2">
+                    <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle mt-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Material
                         </button>
@@ -47,7 +47,7 @@
                         </div>
                     </div>
 
-                    <div class="dropdown mr-2">
+                    <div class="dropdown mb-3">
                         <button class="btn btn-primary dropdown-toggle mt-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Produto
                         </button>
@@ -58,9 +58,7 @@
                             <a class="nav-item nav-link text-nowrap font-weight-bold" href="/projeto-eco/public/produto/consultarProdutos">Consultar produtos e Cotação</a>
                         </div>
                     </div>
-                    <div class="alert alert-primary text-center font-weight-bold mt-2 " role="alert">
-                            Cotação atual: €
-                         </div>
+                 
                 </div>
                 <?php 
                     require '../Application/autoload.php';
@@ -69,7 +67,7 @@
                     $eco = Eco::$eco;
                     $real = Eco::$real;
                 ?>
-                    <div class="alert alert-primary text-center font-weight-bold mt-3" role="alert">
+                    <div class="alert alert-primary text-center font-weight-bold mt-3 ml-2" role="alert">
                             Cotação atual: € <?=$eco?> equivale a R$ <?= $real?> 
                     </div>    
             </div>
