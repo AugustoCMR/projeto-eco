@@ -12,6 +12,8 @@
         <?php endif; ?>
 
         <form id="materialForm" class="mt-5" action="/projeto-eco/public/material/cadastrarMaterialRecebido" method="POST">
+    <div class="row">
+        <div class="col-md-5">
             <div class="mb-3">
                 <label class="font-weight-bold">Usuário</label>
                 <select name="idUsuario" id="usuario" class="form-control"> 
@@ -49,7 +51,11 @@
             <div class="mb-3">
                 <button type="button" class="btn btn-secondary font-weight-bold" onclick="adicionarMaterial()">Adicionar</button>
             </div>
-
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary font-weight-bold" name="cadastrarMaterialRecebido">Finalizar Cadastro</button>
+            </div>
+        </div>
+        <div class="col-md-7 tabela-responsiva" style="max-height: 400px; overflow-y:auto;">
             <table class="table mt-5" id="materiaisAdicionados">
                 <thead>
                     <tr>
@@ -63,12 +69,11 @@
                 </thead>
                 <tbody></tbody>
             </table>
+        </div>
 
             <input type="hidden" name="dadosTabela" id="dadosTabela">
 
-            <div class="mb-3">
-                <button type="submit" class="btn btn-primary font-weight-bold" name="cadastrarMaterialRecebido">Finalizar Cadastro</button>
-            </div>
+            
         </form> 
 
       </div>

@@ -49,7 +49,7 @@
 
            
             <div class="col-md-6">
-              <div class="mb-3">
+                <div class="mb-3">
                 <label class="font-weight-bold">Cidade</label>
                 <input type="text" name="nm_cidade"
                 value="<?= isset($dados['nm_cidade']) ? $dados['nm_cidade'] : '' ?>" class="form-control" placeholder="Cidade">
