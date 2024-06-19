@@ -223,6 +223,7 @@ class ProdutoIntermediario
    */
     public function verificaSaldo($idUsuario, $valorFinal)
     {   
+    
         $saldo = Usuarios::consultarSaldo($idUsuario);
 
         if($valorFinal > $saldo[0]['vl_ecosaldo']) {
