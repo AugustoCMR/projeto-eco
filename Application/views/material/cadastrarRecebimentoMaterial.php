@@ -52,9 +52,6 @@
                 <button type="button" class="btn btn-primary font-weight-bold" onclick="adicionarMaterial()">Adicionar</button>
                 <button type="submit" class="btn btn-primary font-weight-bold" name="cadastrarMaterialRecebido">Finalizar Cadastro</button>
             </div>
-            <div class="mb-3">
-                <button type="submit" class="btn btn-primary font-weight-bold" name="cadastrarMaterialRecebido">Finalizar Cadastro</button>
-            </div>
         </div>
         <div class="col-md-7 tabela-responsiva" style="max-height: 400px; overflow-y:auto;">
             <table class="table mt-5" id="materiaisAdicionados">

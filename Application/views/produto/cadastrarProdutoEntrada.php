@@ -1,37 +1,40 @@
 <main>
-  <div class="container">
-    <div class="row">
-      <div class="col-8 offset-2" style="margin-top:99px">
-        <h1 class="display-5 text-center text-primary titulo">Operação de Entrada</h1>
-        
+    <div class="container">
+    	<div class="row">
+        	<div class="col-8 offset-2" style="margin-top:99px">
+        		<h1 class="display 4 text-center text-primary titulo">Operação de Entrada</h1>
+
         <?php if (!empty($dados['erros'])): ?>
-          <div class="alert alert-danger mt-5">
-            <?php foreach ($dados['erros'] as $erro): ?>
-              <p><?php echo $erro; ?></p>
-            <?php endforeach; ?>
-          </div>
+            <div class="alert alert-danger mt-5">
+            	<?php foreach ($dados['erros'] as $erro): ?>
+                	<p><?php echo $erro; ?></p>
+            	<?php endforeach; ?>
+            </div>
         <?php endif; ?>
 
         <form method="POST" action="../produto/cadastrarProdutoEntregue" class="mt-5">
-          <div class="mb-3">
-            <label class="font-weight-bold">Produto</label>
-            <select name="idProduto" id="produto" class="form-control" onchange="atualizaValorUnitario()"> 
-              <option value="">Selecione uma opção</option>
-              <?php if(isset($dados['produtos'])) { 
-                foreach($dados['produtos'] as $produto) { ?>
-                  <option value="<?=$produto['id_produto'] ?>" data-eco="<?= $produto['vl_eco']?>"> <?= $produto['nm_produto'] ?></option> 
-              <?php } } ?> 
-            </select>
-          </div>
+			<div class="row">
+
+			<div class="col-md-5">
+            	<div class="mb-3">
+            		<label class="font-weight-bold">Produto</label>
+            			<select name="idProduto" id="produto" class="form-control" onchange="atualizaValorUnitario()"> 
+                			<option value="">Selecione uma opção</option>
+                				<?php if(isset($dados['produtos'])) { 
+                			foreach($dados['produtos'] as $produto) { ?>
+                    	<option value="<?=$produto['id_produto'] ?>" data-eco="<?= $produto['vl_eco']?>"> <?= $produto['nm_produto'] ?></option> 
+                	<?php } } ?> 
+            	</select>
+            </div>
           
           <label class="font-weight-bold">Quantidade</label>
-          <div class="mb-3">
-            <input type="number" id="quantidade" name="qt_produtoentregue"
-              value="<?= isset($dados['quantidade']) ? $dados['quantidade'] : '' ?>" class="form-control" placeholder="Quantidade" oninput="atualizarValor()">
-          </div>
+          	<div class="mb-3">
+        		<input type="number" id="quantidade" name="qt_produtoentregue"
+              	value="<?= isset($dados['quantidade']) ? $dados['quantidade'] : '' ?>" class="form-control" placeholder="Quantidade" oninput="atualizarValor()">
+          	</div>
 
-          <label class="font-weight-bold">Valor Unitário (R$)</label>
-          <div class="mb-3">
+            <label class="font-weight-bold">Valor Unitário (R$)</label>
+            <div class="mb-3">
             <input type="text" name="vl_unitario" id="valor_unitario"
               value="<?= isset($dados['real_valor']) ? $dados['real_valor'] : '' ?>" class="form-control" placeholder="Valor unitário" oninput="atualizarValor()" readonly>
           </div>
@@ -45,9 +48,10 @@
           <div class="mb-3">
             <button type="button" class="btn btn-primary font-weight-bold" onclick="adicionarMaterial()">Adicionar</button>
             <button type="submit" class="btn btn-primary font-weight-bold" name="cadastrarProdutoEntregue">Finalizar Cadastro</button>
-          </div>
+            </div>
+		</div>
 
-          <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+          <div class="col-md-7 table-responsive" style="max-height: 400px; overflow-y: auto;">
             <table class="table mt-5" id="produtosAdicionados">
               <thead>
                 <tr>
@@ -58,17 +62,17 @@
                   <th>Valor(R$)</th>
                   <th>Ação</th>
                 </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
+                </thead>
+            <tbody></tbody>
+        </table>
+	</div>
 
           <input type="hidden" name="dadosTabela" id="dadosTabela"> 
         </form>
         
-      </div>
+       </div>
     </div>
-  </div>
+</div>
 </main>
 
 <script>
