@@ -459,10 +459,11 @@ class Material extends Controller
                     $usuarioModel::operacaoEntradaSaldo($idUsuario, $eco);
                     $saldo = $usuarioModel::consultarSaldo($idUsuario);
                     $materialModel::cadastrarMaterialRecebido($idUsuario, $idMaterial, $quantidade, $eco, $saldo[0]['vl_ecosaldo']);
+
+                    
                 }
 
                 return $this->view('material/cadastroMaterialRecebidoSucesso');
-
             } else 
             {   
                

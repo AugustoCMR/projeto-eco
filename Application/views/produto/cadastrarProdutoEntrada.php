@@ -43,8 +43,27 @@
           </div>
 
           <div class="mb-3">
-            <button type="submit" class="btn btn-primary font-weight-bold" name="cadastrarProdutoEntregue">Enviar</button>
+            <button type="button" class="btn btn-primary font-weight-bold" onclick="adicionarMaterial()">Adicionar</button>
+            <button type="submit" class="btn btn-primary font-weight-bold" name="cadastrarProdutoEntregue">Finalizar Cadastro</button>
           </div>
+
+          <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+            <table class="table mt-5" id="produtosAdicionados">
+              <thead>
+                <tr>
+                  <th style="display:none;">ID Produto</th> 
+                  <th style="display:none;">Valor Unitário</th>
+                  <th>Produto</th>
+                  <th>Quantidade</th>
+                  <th>Valor(R$)</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <input type="hidden" name="dadosTabela" id="dadosTabela"> 
         </form>
         
       </div>
@@ -53,25 +72,86 @@
 </main>
 
 <script>
-  /**
-   * Método para atualizar o valor em tempo real
-   * @author Augusto Ribeiro
-   * @created 13/06/2024
-   */
-  function atualizarValor() {   
-    const valorUnitario = document.getElementById('valor_unitario').value;
-    const valorFormatado = valorUnitario.split(" ");
-    const quantidade = parseFloat(document.getElementById('quantidade').value);
-    const valorFinal = quantidade * valorFormatado[1];
-    document.getElementById('valorFinal').value = isNaN(valorFinal) ? '' : "R$ " + valorFinal.toFixed(2);
+  function atualizarValor() 
+  {   
+  const valorUnitario = parseFloat(document.getElementById('valor_unitario').value.replace("R$ ", "").replace(",", "."));
+  const quantidade = parseFloat(document.getElementById('quantidade').value);
+  const valorFinal = quantidade * valorUnitario;
+  document.getElementById('valorFinal').value = isNaN(valorFinal) ? '' : "R$ " + valorFinal.toFixed(2).replace(".", ",");
   }
 
-  function atualizaValorUnitario() {
-    const produto = document.getElementById('produto');
-    const opcaoSelecionada = produto.options[produto.selectedIndex];
-    const valorProduto = parseFloat(opcaoSelecionada.getAttribute('data-eco'));
-    const valorFinal = valorProduto * <?= $dados['cotacao_real'] / $dados['cotacao_eco'] ?>;
-    document.getElementById('valor_unitario').value = "R$ " + valorFinal.toFixed(2);
-    atualizarValor();
+function atualizaValorUnitario() 
+{
+  const produto = document.getElementById('produto');
+  const opcaoSelecionada = produto.options[produto.selectedIndex];
+  const valorProduto = parseFloat(opcaoSelecionada.getAttribute('data-eco'));
+  const valorFinal = valorProduto * <?= $dados['cotacao_real'] / $dados['cotacao_eco'] ?>;
+  document.getElementById('valor_unitario').value = "R$ " + valorFinal.toFixed(2).replace(".", ",");
+  atualizarValor();
+}
+
+function adicionarMaterial() 
+{
+  const produtoSelect = document.getElementById('produto');
+  const quantidade = document.getElementById('quantidade').value;
+  const valorUnitario = document.getElementById('valor_unitario').value;
+  const valorFinal = document.getElementById('valorFinal').value;
+
+  if (!produtoSelect.value || !quantidade || !valorFinal) {
+    alert('Preencha todos os campos antes de adicionar.');
+    return;
   }
+
+  const produtoText = produtoSelect.options[produtoSelect.selectedIndex].text;
+  const idProduto = produtoSelect.value;
+  const tbody = document.getElementById('produtosAdicionados').querySelector('tbody');
+
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td style="display:none;">${idProduto}</td>
+    <td style="display:none;">${valorUnitario}</td>
+    <td>${produtoText}</td>
+    <td>${quantidade}</td>
+    <td>${valorFinal}</td>
+    <td><button type="button" class="btn btn-danger btn-sm" onclick="removerMaterial(this)">-</button></td>`;
+  tbody.appendChild(row);
+
+  produtoSelect.value = '';
+  document.getElementById('quantidade').value = '';
+  document.getElementById('valor_unitario').value = '';
+  document.getElementById('valorFinal').value = '';
+
+  atualizarDadosTabela();
+}
+
+function atualizarDadosTabela() 
+{
+  const tbody = document.getElementById('produtosAdicionados').querySelector('tbody');
+  const dados = [];
+
+  for (let row of tbody.children) {
+    const idProduto = row.children[0].innerText;
+    const valorUnitario = row.children[1].innerText;
+    const quantidade = row.children[3].innerText;
+    const valorFinal = row.children[4].innerText;
+
+    const item = {
+      idProduto: idProduto,
+      valorUnitario: valorUnitario,
+      quantidade: quantidade,
+      valorFinal: valorFinal
+    };
+
+    dados.push(item);
+  }
+
+  document.getElementById('dadosTabela').value = JSON.stringify(dados);
+}
+
+function removerMaterial(button) {
+  const row = button.closest('tr');
+  row.remove();
+  atualizarDadosTabela();
+}
+
 </script>

@@ -76,14 +76,8 @@ class ProdutoIntermediario
    * @param $valorTotal valor total do produto x quantidade
    */
     public function validaOperacaoEntrada($errosCampo, $quantidade, $valorUnitario, $valorTotal)
-    {   
-
-        if($valorTotal !== "")
-        {
-            $valorFormatado = explode(" ", $_POST['vl_real'])[1];
-        }
+    {  
         
-
         if(!empty($errosCampo))
         {
             return $this->erros = $errosCampo;
@@ -92,7 +86,7 @@ class ProdutoIntermediario
         $camposTipoNumero = validarTipoNumero([
             'Quantidade' => $quantidade,
             'Valor Unitário' => $valorUnitario,
-            'Valor total' => $valorFormatado
+            'Valor total' => $valorTotal
         ]);
 
         if(!empty($camposTipoNumero)) {

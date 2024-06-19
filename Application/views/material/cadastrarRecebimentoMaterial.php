@@ -47,27 +47,30 @@
             </div>
 
             <div class="mb-3">
-                <button type="button" class="btn btn-secondary font-weight-bold" onclick="adicionarMaterial()">Adicionar</button>
+                <button type="button" class="btn btn-primary font-weight-bold" onclick="adicionarMaterial()">Adicionar</button>
+                <button type="submit" class="btn btn-primary font-weight-bold" name="cadastrarMaterialRecebido">Finalizar Cadastro</button>
             </div>
 
-            <table class="table mt-5" id="materiaisAdicionados">
-                <thead>
-                    <tr>
-                        <th style="display:none;">ID Usuário</th> 
-                        <th style="display:none;">ID Material</th> 
-                        <th>Usuário</th>
-                        <th>Material</th>
-                        <th>Quantidade</th>
-                        <th>Eco Points</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                <table class="table mt-5" id="materiaisAdicionados">
+                    <thead>
+                        <tr>
+                            <th style="display:none;">ID Usuário</th> 
+                            <th style="display:none;">ID Material</th> 
+                            <th>Usuário</th>
+                            <th>Material</th>
+                            <th>Quantidade</th>
+                            <th>Eco Points</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
 
             <input type="hidden" name="dadosTabela" id="dadosTabela">
 
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary font-weight-bold" name="cadastrarMaterialRecebido">Finalizar Cadastro</button>
+                
             </div>
         </form> 
 
