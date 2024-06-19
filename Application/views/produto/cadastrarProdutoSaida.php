@@ -39,7 +39,7 @@
 
             <label class="font-weight-bold">Valor do Produto(€)</label>
             <div class="mb-3">
-            <input type="text" name="vl_ecoProduto"
+            <input type="text" name="vl_ecoProduto" id="valorProduto"
             value="<?= isset($dados['eco_valor']) ? $dados['eco_valor'] : '' ?>" class="form-control" placeholder="Valor do Produto" id="valorUnitario" oninput="atualizaValorFinal()" readonly>
             </div>
 
@@ -69,7 +69,7 @@
             
             </div>
         
-            <label class="font-weight-bold" style="">Saldo</label>
+            <label class="font-weight-bold" >Saldo</label>
             <div class="mb-3">
             <input type="text" name="vl_ecosaldo" id="saldo_usuario" 
             value="<?= isset($dados['eco_valor']) ? $dados['eco_valor'] : '' ?>" class="form-control" placeholder="Saldo" readonly>
@@ -84,9 +84,30 @@
 
 
             <div class="mb-3">
-                <button type="submit" class= "btn btn-primary font-weight-bold" name="cadastrarProdutoSaida" id="botaoFinalizar" value="cadastrar-categoria" onchange="atualizaValorFinal()" disabled>Finalizar</button>
-        </div>
+              <button type="button" class="btn btn-primary font-weight-bold" onclick="adicionarProduto()">Adicionar</button>
+              <button type="submit" class="btn btn-primary font-weight-bold" name="cadastrarProdutoSaida">Finalizar Cadastro</button>
+            </div>     
 
+            <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+              <table class="table mt-5" id="produtosAdicionados">
+                <thead>
+                  <tr>
+                    <th style="display:none;">ID Produto</th>
+                    <th style="display:none;">ID Usuario</th> 
+                    <th style="display:none;">Valor do Produto</th>
+                    <th style="display:none;">Saldo Usuário</th>
+                    <th>Usuário</th>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Valor(R$)</th>
+                    <th>Ação</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+
+            <input type="hidden" name="dadosTabela" id="dadosTabela"> 
            
         </form>
         
@@ -102,7 +123,7 @@
     const opcaoSelecionada = produto.options[produto.selectedIndex];
     const quantidade = opcaoSelecionada.getAttribute('data-produto');
     const valor = opcaoSelecionada.getAttribute('data-valor');
-    document.getElementById('valorUnitario').value = isNaN(valor) ? '' : '€ ' + parseFloat(valor).toFixed(2); 
+    document.getElementById('valorProduto').value = isNaN(valor) ? '' : '€ ' + parseFloat(valor).toFixed(2); 
     document.getElementById('quantidade_linha').innerText = 
     quantidade || 'Sem estoque';
     document.getElementById('quantidade').value='';
@@ -159,5 +180,81 @@
     {
       document.getElementById("botaoFinalizar").removeAttribute('disabled');
     }
+  }
+
+  function adicionarProduto() 
+  {
+    const produtoSelect = document.getElementById('produto');
+    const usuarioSelect = document.getElementById('usuario');
+    const quantidade = document.getElementById('quantidade').value;
+    const valorProduto = document.getElementById('valorProduto').value;
+    const valorFinal = document.getElementById('valorFinal').value;
+    const saldoUsuario = document.getElementById('saldo_usuario').value;
+
+    if (!produtoSelect.value || !usuarioSelect.value || !quantidade || !valorFinal || !valorProduto || !saldoUsuario) {
+      alert('Preencha todos os campos antes de adicionar.');
+      return;
+    }
+
+    const produtoText = produtoSelect.options[produtoSelect.selectedIndex].text;
+    const usuarioText = usuarioSelect.options[usuarioSelect.selectedIndex].text;
+    const idUsuario = usuarioSelect.value;
+    const idProduto = produtoSelect.value;
+    const tbody = document.getElementById('produtosAdicionados').querySelector('tbody');
+
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td style="display:none;">${idProduto}</td>
+      <td style="display:none;">${idUsuario}</td>
+      <td style="display:none;">${valorProduto}</td>
+      <td style="display:none;">${saldoUsuario}</td>
+      <td>${usuarioText}</td>
+      <td>${produtoText}</td>
+      <td>${quantidade}</td>
+      <td>${valorFinal}</td>
+      <td><button type="button" class="btn btn-danger btn-sm" onclick="removerMaterial(this)">-</button></td>`;
+    tbody.appendChild(row);
+
+    usuarioSelect.disabled = true;
+    produtoSelect.value = '';
+    document.getElementById('valorProduto').value = '';
+    document.getElementById('quantidade').value = '';
+    document.getElementById('valorFinal').value = '';
+
+    atualizarDadosTabela();
+  }
+
+function atualizarDadosTabela() 
+{
+    const tbody = document.getElementById('produtosAdicionados').querySelector('tbody');
+    const dados = [];
+
+    for (let row of tbody.children) {
+      const idProduto = row.children[0].innerText;
+      const idUsuario = row.children[1].innerText;
+      const valorProduto = row.children[2].innerText;
+      const saldoUsuario = row.children[3].innerText;
+      const quantidade = row.children[6].innerText;
+      const valorFinal = row.children[7].innerText;
+
+      const item = {
+        idProduto: idProduto,
+        idUsuario:idUsuario,
+        valorProduto: valorProduto,
+        quantidade: quantidade,
+        saldoUsuario: saldoUsuario,
+        valorFinal: valorFinal
+      };
+
+      dados.push(item);
+    }
+
+    document.getElementById('dadosTabela').value = JSON.stringify(dados);
+  }
+
+  function removerMaterial(button) {
+    const row = button.closest('tr');
+    row.remove();
+    atualizarDadosTabela();
   }
 </script>

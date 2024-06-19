@@ -365,45 +365,53 @@ class Produto extends Controller
             if (isset($_POST['cadastrarProdutoSaida'])) {
 
                 $intermediario = new ProdutoIntermediario;
-                $quantidade = $_POST['qt_produtoretirado'];
-                $idUsuario = $_POST['idUsuario'];
-                $idProduto = $_POST['idProduto'];
-                $formataValorSaldo = explode(" ", $_POST['vl_ecosaldo']);
-                $formataValorEco = explode(" ", $_POST['vl_ecoProduto']);
-                $formataValorFinal = explode(" ", $_POST['vl_ecoTotal']);
-                $vl_ecoProduto = isset($formataValorEco[1]) ? (float)$formataValorEco[1] : '';
-                $vl_ecosaldo = isset($formataValorSaldo[1]) ? (float)$formataValorSaldo[1] : '';
-                $vl_ecoFinal = isset($formataValorFinal[1]) ? (float)$formataValorFinal[1] : '';
 
-                $camposObrigatorios = validarCamposObrigatorios([
-                    'Produto' => $idProduto,
-                    'Usuário' => $idUsuario,
-                    'Quantidade' => $quantidade,
-                    'Saldo' => $vl_ecosaldo,
-                    'Valor do Produto' => $vl_ecoProduto,
-                    'Valor Final do Produto' => $vl_ecoFinal
-                ]);
+                $tabela = json_decode($_POST['dadosTabela'], true);
+                
+                foreach($tabela as $item)
+                {
+                    $quantidade = $item['quantidade'];
+                    $idUsuario = $item['idUsuario'];
+                    $idProduto = $item['idProduto'];
+                    $formataValorSaldo = explode(" ", $item['saldoUsuario']);
+                    $formataValorEco = explode(" ", $item['valorProduto']);
+                    $formataValorFinal = explode(" ", $item['valorFinal']);
+                    $vl_ecoProduto = isset($formataValorEco[1]) ? (float)$formataValorEco[1] : '';
+                    $vl_ecosaldo = isset($formataValorSaldo[1]) ? (float)$formataValorSaldo[1] : '';
+                    $vl_ecoFinal = isset($formataValorFinal[1]) ? (float)$formataValorFinal[1] : '';
 
-                $validacao = $intermediario->validaOperacaoSaida($camposObrigatorios, $vl_ecosaldo, $vl_ecoFinal, $vl_ecoProduto, $quantidade, $idUsuario, $idProduto);
-
-                if(!empty($validacao))
-                {   
-                    return $this->view('produto/cadastrarProdutoSaida', ['erros' => $validacao,
-                    'produtos' => $produtos,
-                    'usuarios' => $usuarios
+                    $camposObrigatorios = validarCamposObrigatorios([
+                        'Produto' => $idProduto,
+                        'Usuário' => $idUsuario,
+                        'Quantidade' => $quantidade,
+                        'Saldo' => $vl_ecosaldo,
+                        'Valor do Produto' => $vl_ecoProduto,
+                        'Valor Final do Produto' => $vl_ecoFinal
                     ]);
+
+                    $validacao = $intermediario->validaOperacaoSaida($camposObrigatorios, $vl_ecosaldo, $vl_ecoFinal, $vl_ecoProduto, $quantidade, $idUsuario, $idProduto);
+
+                    if(!empty($validacao))
+                    {   
+                        return $this->view('produto/cadastrarProdutoSaida', ['erros' => $validacao,
+                        'produtos' => $produtos,
+                        'usuarios' => $usuarios
+                        ]);
+                    }
+
+                    $produto = $produtoModel::consultarProduto($idProduto);
+                    $valorProduto = $produto[0]['vl_eco'];
+                    $valorFinal = $valorProduto * $quantidade;
+
+                    $usuarioModel::operacaoSaidaSaldo($idUsuario, $valorFinal);
+                    $saldo = $usuarioModel::consultarSaldo($idUsuario);
+                    $produtoModel::cadastrarProdutoSaida($quantidade, $idUsuario, $idProduto, $valorFinal, $saldo[0]['vl_ecosaldo']);
+                    $produtoModel::operacaoSaidaProduto($idProduto, $quantidade);
+                    
+                    return $this->view('produto/cadastroProdutoSaidaSucesso'); 
                 }
 
-                $produto = $produtoModel::consultarProduto($idProduto);
-                $valorProduto = $produto[0]['vl_eco'];
-                $valorFinal = $valorProduto * $quantidade;
-
-                $usuarioModel::operacaoSaidaSaldo($idUsuario, $valorFinal);
-                $saldo = $usuarioModel::consultarSaldo($idUsuario);
-                $produtoModel::cadastrarProdutoSaida($quantidade, $idUsuario, $idProduto, $valorFinal, $saldo[0]['vl_ecosaldo']);
-                $produtoModel::operacaoSaidaProduto($idProduto, $quantidade);
-                
-                return $this->view('produto/cadastroProdutoSaidaSucesso');                                   
+                                                  
             } else {
 
                 return $this->view('produto/cadastrarProdutoSaida', [
