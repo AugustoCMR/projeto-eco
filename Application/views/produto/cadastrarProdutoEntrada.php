@@ -67,7 +67,7 @@
         </table>
 	</div>
 
-          <input type="hidden" name="dadosTabela" id="dadosTabela"> 
+        <input type="hidden" name="dadosTabela" id="dadosTabela"> 
         </form>
         
        </div>
