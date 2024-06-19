@@ -427,36 +427,42 @@ class Material extends Controller
             $usuarios = $usuarioModel::buscarUsuarios();
 
             if(isset($_POST['cadastrarMaterialRecebido']))
-            {
-                $intermediario = new MaterialIntermediario;
+            {   
                 
-                $idUsuario = $_POST['idUsuario'];
-                $idMaterial = $_POST['idMaterial'];
-                $quantidade = $_POST['qt_materialentregue'];
-                $eco = $_POST['vl_eco'];
+                $intermediario = new MaterialIntermediario;
+                $tabela = json_decode($_POST['dadosTabela'], true);
 
-                $camposObrigatorios = validarCamposObrigatorios([
-                    'Usuário' => $idUsuario,
-                    'Material' => $idMaterial,
-                    'Quantidade' => $quantidade,
-                    'Eco Points' => $eco
-                ]);
+                foreach($tabela as $item)
+                {   
+                    $idUsuario = $item['idUsuario'];
+                    $idMaterial = $item['idMaterial'];
+                    $quantidade = $item['quantidade'];
+                    $eco = $item['valorFinal'];
 
-                $validador = $intermediario->validadorMaterial($camposObrigatorios, null, $eco);
-            
-                if(!empty($validador))
-                {
-                    return $this->view('material/cadastrarRecebimentoMaterial', ['erros' => $intermediario->erros,
-                    'usuarios' => $usuarios,
-                    'materiais' => $materiais
-                ]);
+                    $camposObrigatorios = validarCamposObrigatorios([
+                        'Usuário' => $idUsuario,
+                        'Material' => $idMaterial,
+                        'Quantidade' => $quantidade,
+                        'Eco Points' => $eco
+                    ]);
+
+                    $validador = $intermediario->validadorMaterial($camposObrigatorios, null, $eco);
+
+                    if(!empty($validador))
+                    {
+                        return $this->view('material/cadastrarRecebimentoMaterial', ['erros' => $intermediario->erros,
+                        'usuarios' => $usuarios,
+                        'materiais' => $materiais
+                        ]);
+                    }
+
+                    $usuarioModel::operacaoEntradaSaldo($idUsuario, $eco);
+                    $saldo = $usuarioModel::consultarSaldo($idUsuario);
+                    $materialModel::cadastrarMaterialRecebido($idUsuario, $idMaterial, $quantidade, $eco, $saldo[0]['vl_ecosaldo']);
                 }
 
-                $usuarioModel::operacaoEntradaSaldo($idUsuario, $eco);
-                $saldo = $usuarioModel::consultarSaldo($idUsuario);
-                $materialModel::cadastrarMaterialRecebido($idUsuario, $idMaterial, $quantidade, $eco, $saldo[0]['vl_ecosaldo']);
-                
                 return $this->view('material/cadastroMaterialRecebidoSucesso');
+
             } else 
             {   
                
