@@ -251,36 +251,44 @@ class Produto extends Controller
             {   
                
                 $intermediario = new ProdutoIntermediario;
-                $quantidade = $_POST['qt_produtoentregue'];
-                $valor_total = $_POST['vl_real'];
-                $idProduto = $_POST['idProduto'];
-                $formataValor = explode(" ", $_POST['vl_unitario']);
-                $valor_unitario = isset($formataValor[1]) ? (float)$formataValor[1] : '';
-            
-                $camposObrigatorios = validarCamposObrigatorios([
-                    'Produto' => $idProduto,
-                    'Quantidade' => $quantidade,
-                    'Valor Unitário' => $valor_unitario,
-                    'Valor Total' => $valor_total
-                ]);
-
-                $validaCampos = $intermediario->validaOperacaoEntrada($camposObrigatorios, $quantidade, $valor_unitario, $valor_total);
+                $tabela = json_decode($_POST['dadosTabela'], true);
                 
-                if(!empty($validaCampos))
-                {
-        
-                    return $this->view('produto/cadastrarProdutoEntrada', ['erros' => $validaCampos,
-                    'produtos' => $produtos,
-                    'cotacao_real' => $cotacao_real,
-                    'cotacao_eco' =>
-                    $cotacao_eco
+                foreach($tabela as $item)
+                {   
+                    var_dump($tabela);
+                    $quantidade = $item['quantidade'];
+                    $idProduto = $item['idProduto'];
+                    $formataValorUnitario = explode(" ", $item['valorUnitario']);
+                    $formataValorTotal = explode(" ",  $item['valorFinal']);
+                    $valor_total = isset($formataValorTotal[1]) ? (float)$formataValorTotal[1] : '';
+                    $valor_unitario = isset($formataValorUnitario[1]) ? (float)$formataValorUnitario[1] : '';
+            
+                    $camposObrigatorios = validarCamposObrigatorios([
+                        'Produto' => $idProduto,
+                        'Quantidade' => $quantidade,
+                        'Valor Unitário' => $valor_unitario,
+                        'Valor Total' => $valor_total
                     ]);
+
+                    var_dump($valor_total);
+
+                    $validaCampos = $intermediario->validaOperacaoEntrada($camposObrigatorios, $quantidade, $valor_unitario, $valor_total);
+                    
+                    if(!empty($validaCampos))
+                    {
+            
+                        return $this->view('produto/cadastrarProdutoEntrada', ['erros' => $validaCampos,
+                            'produtos' => $produtos,
+                            'cotacao_real' => $cotacao_real,
+                            'cotacao_eco' =>
+                            $cotacao_eco
+                        ]);
+                    }
+
+                    $produtoModel::cadastrarProdutoEntregue($quantidade, $valor_total, $idProduto);
+                    $produtoModel::operacaoEntradaProduto($idProduto, $quantidade);
                 }
-
-                $real_valor = explode(" ", $_POST['vl_real'])[1];
-
-                $produtoModel::cadastrarProdutoEntregue($quantidade, $real_valor, $idProduto);
-                $produtoModel::operacaoEntradaProduto($idProduto, $quantidade);
+                
                 return $this->view('produto/cadastroProdutoEntradaSucesso');
 
             } else 
