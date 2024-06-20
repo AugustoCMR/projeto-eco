@@ -112,7 +112,7 @@ class Material extends Controller
 
                 $residuoModel::editarResiduo($id, $nm_residuo);
 
-                return $this->view('material/editarResiduoSuccesso');
+                return $this->view('material/residuoEditadoSucesso');
             } else
             {
                 
@@ -172,15 +172,29 @@ class Material extends Controller
     public function cadastrarResiduoSucesso()
     {
         try 
-        {
+        {  
+
             if(!empty($_POST['menu']) && isset($_POST['menu']))
             {
                 return $this->view('home/index');
 
             } else if(!empty($_POST['cadastrar']) && isset($_POST['cadastrar']))
             {
+                
+                
                 return $this->view('material/cadastrarResiduo');
-            } else {
+            } else if(!empty($_POST['listar']) && isset($_POST['listar']))
+            {
+                $residuoModel = $this->model('Materiais');
+                $residuos = $residuoModel::buscarResiduos();
+
+                return $this->view('material/consultarResiduos', [
+                    'residuos' => $residuos
+                ]);
+            }
+            
+            else 
+            {
                 return $this->view('material/cadastroResiduoSucesso');
             }
 
@@ -189,6 +203,42 @@ class Material extends Controller
             echo("Algo deu errado, por favor, tente novamente.");
             echo $e;
         }    
+    }
+
+      /**
+   * Método para encaminhar o usuário para a view escolhida
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
+
+    public function editarResiduoSucesso()
+    {
+    
+        try 
+        {
+            if(!empty($_POST['menu']) && isset($_POST['menu']))
+            {
+                return $this->view('home/index');
+
+            } else if(!empty($_POST['listar']) && isset($_POST['listar']))
+            {   
+                $residuoModel = $this->model('Materiais');
+                $residuos = $residuoModel::buscarResiduos();
+
+                return $this->view('material/consultarResiduos',[
+                    'residuos' => $residuos
+                ]);
+                
+            }  else {
+                return $this->view('material/residuoEditadoSucesso');
+            }
+
+        } catch (Exception $e) 
+        {
+            echo("Algo deu errado, por favor, tente novamente.");
+            echo $e;
+        }    
+    
     }
 
     /**
