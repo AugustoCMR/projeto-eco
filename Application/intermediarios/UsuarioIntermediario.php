@@ -42,9 +42,11 @@ class UsuarioIntermediario
    * @param $errosCampos campos obrigatórios
    * @param $cpfEnviado cpf enviado pelo requisitante ao atualizar cadastro
    * @param $emailEnviado email enviado pelo requisitante ao atualizar cadastro
+   * @param $emailAtual email do usuário que está sendo editado pelo usuário
+   * @param $cpfAtual cpf do usuário que está sendo editado pelo usuário
    */
 
-   public function validacaoEditarUsuario($errosCampos, $cpfEnviado, $emailEnviado)
+   public function validacaoEditarUsuario($errosCampos, $cpfEnviado, $emailEnviado, $emailAtual, $cpfAtual)
    {   
        
        if(!empty($errosCampos)) 
@@ -52,8 +54,8 @@ class UsuarioIntermediario
           return $this->erros = $errosCampos;
        }
        
-       $this->validaEmail($emailEnviado);
-       $this->validaCPF($cpfEnviado);
+       $this->validaEmail($emailAtual, $emailEnviado);
+       $this->validaCPF($cpfAtual, $cpfEnviado);
        $this->validaCEP();
 
        return $this->erros;
@@ -119,9 +121,10 @@ class UsuarioIntermediario
    * Método para validar o CPF do usuário
    * @author Augusto Ribeiro
    * @created 13/06/2024
+   * @param $cpfAtual variável para receber o cpf atual do usuário em casos de edição
    * @param $cpfRecebido variável para receber o cpf requisitante em casos de edição
    */
-    public function validaCPF($cpfRecebido = null)
+    public function validaCPF($cpfAtual = null, $cpfRecebido = null)
     {
         try
         {   
@@ -139,7 +142,7 @@ class UsuarioIntermediario
                     return $this->erros["cpfTamanhoInvalido"] = "O CPF deve conter 11 caracteres."; 
                 }
 
-                if($cpf === $cpfRecebido)
+                if($cpfAtual === $cpfRecebido)
                 {
                     return;
                 }
@@ -169,9 +172,10 @@ class UsuarioIntermediario
    * Método para validar o email do usuário
    * @author Augusto Ribeiro
    * @created 13/06/2024
+   * @param $emailAtual váriavel que pega o email atual do usuário que está sendo editado
    * @param $emailRecebido variável para receber o email requisitante em casos de edição
    */
-    public function validaEmail($emailRecebido = null)
+    public function validaEmail($emailAtual = null, $emailRecebido = null)
     {
         try
         {   
@@ -180,12 +184,13 @@ class UsuarioIntermediario
             {   
                 $email = $_POST['nm_email'];
 
+
                 if(!filter_var($email, FILTER_VALIDATE_EMAIL)) 
                 {
-                $this->erros['emailInvalido'] = "O e-mail informado é inválido.";
+                    $this->erros['emailInvalido'] = "O e-mail informado é inválido.";
                 }
 
-                if($email === $emailRecebido)
+                if($emailAtual === $emailRecebido)
                 {
                     return;
                 }

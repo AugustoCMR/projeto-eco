@@ -118,7 +118,7 @@ class Usuario extends Controller
                'Número' => $numero 
             ]);
     
-            $erros = $intermediario->validacaoEditarUsuario($validaCampos, $cpf, $email); 
+            $erros = $intermediario->validacaoEditarUsuario($validaCampos, $cpf, $email, $usuario[0]['nm_email'], $usuario[0]['nu_cpf']); 
     
             if(!empty($erros)) 
             {

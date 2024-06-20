@@ -161,13 +161,12 @@ class Produtos
    * @param $quantidade quantidade do produto
    * @param $id id do produto
    */
-  public static function editar($produto, $ecoValor, $quantidade, $id)
+  public static function editar($produto, $ecoValor, $id)
   {
       $conn = new Database();   
-      $conn->executarQuery('UPDATE produto SET nm_produto = :nome, vl_eco = :eco, qt_produto = :quantidade WHERE id_produto = :id', array(
+      $conn->executarQuery('UPDATE produto SET nm_produto = :nome, vl_eco = :eco WHERE id_produto = :id', array(
         ':nome' => $produto,
         ':eco' => $ecoValor,
-        ':quantidade' => $quantidade,
         ':id' => $id
       ));
   }
