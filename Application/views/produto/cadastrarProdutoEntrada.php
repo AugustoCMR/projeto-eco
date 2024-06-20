@@ -27,7 +27,7 @@
             	</select>
             </div>
           
-          <label class="font-weight-bold">Quantidade</label>
+            <label class="font-weight-bold">Quantidade</label>
           	<div class="mb-3">
         		<input type="number" id="quantidade" name="qt_produtoentregue"
               	value="<?= isset($dados['quantidade']) ? $dados['quantidade'] : '' ?>" class="form-control" placeholder="Quantidade" oninput="atualizarValor()">
@@ -37,13 +37,18 @@
             <div class="mb-3">
             <input type="text" name="vl_unitario" id="valor_unitario"
               value="<?= isset($dados['real_valor']) ? $dados['real_valor'] : '' ?>" class="form-control" placeholder="Valor unitário" oninput="atualizarValor()" readonly>
-          </div>
+            </div>
 
-          <label class="font-weight-bold">Valor Total</label>
-          <div class="mb-3">
+            <label class="font-weight-bold">Valor Total (R$)</label>
+            <div class="mb-3">
             <input type="text" id="valorFinal" name="vl_real"
               value="<?= isset($dados['real_valor']) ? $dados['real_valor'] : '' ?>" class="form-control" placeholder="Valor total" readonly>
-          </div>
+            </div>
+
+            <div class="mb-3">
+        <label class="font-weight-bold">Valor Total €</label>
+        <input type="text" id="valorTotal" class="form-control" readonly>
+        </div>
 
           <div class="mb-3">
             <button type="button" class="btn btn-primary font-weight-bold" onclick="adicionarMaterial()">Adicionar</button>
@@ -53,7 +58,7 @@
 
           <div class="col-md-8 table-responsive" style="max-height: 350px; overflow-y: auto;">
             <table class="table mt-5" id="produtosAdicionados">
-              <thead>
+                <thead>
                 <tr>
                   <th style="display:none;">ID Produto</th> 
                   <th style="display:none;">Valor Unitário</th>
@@ -76,6 +81,17 @@
 </main>
 
 <script>
+
+function atualizarValorTotal() {
+    const tbody = document.getElementById('materiaisAdicionados').querySelector('tbody');
+    let valorTotal = 0;
+
+    for (let row of tbody.children) {
+        valorTotal += parseFloat(row.children[5].innerText);
+    }
+
+    document.getElementById('valorTotal').value = valorTotal.toFixed(2);
+}
   function atualizarValor() 
   {   
   const valorUnitario = parseFloat(document.getElementById('valor_unitario').value.replace("R$ ", "").replace(",", "."));
@@ -141,6 +157,7 @@ function adicionarMaterial()
   document.getElementById('valorFinal').value = '';
 
   atualizarDadosTabela();
+  atualizarValorTotal();
 }
 
 function atualizarDadosTabela() 
@@ -173,6 +190,7 @@ function removerMaterial(button) {
   const row = button.closest('tr');
   row.remove();
   atualizarDadosTabela();
+  atualizarValorTotal();
 }
 
 document.getElementById('produtoForm').addEventListener('submit', function(event) {
@@ -201,6 +219,26 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         tabela.appendChild(row);
     });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const tabela = document.getElementById('materiaisAdicionados').querySelector('tbody');
+    const dadosTabela = document.getElementById('dadosTabela').value;
+    const materiaisAdicionados = JSON.parse(dadosTabela);
+
+    materiaisAdicionados.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td style="display:none;">${item.idUsuario}</td>
+            <td style="display:none;">${item.idMaterial}</td>
+            <td>${document.querySelector(`#usuario option[value='${item.idUsuario}']`).text}</td>
+            <td>${document.querySelector(`#material option[value='${item.idMaterial}']`).text}</td>
+            <td>${item.quantidade}</td>
+            <td>${item.valorFinal}</td>
+            <td><button type="button" class="btn btn-danger btn-sm" onclick="removerMaterial(this)">-</button></td>`;
+        tabela.appendChild(row);
+    });
+
+    atualizarValorTotal();
 });
 
 </script>

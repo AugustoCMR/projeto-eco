@@ -49,6 +49,11 @@
             </div>
 
             <div class="mb-3">
+        <label class="font-weight-bold">Valor Total €</label>
+        <input type="text" id="valorTotal" class="form-control" readonly>
+        </div>
+
+            <div class="mb-3">
                 <button type="button" class="btn btn-primary font-weight-bold" onclick="adicionarMaterial()">Adicionar</button>
                 <button type="submit" class="btn btn-primary font-weight-bold" name="cadastrarMaterialRecebido">Finalizar Cadastro</button>
             </div>

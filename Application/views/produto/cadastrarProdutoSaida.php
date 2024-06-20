@@ -240,6 +240,7 @@
     document.getElementById('quantidade_linha').innerText = 'Escolha um Produto';
 
     atualizarDadosTabela();
+    atualizarValorTotal();
   }
 
 function atualizarDadosTabela() 
@@ -276,6 +277,7 @@ function atualizarDadosTabela()
     const row = button.closest('tr');
     row.remove();
     atualizarDadosTabela();
+    atualizarValorTotal();
   }
 
   document.getElementById('produtoForm').addEventListener('submit', function(event) {
@@ -306,5 +308,6 @@ function atualizarDadosTabela()
                 <td><button type="button" class="btn btn-danger btn-sm" onclick="removerMaterial(this)">-</button></td>`;
             tabela.appendChild(row);
         });
+        atualizarValorTotal();
   });
 </script>
