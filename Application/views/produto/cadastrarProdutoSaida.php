@@ -1,44 +1,44 @@
 <main>
-	<div class="container">
-		<div class="row">
-			<div class="col-8 offset-2" style="margin-top:99px">
-				<h1 class="display-5 text-center text-primary titulo">Operação de Saída</h1>
-			
-		<?php if (!empty($dados['erros'])): ?>
-			<div class="alert alert-danger mt-5">
-				<?php foreach ($dados['erros'] as $erro): ?>
-					<p><?php echo $erro; ?></p>
-				<?php endforeach; ?>
-			</div>
-		<?php endif; ?>
+  <div class="container">
+    <div class="row">
+      <div class="col-10 offset-1" style="margin-top:99px">
+        <h1 class="display-5 text-center text-primary titulo">Operação de Saída</h1>
+      
+    <?php if (!empty($dados['erros'])): ?>
+      <div class="alert alert-danger mt-5">
+        <?php foreach ($dados['erros'] as $erro): ?>
+          <p><?php echo $erro; ?></p>
+        <?php endforeach; ?>
+      </div>
+    <?php endif; ?>
 
-		<form method="POST" action="../produto/cadastrarProdutoSaida" class="mt-5">
-			<div class="row">
-		
-			<div class="col-md-5">
-			<div class="mb-3">
-					<label class="font-weight-bold" >Produto</label>
-					<select type="text" name="idProduto" id="produto" class="form-control" onchange="atualizarQuantidade_Valor()"> 
-						<option value="">Selecione uma opção</option>
-						<?php 
-							
-							if(isset($dados['produtos']))
-							{ 
-								foreach($dados['produtos'] as $produto)
-								{ ?>
-								<option value="<?=$produto['id_produto'] ?>" data-produto="<?=$produto['qt_produto']?>" data-valor="<?=$produto['vl_eco'] ?>"> <?= $produto['nm_produto'] ?></option> 
-								
-						<?php   } 
-							} ?> 
-						
-					</select>
-				</div>
+    <form method="POST" action="../produto/cadastrarProdutoSaida" class="mt-5">
+      <div class="row">
+    
+      <div class="col-md-4">
+      <div class="mb-3">
+          <label class="font-weight-bold" >Produto</label>
+          <select type="text" name="idProduto" id="produto" class="form-control" onchange="atualizarQuantidade_Valor()"> 
+            <option value="">Selecione uma opção</option>
+            <?php 
+              
+              if(isset($dados['produtos']))
+              { 
+                foreach($dados['produtos'] as $produto)
+                { ?>
+                <option value="<?=$produto['id_produto'] ?>" data-produto="<?=$produto['qt_produto']?>" data-valor="<?=$produto['vl_eco'] ?>"> <?= $produto['nm_produto'] ?></option> 
+                
+            <?php   } 
+              } ?> 
+            
+          </select>
+        </div>
 
-				<label class="font-weight-bold">Valor do Produto(€)</label>
-				<div class="mb-3">
-				<input type="text" name="vl_ecoProduto" id="valorProduto"
-				value="<?= isset($dados['eco_valor']) ? $dados['eco_valor'] : '' ?>" class="form-control" placeholder="Valor do Produto" id="valorUnitario" oninput="atualizaValorFinal()" readonly>
-				</div>
+        <label class="font-weight-bold">Valor do Produto(€)</label>
+        <div class="mb-3">
+        <input type="text" name="vl_ecoProduto" id="valorProduto"
+        value="<?= isset($dados['eco_valor']) ? $dados['eco_valor'] : '' ?>" class="form-control" placeholder="Valor do Produto" id="valorUnitario" oninput="atualizaValorFinal()" readonly>
+        </div>
 
             <label class="font-weight-bold">Quantidade(<span id="quantidade_linha">Escolha um Produto</span>)</label>
             <div class="mb-3">
@@ -73,37 +73,37 @@
             </div>
 
 
-				<label class="font-weight-bold">Valor final do Produto(€)</label>
-				<div class="mb-3">
-				<input type="text" id="valorFinal" name="vl_ecoTotal"
-				value="<?= isset($dados['eco_valor']) ? $dados['eco_valor'] : '' ?>" class="form-control" placeholder="Valor Final" oninput="atualizarSaldoUsuario_valorFinal()" readonly>
-				</div>
+        <label class="font-weight-bold">Valor final do Produto(€)</label>
+        <div class="mb-3">
+        <input type="text" id="valorFinal" name="vl_ecoTotal"
+        value="<?= isset($dados['eco_valor']) ? $dados['eco_valor'] : '' ?>" class="form-control" placeholder="Valor Final" oninput="atualizarSaldoUsuario_valorFinal()" readonly>
+        </div>
 
 
-				<div class="mb-3">
-				<button type="button" class="btn btn-primary font-weight-bold" onclick="adicionarProduto()">Adicionar</button>
-				<button type="submit" class="btn btn-primary font-weight-bold" name="cadastrarProdutoSaida">Finalizar Cadastro</button>
-				</div> 
-			</div>    
+        <div class="mb-3">
+        <button type="button" class="btn btn-primary font-weight-bold" onclick="adicionarProduto()">Adicionar</button>
+        <button type="submit" class="btn btn-primary font-weight-bold" name="cadastrarProdutoSaida">Finalizar Cadastro</button>
+        </div> 
+      </div>    
 
-	<div class="col-md-7 table-responsive" style="max-height: 400px; overflow-y: auto;">
-		<table class="table mt-5" id="produtosAdicionados">
-			<thead>
-				<tr>
-					<th style="display:none;">ID Produto</th>
-					<th style="display:none;">ID Usuario</th> 
-					<th style="display:none;">Valor do Produto</th>
-					<th style="display:none;">Saldo Usuário</th>
-					<th>Usuário</th>
-					<th>Produto</th>
-					<th>Quantidade</th>
-					<th>Valor(R$)</th>
-					<th>Ação</th>
-				</tr>
-				</thead>
-			<tbody></tbody>
-		</table>
-	</div>
+  <div class="col-md-8 table-responsive" style="max-height: 500px; overflow-y: auto;">
+    <table class="table mt-5" id="produtosAdicionados">
+      <thead>
+        <tr>
+          <th style="display:none;">ID Produto</th>
+          <th style="display:none;">ID Usuario</th> 
+          <th style="display:none;">Valor do Produto</th>
+          <th style="display:none;">Saldo Usuário</th>
+          <th>Usuário</th>
+          <th>Produto</th>
+          <th>Quantidade</th>
+          <th>Valor(R$)</th>
+          <th>Ação</th>
+        </tr>
+        </thead>
+      <tbody></tbody>
+    </table>
+  </div>
 
             <input type="hidden" name="dadosTabela" id="dadosTabela" value='<?php echo isset($dados['tabela']) ? json_encode($dados['tabela']) : '[]'; ?>'> 
            
@@ -204,7 +204,7 @@
     const idProduto = produtoSelect.value;
     const tbody = document.getElementById('produtosAdicionados').querySelector('tbody');
 
-    for (let row of tbody.children) 
+  for (let row of tbody.children) 
     {
         if (row.children[0].innerText === idProduto) 
         {

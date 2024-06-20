@@ -1,7 +1,7 @@
 <main>
     <div class="container">
     	<div class="row">
-        	<div class="col-8 offset-2" style="margin-top:99px">
+        	<div class="col-10 offset-1" style="margin-top:99px">
         		<h1 class="display 4 text-center text-primary titulo">Operação de Entrada</h1>
 
         <?php if (!empty($dados['erros'])): ?>
@@ -15,7 +15,7 @@
         <form method="POST" action="../produto/cadastrarProdutoEntregue" class="mt-5">
 			<div class="row">
 
-			<div class="col-md-5">
+			<div class="col-md-4">
             	<div class="mb-3">
             		<label class="font-weight-bold">Produto</label>
             			<select name="idProduto" id="produto" class="form-control" onchange="atualizaValorUnitario()"> 
@@ -51,7 +51,7 @@
             </div>
 		</div>
 
-          <div class="col-md-7 table-responsive" style="max-height: 400px; overflow-y: auto;">
+          <div class="col-md-8 table-responsive" style="max-height: 350px; overflow-y: auto;">
             <table class="table mt-5" id="produtosAdicionados">
               <thead>
                 <tr>
@@ -110,20 +110,20 @@ function adicionarMaterial()
   const idProduto = produtoSelect.value;
   const tbody = document.getElementById('produtosAdicionados').querySelector('tbody');
 
-  // for (let row of tbody.children) 
-  //   {
-  //       if (row.children[0].innerText === idProduto) 
-  //       {
-  //           alert('Este produto já foi adicionado.');
-  //           return;
-  //       }
-  //   }
+  for (let row of tbody.children) 
+    {
+        if (row.children[0].innerText === idProduto) 
+        {
+            alert('Este produto já foi adicionado.');
+            return;
+        }
+    }
 
-  //   if(quantidade <= 0)
-  //   {
-  //       alert('Quantidade não pode ser menor que um');
-  //       return;
-  //   }
+    if(quantidade <= 0)
+    {
+        alert('Quantidade não pode ser menor que um');
+        return;
+    }
 
   const row = document.createElement('tr');
   row.innerHTML = `

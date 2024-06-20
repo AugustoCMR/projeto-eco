@@ -1,7 +1,7 @@
 <main>
   <div class="container">
     <div class="row">
-      <div class="col-8 offset-2" style="margin-top:50px">
+      <div class="col-10 offset-1" style="margin-top:50px">
         <h1 class="display 4 text-center text-primary mt-5 titulo">Recebimento de Material</h1>
         <?php if (!empty($dados['erros'])):?>  
             <div class="alert alert-danger mt-5">
@@ -13,7 +13,7 @@
 
         <form id="materialForm" class="mt-5" action="/projeto-eco/public/material/cadastrarMaterialRecebido" method="POST">
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-4">
             <div class="mb-3">
                 <label class="font-weight-bold">Usuário</label>
                 <select name="idUsuario" id="usuario" class="form-control" <?php echo isset($dados['nm_usuario']) ? 'disabled' : ''; ?> > 
@@ -53,7 +53,7 @@
                 <button type="submit" class="btn btn-primary font-weight-bold" name="cadastrarMaterialRecebido">Finalizar Cadastro</button>
             </div>
         </div>
-        <div class="col-md-7 tabela-responsiva" style="max-height: 400px; overflow-y:auto;">
+        <div class="col-md-8 tabela-responsiva" style="max-height: 350px; overflow-y:auto;">
             <table class="table mt-5" id="materiaisAdicionados">
                 <thead>
                     <tr>
