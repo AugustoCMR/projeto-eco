@@ -11,7 +11,7 @@
             </div>
         <?php endif; ?>
 
-        <form id="materialForm" class="mt-5" action="/projeto-eco/public/material/cadastrarMaterialRecebido" method="POST">
+        <form class="mt-5" action="/projeto-eco/public/material/cadastrarMaterialRecebido" method="POST" id="materialForm">
     <div class="row">
         <div class="col-md-4">
             <div class="mb-3">
@@ -179,6 +179,14 @@
         row.remove();
         atualizarDadosTabela();
     }
+
+    document.getElementById('materialForm').addEventListener('submit', function(event) {
+        const tbody = document.getElementById('materiaisAdicionados').querySelector('tbody');
+        if (tbody.children.length === 0) {
+            alert('Adicione pelo menos um material antes de finalizar.');
+            event.preventDefault();
+        }
+    });
 
     document.addEventListener('DOMContentLoaded', function() {
         const tabela = document.getElementById('materiaisAdicionados').querySelector('tbody');

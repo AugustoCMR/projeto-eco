@@ -478,8 +478,20 @@ class Material extends Controller
           if (isset($_POST['cadastrarMaterialRecebido'])) {
               $intermediario = new MaterialIntermediario;
               $tabela = json_decode($_POST['dadosTabela'], true);
-  
-              $itensValidos = []; // Array para armazenar os itens válidos
+
+              if(empty($tabela))
+              {
+                $erro = [];
+                
+                $erro['dadosVazios'] = 'Adicione no mínimo um item para finalizar recebimento';
+                return $this->view('material/cadastrarRecebimentoMaterial', [
+                    'erros' => $erro,
+                    'usuarios' => $usuarios,
+                    'materiais' => $materiais
+                ]);
+              }
+
+              $itensValidos = []; 
   
               foreach ($tabela as $item) {
                   $idUsuario = $item['idUsuario'];
@@ -529,7 +541,7 @@ class Material extends Controller
                   ];
               }
   
-              // Após validar todos os itens, cadastra os dados
+           
               foreach ($itensValidos as $item) {
                   $usuarioModel::operacaoEntradaSaldo($item['idUsuario'], $item['eco']);
                   $saldo = $usuarioModel::consultarSaldo($item['idUsuario']);
@@ -567,7 +579,18 @@ class Material extends Controller
               return $this->view('usuario/consultarMateriaisEntregues');
           } else if(!empty($_POST['cadastrar']) && isset($_POST['cadastrar']))
           {
-              return $this->view('material/cadastrarRecebimentoMaterial');
+
+             $materialModel = $this->model('Materiais');
+            $materiais = $materialModel::buscarMateriais();
+        
+             $usuarioModel = $this->model('Usuarios');
+             $usuarios = $usuarioModel::buscarUsuarios();
+
+            return $this->view('material/cadastrarRecebimentoMaterial', [
+                'usuarios' => $usuarios,
+                'materiais' => $materiais
+            ]);
+            
           } else {
               return $this->view('material/cadastroMaterialRecebidoSucesso');
           }

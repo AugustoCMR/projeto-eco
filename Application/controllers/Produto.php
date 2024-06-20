@@ -248,6 +248,19 @@ class Produto extends Controller
           if (isset($_POST['cadastrarProdutoEntregue'])) {
               $intermediario = new ProdutoIntermediario;
               $tabela = json_decode($_POST['dadosTabela'], true);
+
+              if(empty($tabela))
+              {
+                $erro = [];
+                
+                $erro['dadosVazios'] = 'Adicione no mínimo um item para completar a operação';
+                return $this->view('produto/cadastrarProdutoEntrada', [
+                    'erros' => $erro,
+                    'produtos' => $produtos,
+                    'cotacao_real' => $cotacao_real,
+                    'cotacao_eco' => $cotacao_eco
+                ]);
+              }
               
               $produtosValidos = [];
   
@@ -317,12 +330,14 @@ class Produto extends Controller
    */
     public function cadastroProdutoEntradaSucesso()
     {
-        $cotacao_eco = Eco::$eco;
-        $cotacao_real = Eco::$real;
-        $produtos = $this->model('Produtos');
-        $dados = $produtos::consultarProdutos();
+     
         try 
         {
+            $cotacao_eco = Eco::$eco;
+            $cotacao_real = Eco::$real;
+            $produtos = $this->model('Produtos');
+            $dados = $produtos::consultarProdutos();
+
             if(!empty($_POST['menu']) && isset($_POST['menu']))
             {
                 return $this->view('home/index');
@@ -336,13 +351,14 @@ class Produto extends Controller
                 ]);
 
             } else if(!empty($_POST['cadastrar']) && isset($_POST['cadastrar']))
-            {
+            {   
+
                 return $this->view('produto/cadastrarProdutoEntrada', [
-                    'produtos' => $produtos,
+                    'produtos' => $dados,
                     'cotacao_real' => $cotacao_real,
-                    'cotacao_eco' =>
-                    $cotacao_eco
+                    'cotacao_eco' => $cotacao_eco
                 ]);
+                
             } else {
                 return $this->view('produto/cadastroProdutoEntradaSucesso');
             }
@@ -371,10 +387,23 @@ class Produto extends Controller
           if (isset($_POST['cadastrarProdutoSaida'])) {
               $intermediario = new ProdutoIntermediario;
               $tabela = json_decode($_POST['dadosTabela'], true);
-  
+
+              if(empty($tabela))
+              {
+                $erro = [];
+
+                $erro['dadosVazios'] = 'Adicione no mínimo um item para finalizar a compra';
+                return $this->view('produto/cadastrarProdutoSaida', [
+                    'erros' => $erro,
+                    'produtos' => $produtos,
+                  'usuarios' => $usuarios
+                ]);
+              }
+
               $itensValidos = []; 
   
-              foreach ($tabela as $item) {
+              foreach ($tabela as $item) 
+              {
                   $quantidade = $item['quantidade'];
                   $idUsuario = $item['idUsuario'];
                   $idProduto = $item['idProduto'];
@@ -395,18 +424,6 @@ class Produto extends Controller
                       'Valor do Produto' => $vl_ecoProduto,
                       'Valor Final do Produto' => $vl_ecoFinal
                   ]);
-  
-                  if (!empty($camposObrigatorios)) {
-                      return $this->view('produto/cadastrarProdutoSaida', [
-                          'erros' => $camposObrigatorios,
-                          'produtos' => $produtos,
-                          'usuarios' => $usuarios,
-                          'tabela' => $tabela,
-                          'nm_usuario' => $nm_usuario,
-                          'saldoUsuario' => $saldoUsuario,
-                          'id_usuario' => $idUsuario
-                      ]);
-                  }
   
                   $validacao = $intermediario->validaOperacaoSaida($camposObrigatorios, $vl_ecosaldo, $vl_ecoFinal, $vl_ecoProduto, $quantidade, $idUsuario, $idProduto, $tabela);
   
@@ -432,7 +449,7 @@ class Produto extends Controller
                       'vl_ecosaldo' => $vl_ecosaldo,
                       'vl_ecoFinal' => $vl_ecoFinal
                   ];
-              }
+                }
   
               foreach ($itensValidos as $item) {
                   $produto = $produtoModel::consultarProduto($item['idProduto']);
@@ -447,6 +464,7 @@ class Produto extends Controller
   
               return $this->view('produto/cadastroProdutoSaidaSucesso');
           } else {
+
               return $this->view('produto/cadastrarProdutoSaida', [
                   'produtos' => $produtos,
                   'usuarios' => $usuarios
@@ -466,12 +484,19 @@ class Produto extends Controller
    */
     public function cadastroProdutoSaidaSucesso()
     {
-        $cotacao_eco = Eco::$eco;
-        $cotacao_real = Eco::$real;
-        $produtos = $this->model('Produtos');
-        $dados = $produtos::consultarProdutos();
+       
+
         try 
         {
+
+            $cotacao_eco = Eco::$eco;
+            $cotacao_real = Eco::$real;
+            $produtoModel = $this->model('Produtos');
+            $usuarioModel = $this->model('Usuarios');
+    
+            $produtos = $produtoModel::consultarProdutos();
+            $usuarios = $usuarioModel::buscarUsuarios();
+
             if(!empty($_POST['menu']) && isset($_POST['menu']))
             {
                 return $this->view('home/index');
@@ -479,14 +504,17 @@ class Produto extends Controller
             } else if(!empty($_POST['listar']) && isset($_POST['listar']))
             {
                 return $this->view('produto/consultarProdutos', [
-                    'produto' => $dados, 
+                    'produto' => $produtos, 
                     'cotacao_real' => $cotacao_real,
                     'cotacao_eco' => $cotacao_eco
                 ]);
 
             } else if(!empty($_POST['cadastrar']) && isset($_POST['cadastrar']))
             {
-                return $this->view('produto/cadastrarProdutoSaida');
+                return $this->view('produto/cadastrarProdutoSaida', [
+                    'produtos' => $produtos,
+                    'usuarios' => $usuarios
+                ]);
             } else {
                 return $this->view('produto/cadastroProdutoSaidaSucesso');
             }

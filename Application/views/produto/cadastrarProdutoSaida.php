@@ -12,27 +12,27 @@
       </div>
     <?php endif; ?>
 
-    <form method="POST" action="../produto/cadastrarProdutoSaida" class="mt-5">
-      <div class="row">
-    
-      <div class="col-md-4">
-      <div class="mb-3">
-          <label class="font-weight-bold" >Produto</label>
-          <select type="text" name="idProduto" id="produto" class="form-control" onchange="atualizarQuantidade_Valor()"> 
-            <option value="">Selecione uma opção</option>
-            <?php 
-              
-              if(isset($dados['produtos']))
-              { 
-                foreach($dados['produtos'] as $produto)
-                { ?>
-                <option value="<?=$produto['id_produto'] ?>" data-produto="<?=$produto['qt_produto']?>" data-valor="<?=$produto['vl_eco'] ?>"> <?= $produto['nm_produto'] ?></option> 
-                
-            <?php   } 
-              } ?> 
-            
-          </select>
-        </div>
+		<form method="POST" action="../produto/cadastrarProdutoSaida" class="mt-5" id="produtoForm">
+			<div class="row">
+		
+			<div class="col-md-5">
+			<div class="mb-3">
+					<label class="font-weight-bold" >Produto</label>
+					<select type="text" name="idProduto" id="produto" class="form-control" onchange="atualizarQuantidade_Valor()"> 
+						<option value="">Selecione uma opção</option>
+						<?php 
+							
+							if(isset($dados['produtos']))
+							{ 
+								foreach($dados['produtos'] as $produto)
+								{ ?>
+								<option value="<?=$produto['id_produto'] ?>" data-produto="<?=$produto['qt_produto']?>" data-valor="<?=$produto['vl_eco'] ?>"> <?= $produto['nm_produto'] ?></option> 
+								
+						<?php   } 
+							} ?> 
+						
+					</select>
+				</div>
 
         <label class="font-weight-bold">Valor do Produto(€)</label>
         <div class="mb-3">
@@ -80,11 +80,11 @@
         </div>
 
 
-        <div class="mb-3">
-        <button type="button" class="btn btn-primary font-weight-bold" onclick="adicionarProduto()">Adicionar</button>
-        <button type="submit" class="btn btn-primary font-weight-bold" name="cadastrarProdutoSaida">Finalizar Cadastro</button>
-        </div> 
-      </div>    
+				<div class="mb-3">
+				<button type="button" class="btn btn-primary font-weight-bold" id="btnAdicionar" onclick="adicionarProduto()">Adicionar</button>
+				<button type="submit" class="btn btn-primary font-weight-bold" name="cadastrarProdutoSaida">Finalizar Cadastro</button>
+				</div> 
+			</div>    
 
   <div class="col-md-8 table-responsive" style="max-height: 500px; overflow-y: auto;">
     <table class="table mt-5" id="produtosAdicionados">
@@ -174,10 +174,10 @@
 
     if(valorFinal > saldoFormatado || isNaN(saldoFormatado) || saldoFormatado <= 0) 
     {
-      document.getElementById("botaoFinalizar").setAttribute('disabled', 'disabled');
+      document.getElementById("btnAdicionar").setAttribute('disabled', 'disabled');
     } else
     {
-      document.getElementById("botaoFinalizar").removeAttribute('disabled');
+      document.getElementById("btnAdicionar").removeAttribute('disabled');
     }
   }
 
@@ -237,7 +237,7 @@
     document.getElementById('valorProduto').value = '';
     document.getElementById('quantidade').value = '';
     document.getElementById('valorFinal').value = '';
-    document.getElementById('quantidade_linha').value = 'Escolha um Produto';
+    document.getElementById('quantidade_linha').innerText = 'Escolha um Produto';
 
     atualizarDadosTabela();
   }
@@ -277,6 +277,14 @@ function atualizarDadosTabela()
     row.remove();
     atualizarDadosTabela();
   }
+
+  document.getElementById('produtoForm').addEventListener('submit', function(event) {
+  const tbody = document.getElementById('produtosAdicionados').querySelector('tbody');
+  if (tbody.children.length === 0) {
+    alert('Adicione pelo menos um produto antes de finalizar.');
+    event.preventDefault();
+  }
+});
 
   document.addEventListener('DOMContentLoaded', function() 
   {
