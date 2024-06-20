@@ -204,14 +204,14 @@
     const idProduto = produtoSelect.value;
     const tbody = document.getElementById('produtosAdicionados').querySelector('tbody');
 
-    // for (let row of tbody.children) 
-    // {
-    //     if (row.children[0].innerText === idProduto) 
-    //     {
-    //         alert('Este produto já foi adicionado.');
-    //         return;
-    //     }
-    // }
+    for (let row of tbody.children) 
+    {
+        if (row.children[0].innerText === idProduto) 
+        {
+            alert('Este produto já foi adicionado.');
+            return;
+        }
+    }
 
     if(quantidade <= 0)
     {

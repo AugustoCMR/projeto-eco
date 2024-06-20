@@ -166,12 +166,12 @@ class ProdutoIntermediario
             return $this->erros;
         }
 
-        if($valorProduto < 1) {
+        if($valorProduto <= 0) {
             $this->erros['valorProdutoInvalido'] = "Valor do Produto não pode ser menor que 1";
             return $this->erros;
           }
 
-        if($valorFinal < 1) 
+        if($valorFinal <= 0) 
         {
             $this->erros['valorFinalInvalido'] = "Valor final não pode ser menor que 1";
             return $this->erros;

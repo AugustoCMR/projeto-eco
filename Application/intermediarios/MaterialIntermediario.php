@@ -84,7 +84,7 @@ class MaterialIntermediario
       $idsMateriais = array_column($dados, 'idMaterial');
       $idsUsuarios = array_column($dados, 'idUsuario');
 
-      if($quantidade < 1) {
+      if($quantidade <= 0) {
         $this->erros['quantidadeInvalida'] = "Quantidade não pode ser menor que 1";
         return $this->erros;
       }
