@@ -17,7 +17,7 @@
                             </button>
 
                             <button class="btn btn-primary" name="cadastrar" value="cadastrar">
-                                Cadastrar novo material
+                                Cadastrar novo recebimento
                             </button>
                      </div>
                 </form>

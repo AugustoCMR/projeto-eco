@@ -12,7 +12,7 @@
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="../produto/cadastrarProdutoEntregue" class="mt-5">
+        <form method="POST" action="../produto/cadastrarProdutoEntregue" class="mt-5" id="produtoForm">
 			<div class="row">
 
 			<div class="col-md-5">
@@ -110,20 +110,20 @@ function adicionarMaterial()
   const idProduto = produtoSelect.value;
   const tbody = document.getElementById('produtosAdicionados').querySelector('tbody');
 
-  // for (let row of tbody.children) 
-  //   {
-  //       if (row.children[0].innerText === idProduto) 
-  //       {
-  //           alert('Este produto já foi adicionado.');
-  //           return;
-  //       }
-  //   }
+  for (let row of tbody.children) 
+    {
+        if (row.children[0].innerText === idProduto) 
+        {
+            alert('Este produto já foi adicionado.');
+            return;
+        }
+    }
 
-  //   if(quantidade <= 0)
-  //   {
-  //       alert('Quantidade não pode ser menor que um');
-  //       return;
-  //   }
+    if(quantidade <= 0)
+    {
+        alert('Quantidade não pode ser menor que um');
+        return;
+    }
 
   const row = document.createElement('tr');
   row.innerHTML = `
@@ -174,6 +174,14 @@ function removerMaterial(button) {
   row.remove();
   atualizarDadosTabela();
 }
+
+document.getElementById('produtoForm').addEventListener('submit', function(event) {
+  const tbody = document.getElementById('produtosAdicionados').querySelector('tbody');
+  if (tbody.children.length === 0) {
+    alert('Adicione pelo menos um produto antes de finalizar.');
+    event.preventDefault();
+  }
+});
 
 document.addEventListener('DOMContentLoaded', function() {
     const tabela = document.getElementById('produtosAdicionados').querySelector('tbody');

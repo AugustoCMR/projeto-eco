@@ -12,7 +12,7 @@
 			</div>
 		<?php endif; ?>
 
-		<form method="POST" action="../produto/cadastrarProdutoSaida" class="mt-5">
+		<form method="POST" action="../produto/cadastrarProdutoSaida" class="mt-5" id="produtoForm">
 			<div class="row">
 		
 			<div class="col-md-5">
@@ -81,7 +81,7 @@
 
 
 				<div class="mb-3">
-				<button type="button" class="btn btn-primary font-weight-bold" onclick="adicionarProduto()">Adicionar</button>
+				<button type="button" class="btn btn-primary font-weight-bold" id="btnAdicionar" onclick="adicionarProduto()">Adicionar</button>
 				<button type="submit" class="btn btn-primary font-weight-bold" name="cadastrarProdutoSaida">Finalizar Cadastro</button>
 				</div> 
 			</div>    
@@ -174,10 +174,10 @@
 
     if(valorFinal > saldoFormatado || isNaN(saldoFormatado) || saldoFormatado <= 0) 
     {
-      document.getElementById("botaoFinalizar").setAttribute('disabled', 'disabled');
+      document.getElementById("btnAdicionar").setAttribute('disabled', 'disabled');
     } else
     {
-      document.getElementById("botaoFinalizar").removeAttribute('disabled');
+      document.getElementById("btnAdicionar").removeAttribute('disabled');
     }
   }
 
@@ -237,7 +237,7 @@
     document.getElementById('valorProduto').value = '';
     document.getElementById('quantidade').value = '';
     document.getElementById('valorFinal').value = '';
-    document.getElementById('quantidade_linha').value = 'Escolha um Produto';
+    document.getElementById('quantidade_linha').innerText = 'Escolha um Produto';
 
     atualizarDadosTabela();
   }
@@ -277,6 +277,14 @@ function atualizarDadosTabela()
     row.remove();
     atualizarDadosTabela();
   }
+
+  document.getElementById('produtoForm').addEventListener('submit', function(event) {
+  const tbody = document.getElementById('produtosAdicionados').querySelector('tbody');
+  if (tbody.children.length === 0) {
+    alert('Adicione pelo menos um produto antes de finalizar.');
+    event.preventDefault();
+  }
+});
 
   document.addEventListener('DOMContentLoaded', function() 
   {

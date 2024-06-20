@@ -78,6 +78,13 @@ class ProdutoIntermediario
     public function validaOperacaoEntrada($errosCampo, $quantidade, $valorUnitario, $valorTotal, $dados)
     {  
         
+        
+        if(empty($dados))
+        {
+            $this->erros['dadosVazios'] = 'Adicione no mínimo um item para finalizar a compra';
+            return $this->erros;
+        }
+
         if(!empty($errosCampo))
         {
             return $this->erros = $errosCampo;
@@ -113,7 +120,8 @@ class ProdutoIntermediario
         }
 
         if($quantidade <= 0)
-        {
+        {   
+           
             $this->erros["quantidadeInvalida"] = "A quantidade não pode ser menor que um"; 
 
             return $this->erros;
@@ -138,7 +146,8 @@ class ProdutoIntermediario
    * @param $dados dados enviados da tabela de cadastro
    */
     public function validaOperacaoSaida($errosCampo, $saldo, $valorFinal, $valorProduto, $quantidade, $idUsuario, $idProduto, $dados)
-    {
+    {   
+    
         if(!empty($errosCampo))
         {
             return $this->erros = $errosCampo;
