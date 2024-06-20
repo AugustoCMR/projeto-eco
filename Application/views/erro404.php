@@ -14,9 +14,12 @@
 
                      </div>
                 </form>
+
+                <p hidden><?php var_dump($dados['erro']) ?></p>
         </div>
         
         </div>
     </div>
   </div>
 </main>
+

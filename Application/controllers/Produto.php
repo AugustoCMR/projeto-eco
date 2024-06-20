@@ -51,8 +51,9 @@ class Produto extends Controller
             }
         } catch (Exception $e) 
         {
-            echo("Algo deu errado, por favor, tente novamente.");
-            echo($e);
+            return $this->view('erro404', [
+                'erro' => $e
+            ]);
         }
 
         
@@ -107,8 +108,9 @@ class Produto extends Controller
             ]);
         }
        } catch (Exception $e) {
-        echo("Algo deu errado, por favor, tente novamente.");
-        echo $e;
+        return $this->view('erro404', [
+            'erro' => $e
+        ]);
        }    
     }
 
@@ -150,8 +152,9 @@ class Produto extends Controller
         ]);
     
         } catch (Exception $e) {
-            echo("Algo deu errado, por favor, tente novamente.");
-            echo $e;
+            return $this->view('erro404', [
+                'erro' => $e
+            ]);
         }
     }
 
@@ -185,8 +188,9 @@ class Produto extends Controller
 
       } catch (Exception $e) 
       {
-          echo("Algo deu errado, por favor, tente novamente.");
-          echo $e;
+        return $this->view('erro404', [
+            'erro' => $e
+        ]);
       }    
   }
 
@@ -226,8 +230,9 @@ class Produto extends Controller
 
       } catch (Exception $e) 
       {
-          echo("Algo deu errado, por favor, tente novamente.");
-          echo $e;
+        return $this->view('erro404', [
+            'erro' => $e
+        ]);
       }    
   }
 
@@ -317,8 +322,9 @@ class Produto extends Controller
               ]);
           }
       } catch (Exception $e) {
-          echo("Algo deu errado, por favor, tente novamente.");
-          echo $e;
+        return $this->view('erro404', [
+            'erro' => $e
+        ]);
       }
   }
 
@@ -364,8 +370,9 @@ class Produto extends Controller
 
         } catch (Exception $e) 
         {
-            echo("Algo deu errado, por favor, tente novamente.");
-            echo $e;
+            return $this->view('erro404', [
+                'erro' => $e
+            ]);
         }    
     }
 
@@ -470,8 +477,9 @@ class Produto extends Controller
               ]);
           }
       } catch (Exception $e) {
-          echo("Algo deu errado, por favor, tente novamente.");
-          echo $e;
+        return $this->view('erro404', [
+            'erro' => $e
+        ]);
       }
   }
   
@@ -520,8 +528,9 @@ class Produto extends Controller
 
         } catch (Exception $e) 
         {
-            echo("Algo deu errado, por favor, tente novamente.");
-            echo $e;
+            return $this->view('erro404', [
+                'erro' => $e
+            ]);
         }    
     }
 

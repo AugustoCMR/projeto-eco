@@ -16,7 +16,7 @@ class Usuario extends Controller
    */
    public function cadastrar()  
    {
-   
+
       if(isset($_POST['cadastrarUsuario'])) {
          $intermediario = new UsuarioIntermediario;
          
@@ -140,8 +140,9 @@ class Usuario extends Controller
          } 
     } catch (Exception $e) 
     {
-        echo("Algo deu errado, por favor, tente novamente.");
-        echo $e;
+         return $this->view('erro404', [
+                'erro' => $e
+            ]);
     }
 
     
@@ -209,8 +210,9 @@ class Usuario extends Controller
 
       } catch (Exception $e) 
       {
-          echo("Algo deu errado, por favor, tente novamente.");
-          echo $e;
+        return $this->view('erro404', [
+            'erro' => $e
+        ]);
       }    
   }
 
@@ -244,8 +246,9 @@ class Usuario extends Controller
 
       } catch (Exception $e) 
       {
-          echo("Algo deu errado, por favor, tente novamente.");
-          echo $e;
+        return $this->view('erro404', [
+            'erro' => $e
+        ]);
       }    
   }
 
@@ -334,8 +337,27 @@ class Usuario extends Controller
    */
   public function consultarUsuarios()
   {   
-      $produtos = $this->model('Usuarios');
-      $dados = $produtos::buscarUsuarios();
+      $usuarios = $this->model('Usuarios');
+      $dados = $usuarios::buscarUsuarios();
+      $intermediario = new UsuarioIntermediario;
+
+      if(isset($_POST['filtrarUsuario']) && !empty($_POST['nu_cpf']))
+      {
+        $cpf = $_POST['nu_cpf'];
+        $usuario = $usuarios::buscarUsuarioCPF($cpf);
+
+        $validador = $intermediario->validaConsulta($cpf);
+
+        if(!empty($validador)) 
+        {
+           return $this->view('usuario/consultarUsuarios', [  
+              'erros' => $validador,    
+              'usuarios' => $dados  
+           ]);
+        }
+
+        $dados = $usuario;     
+      }
 
       return $this->view('usuario/consultarUsuarios', [
           'usuarios' => $dados

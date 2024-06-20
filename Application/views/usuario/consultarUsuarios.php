@@ -16,6 +16,15 @@
           </div>
       <?php endif; ?>
 
+      <form class="form-inline my-4" action="../usuario/consultarUsuarios" method="POST" >
+             
+          <div class="mb-3 " role="alert"> 
+                  <input type="text" name="nu_cpf" id="quantidade" class="form-control" placeholder="Digite o CPF">
+                  <button type="submit" name="filtrarUsuario" class="btn btn-primary font-weight-bold" >Filtrar</button>
+          </div>
+               
+      </form>
+
         <table class="table table-striped table-hover text-center">
           <thead class="thead-light">
             <tr>

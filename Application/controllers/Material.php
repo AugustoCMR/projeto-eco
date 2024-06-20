@@ -18,6 +18,7 @@ class Material extends Controller
     {
         try 
         {
+
             if(isset($_POST['cadastrarResiduo']))
             {
                 $intermediario = new MaterialIntermediario;
@@ -45,9 +46,10 @@ class Material extends Controller
             }
 
         } catch (Exception $e) 
-        {
-            echo("Algo deu errado, por favor, tente novamente.");
-            echo $e;
+        {   
+            return $this->view('erro404', [
+                'erro' => $e
+            ]);
         }    
     }
 
@@ -68,8 +70,9 @@ class Material extends Controller
 
         } catch (Exception $e) 
         {
-            echo "Ocorreu um erro";
-            echo  $e;
+            return $this->view('erro404', [
+                'erro' => $e
+            ]);
         }
         
     }
@@ -122,8 +125,9 @@ class Material extends Controller
             }
         } catch (Exception $e) 
         {
-            echo "Ocorreu um erro";
-            echo $e;
+            return $this->view('erro404', [
+                'erro' => $e
+            ]);
         }
     }
 
@@ -157,10 +161,13 @@ class Material extends Controller
             return $this->view('material/consultarResiduos', [
                 'residuos' => $dadosAtualizados
             ]);
-            } catch (Exception $e) 
+            } 
+        
+        catch (Exception $e) 
         {
-            echo "Ocorreu um erro";
-            echo $e;
+            return $this->view('erro404', [
+                'erro' => $e
+            ]);
         }
     } 
 
@@ -200,8 +207,9 @@ class Material extends Controller
 
         } catch (Exception $e) 
         {
-            echo("Algo deu errado, por favor, tente novamente.");
-            echo $e;
+            return $this->view('erro404', [
+                'erro' => $e
+            ]);
         }    
     }
 
@@ -235,8 +243,9 @@ class Material extends Controller
 
         } catch (Exception $e) 
         {
-            echo("Algo deu errado, por favor, tente novamente.");
-            echo $e;
+            return $this->view('erro404', [
+                'erro' => $e
+            ]);
         }    
     
     }
@@ -291,8 +300,10 @@ class Material extends Controller
             }
 
         } catch (Exception $e) {
-            echo("Algo deu errado, por favor, tente novamente.");
-            echo $e;
+
+            return $this->view('erro404', [
+                'erro' => $e
+            ]);;
         }
         
     }
@@ -351,8 +362,9 @@ class Material extends Controller
             ]);
         }
        } catch (Exception $e) {
-        echo("Algo deu errado, por favor, tente novamente.");
-        echo $e;
+            return $this->view('erro404', [
+                'erro' => $e
+            ]);
        }    
     }
 
@@ -387,8 +399,9 @@ class Material extends Controller
     ]);
 
     } catch (Exception $e) {
-        echo("Algo deu errado, por favor, tente novamente.");
-        echo $e;
+        return $this->view('erro404', [
+            'erro' => $e
+        ]);
     }
    }
 
@@ -425,8 +438,9 @@ class Material extends Controller
 
         } catch (Exception $e) 
         {
-            echo("Algo deu errado, por favor, tente novamente.");
-            echo $e;
+            return $this->view('erro404', [
+                'erro' => $e
+            ]);
         }    
     }
 
@@ -456,8 +470,9 @@ class Material extends Controller
 
         } catch (Exception $e) 
         {
-            echo("Algo deu errado, por favor, tente novamente.");
-            echo $e;
+            return $this->view('erro404', [
+                'erro' => $e
+            ]);
         }    
     }
 
@@ -556,8 +571,10 @@ class Material extends Controller
               ]);
           }
       } catch (Exception $e) {
-          echo("Algo deu errado, por favor, tente novamente.");
-          echo($e);
+
+        return $this->view('erro404', [
+            'erro' => $e
+        ]);
       }
   }
 
@@ -597,8 +614,9 @@ class Material extends Controller
 
       } catch (Exception $e) 
       {
-          echo("Algo deu errado, por favor, tente novamente.");
-          echo $e;
+           return $this->view('erro404', [
+                'erro' => $e
+            ]);
       }    
   }
 
