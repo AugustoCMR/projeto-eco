@@ -79,6 +79,10 @@
         value="<?= isset($dados['eco_valor']) ? $dados['eco_valor'] : '' ?>" class="form-control" placeholder="Valor Final" oninput="atualizarSaldoUsuario_valorFinal()" readonly>
         </div>
 
+        <div class="mb-3">
+                <label class="font-weight-bold">Soma Total (€)</label>
+                <input type="text" id="somaTotal" class="form-control" readonly>
+              </div>
 
 				<div class="mb-3">
 				<button type="button" class="btn btn-primary font-weight-bold" id="btnAdicionar" onclick="adicionarProduto()">Adicionar</button>
@@ -97,7 +101,7 @@
           <th>Usuário</th>
           <th>Produto</th>
           <th>Quantidade</th>
-          <th>Valor(R$)</th>
+          <th>Valor(€)</th>
           <th>Ação</th>
         </tr>
         </thead>
@@ -181,6 +185,29 @@
     }
   }
 
+  function adicionarProduto() {
+    const produtoSelect = document.getElementById('produto');
+    const usuarioSelect = document.getElementById('usuario');
+    const quantidade = document.getElementById('quantidade').value;
+    const valorFinal = document.getElementById('valorFinal').value;
+
+
+    calcularSomaTotal();
+}
+
+function calcularSomaTotal() {
+    const tbody = document.getElementById('produtosAdicionados').querySelector('tbody');
+    let somaTotal = 0;
+
+    for (let row of tbody.children) {
+        const valorProduto = parseFloat(row.children[7].innerText.replace('€', '').trim());
+        somaTotal += valorProduto;
+    }
+
+    document.getElementById('somaTotal').value = somaTotal.toFixed(2);
+}
+
+
   function adicionarProduto() 
   {
     const produtoSelect = document.getElementById('produto');
@@ -240,6 +267,7 @@
     document.getElementById('quantidade_linha').innerText = 'Escolha um Produto';
 
     atualizarDadosTabela();
+    calcularSomaTotal();
   }
 
 function atualizarDadosTabela() 
@@ -276,6 +304,7 @@ function atualizarDadosTabela()
     const row = button.closest('tr');
     row.remove();
     atualizarDadosTabela();
+    calcularSomaTotal();
   }
 
   document.getElementById('produtoForm').addEventListener('submit', function(event) {
@@ -306,5 +335,6 @@ function atualizarDadosTabela()
                 <td><button type="button" class="btn btn-danger btn-sm" onclick="removerMaterial(this)">-</button></td>`;
             tabela.appendChild(row);
         });
+        calcularSomaTotal();
   });
 </script>
