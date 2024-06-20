@@ -30,6 +30,15 @@ class MaterialIntermediario
         return $this->erros;
     }
 
+      /**
+   * Método para validar a edição do resíduo
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $erroCampo recebe todos os campos do resíduo
+   * @param $nome nome do resíduo
+   * @param $nomeEditado variável para verificar edição de resíduo
+   */
+
     public function validadorResiduoEditar($erroCampo, $nome, $nomeEditado)
     {
         if(!empty($erroCampo))
@@ -229,7 +238,8 @@ class MaterialIntermediario
         {
           
                 if($nome === $nomeEditado)
-                {                           return;
+                {        
+                    return;
                 }
                
                 $conn = new Database();

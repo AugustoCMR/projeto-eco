@@ -27,12 +27,6 @@
                 value="<?= $produto['vl_eco']?>" oninput="formatarValor(this)">
         </div>
 
-        <div class="mb-3">
-                <label class="font-weight-bold">Quantidade</label>
-                <input type="number" name="qt_produto" class="form-control"
-                value="<?= $produto['qt_produto']?>" readonly>
-        </div>
-
         <div class="mb-3 d-flex justify-content-between flex-row-reverse">
             <button type="submit" class="btn btn-primary font-weight-bold" name="editarProduto" value="<?=$produto['id_produto']?>">Enviar</button>
             <button type="button" class="btn btn-primary font-weight-bold" onclick="window.location.href='/projeto-eco/public/produto/consultarProdutos'">Retornar</button>

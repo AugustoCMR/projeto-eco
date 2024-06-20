@@ -19,14 +19,14 @@ CREATE TABLE usuario (
 
 CREATE TABLE residuo (
 	id_residuo serial UNIQUE,
-  nm_residuo varchar(40) NOT NULL,
+  nm_residuo varchar(40) UNIQUE NOT NULL,
   
   CONSTRAINT pk_residuo PRIMARY KEY(id_residuo)
 );
 
 CREATE TABLE material (
 	id_material serial UNIQUE,
-	nm_material varchar(25) NOT NULL,
+	nm_material varchar(25) UNIQUE NOT NULL,
   nm_unidademedida varchar(10) NOT NULL,
 	vl_eco numeric NOT NULL,
   id_residuo integer NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE material_entregue (
 
 CREATE TABLE produto (
 	id_produto serial UNIQUE,
-  nm_produto varchar(25) NOT NULL,
+  nm_produto varchar(25) UNIQUE NOT NULL,
   vl_eco numeric NOT NULL,
   qt_produto integer DEFAULT 0,
   

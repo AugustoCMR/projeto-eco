@@ -79,7 +79,6 @@ class Produto extends Controller
 
             $nome = strtolower($_POST['nm_produto']);
             $eco = $_POST['vl_eco'];
-            $quantidade = $_POST['qt_produto'];
 
             $eco = str_replace(',', '.', $eco);
             $eco = preg_replace('/\.(?=.*\.)/', '', $eco);
@@ -98,7 +97,7 @@ class Produto extends Controller
                 ]);
             }
 
-            $produtoModel::editar($nome, $eco, $quantidade, $id);
+            $produtoModel::editar($nome, $eco, $id);
 
             return $this->view('produto/editadoSucesso');
         } else
