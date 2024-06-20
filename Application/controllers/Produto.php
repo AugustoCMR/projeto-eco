@@ -237,75 +237,78 @@ class Produto extends Controller
    * @author Augusto Ribeiro
    * @created 13/06/2024
    */
-    public function cadastrarProdutoEntregue()
-    {
-
-        try {
-            
-            $produtoModel = $this->model('Produtos');
-            $produtos = $produtoModel::consultarProdutos();
-            $cotacao_real = Eco::$real;
-            $cotacao_eco = Eco::$eco;
-    
-            if(isset($_POST['cadastrarProdutoEntregue']))
-            {   
-               
-                $intermediario = new ProdutoIntermediario;
-                $tabela = json_decode($_POST['dadosTabela'], true);
+  public function cadastrarProdutoEntregue()
+  {
+      try {
+          $produtoModel = $this->model('Produtos');
+          $produtos = $produtoModel::consultarProdutos();
+          $cotacao_real = Eco::$real;
+          $cotacao_eco = Eco::$eco;
+  
+          if (isset($_POST['cadastrarProdutoEntregue'])) {
+              $intermediario = new ProdutoIntermediario;
+              $tabela = json_decode($_POST['dadosTabela'], true);
+              
+              $produtosValidos = [];
+  
+              foreach ($tabela as $item) {
+                  $quantidade = $item['quantidade'];
+                  $idProduto = $item['idProduto'];
+                  $formataValorUnitario = str_replace(['R$', ' '], '', $item['valorUnitario']);
+                  $formataValorTotal = str_replace(['R$', ' '], '', $item['valorFinal']);
+                  $valor_total = (float) str_replace(',', '.', $formataValorTotal);
+                  $valor_unitario = (float) str_replace(',', '.', $formataValorUnitario);
+  
+                  $camposObrigatorios = validarCamposObrigatorios([
+                      'Produto' => $idProduto,
+                      'Quantidade' => $quantidade,
+                      'Valor Unitário' => $valor_unitario,
+                      'Valor Total' => $valor_total
+                  ]);
+  
+                  $validaCampos = $intermediario->validaOperacaoEntrada($camposObrigatorios, $quantidade, $valor_unitario, $valor_total, $tabela);
+  
+                  if (!empty($validaCampos)) {
+                      return $this->view('produto/cadastrarProdutoEntrada', [
+                          'erros' => $validaCampos,
+                          'produtos' => $produtos,
+                          'cotacao_real' => $cotacao_real,
+                          'cotacao_eco' => $cotacao_eco,
+                          'tabela' => $tabela,
+                      ]);
+                  }
+  
                 
-                foreach($tabela as $item)
-                {   
-                    var_dump($tabela);
-                    $quantidade = $item['quantidade'];
-                    $idProduto = $item['idProduto'];
-                    $formataValorUnitario = explode(" ", $item['valorUnitario']);
-                    $formataValorTotal = explode(" ",  $item['valorFinal']);
-                    $valor_total = isset($formataValorTotal[1]) ? (float)$formataValorTotal[1] : '';
-                    $valor_unitario = isset($formataValorUnitario[1]) ? (float)$formataValorUnitario[1] : '';
-            
-                    $camposObrigatorios = validarCamposObrigatorios([
-                        'Produto' => $idProduto,
-                        'Quantidade' => $quantidade,
-                        'Valor Unitário' => $valor_unitario,
-                        'Valor Total' => $valor_total
-                    ]);
-
-                    var_dump($valor_total);
-
-                    $validaCampos = $intermediario->validaOperacaoEntrada($camposObrigatorios, $quantidade, $valor_unitario, $valor_total);
-                    
-                    if(!empty($validaCampos))
-                    {
-            
-                        return $this->view('produto/cadastrarProdutoEntrada', ['erros' => $validaCampos,
-                            'produtos' => $produtos,
-                            'cotacao_real' => $cotacao_real,
-                            'cotacao_eco' =>
-                            $cotacao_eco
-                        ]);
-                    }
-
-                    $produtoModel::cadastrarProdutoEntregue($quantidade, $valor_total, $idProduto);
-                    $produtoModel::operacaoEntradaProduto($idProduto, $quantidade);
-                }
-                
-                return $this->view('produto/cadastroProdutoEntradaSucesso');
-
-            } else 
-            {
-                return $this->view('produto/cadastrarProdutoEntrada', [
-                    'produtos' => $produtos,
-                    'cotacao_real' => $cotacao_real,
-                    'cotacao_eco' =>
-                    $cotacao_eco
-                ]);
-            }
-
-        } catch (Exception $e) {
-            echo("Algo deu errado, por favor, tente novamente.");
-            echo $e;
-        }
-    } 
+                  $produtosValidos[] = [
+                      'quantidade' => $quantidade,
+                      'valor_total' => $valor_total,
+                      'id_produto' => $idProduto
+                  ];
+              }
+  
+              
+              foreach ($produtosValidos as $produtoValido) {
+                  $quantidade = $produtoValido['quantidade'];
+                  $valor_total = $produtoValido['valor_total'];
+                  $idProduto = $produtoValido['id_produto'];
+  
+                  $produtoModel::cadastrarProdutoEntregue($quantidade, $valor_total, $idProduto);
+                  $produtoModel::operacaoEntradaProduto($idProduto, $quantidade);
+              }
+  
+              return $this->view('produto/cadastroProdutoEntradaSucesso');
+          } else {
+              return $this->view('produto/cadastrarProdutoEntrada', [
+                  'produtos' => $produtos,
+                  'cotacao_real' => $cotacao_real,
+                  'cotacao_eco' => $cotacao_eco
+              ]);
+          }
+      } catch (Exception $e) {
+          echo("Algo deu errado, por favor, tente novamente.");
+          echo $e;
+      }
+  }
 
      /**
    * Método para encaminhar o usuário para a view escolhida
@@ -334,7 +337,12 @@ class Produto extends Controller
 
             } else if(!empty($_POST['cadastrar']) && isset($_POST['cadastrar']))
             {
-                return $this->view('produto/cadastrarProdutoEntrada');
+                return $this->view('produto/cadastrarProdutoEntrada', [
+                    'produtos' => $produtos,
+                    'cotacao_real' => $cotacao_real,
+                    'cotacao_eco' =>
+                    $cotacao_eco
+                ]);
             } else {
                 return $this->view('produto/cadastroProdutoEntradaSucesso');
             }
@@ -351,81 +359,105 @@ class Produto extends Controller
    * @author Augusto Ribeiro
    * @created 13/06/2024
    */
-    public function cadastrarProdutoSaida()
-    {
-
-        try {
-
-            $produtoModel = $this->model('Produtos');
-            $usuarioModel = $this->model('Usuarios');
-
-            $produtos = $produtoModel::consultarProdutos();
-            $usuarios = $usuarioModel::buscarUsuarios();
-            
-            if (isset($_POST['cadastrarProdutoSaida'])) {
-
-                $intermediario = new ProdutoIntermediario;
-
-                $tabela = json_decode($_POST['dadosTabela'], true);
-                
-                foreach($tabela as $item)
-                {
-                    $quantidade = $item['quantidade'];
-                    $idUsuario = $item['idUsuario'];
-                    $idProduto = $item['idProduto'];
-                    $formataValorSaldo = explode(" ", $item['saldoUsuario']);
-                    $formataValorEco = explode(" ", $item['valorProduto']);
-                    $formataValorFinal = explode(" ", $item['valorFinal']);
-                    $vl_ecoProduto = isset($formataValorEco[1]) ? (float)$formataValorEco[1] : '';
-                    $vl_ecosaldo = isset($formataValorSaldo[1]) ? (float)$formataValorSaldo[1] : '';
-                    $vl_ecoFinal = isset($formataValorFinal[1]) ? (float)$formataValorFinal[1] : '';
-
-                    $camposObrigatorios = validarCamposObrigatorios([
-                        'Produto' => $idProduto,
-                        'Usuário' => $idUsuario,
-                        'Quantidade' => $quantidade,
-                        'Saldo' => $vl_ecosaldo,
-                        'Valor do Produto' => $vl_ecoProduto,
-                        'Valor Final do Produto' => $vl_ecoFinal
-                    ]);
-
-                    $validacao = $intermediario->validaOperacaoSaida($camposObrigatorios, $vl_ecosaldo, $vl_ecoFinal, $vl_ecoProduto, $quantidade, $idUsuario, $idProduto);
-
-                    if(!empty($validacao))
-                    {   
-                        return $this->view('produto/cadastrarProdutoSaida', ['erros' => $validacao,
-                        'produtos' => $produtos,
-                        'usuarios' => $usuarios
-                        ]);
-                    }
-
-                    $produto = $produtoModel::consultarProduto($idProduto);
-                    $valorProduto = $produto[0]['vl_eco'];
-                    $valorFinal = $valorProduto * $quantidade;
-
-                    $usuarioModel::operacaoSaidaSaldo($idUsuario, $valorFinal);
-                    $saldo = $usuarioModel::consultarSaldo($idUsuario);
-                    $produtoModel::cadastrarProdutoSaida($quantidade, $idUsuario, $idProduto, $valorFinal, $saldo[0]['vl_ecosaldo']);
-                    $produtoModel::operacaoSaidaProduto($idProduto, $quantidade);
-                    
-                    return $this->view('produto/cadastroProdutoSaidaSucesso'); 
-                }
-
-                                                  
-            } else {
-
-                return $this->view('produto/cadastrarProdutoSaida', [
-                'produtos' => $produtos,
-                'usuarios' => $usuarios]);
-            }
-            
-        } catch (Exception $e) {
-            echo("Algo deu errado, por favor, tente novamente.");
-            echo $e;
-        }
-
-      
-    }
+  public function cadastrarProdutoSaida()
+  {
+      try {
+          $produtoModel = $this->model('Produtos');
+          $usuarioModel = $this->model('Usuarios');
+  
+          $produtos = $produtoModel::consultarProdutos();
+          $usuarios = $usuarioModel::buscarUsuarios();
+          
+          if (isset($_POST['cadastrarProdutoSaida'])) {
+              $intermediario = new ProdutoIntermediario;
+              $tabela = json_decode($_POST['dadosTabela'], true);
+  
+              $itensValidos = []; 
+  
+              foreach ($tabela as $item) {
+                  $quantidade = $item['quantidade'];
+                  $idUsuario = $item['idUsuario'];
+                  $idProduto = $item['idProduto'];
+                  $nm_usuario = $item['nm_usuario'];
+                  $saldoUsuario = $item['saldoUsuario'];
+                  $formataValorSaldo = explode(" ", $item['saldoUsuario']);
+                  $formataValorEco = explode(" ", $item['valorProduto']);
+                  $formataValorFinal = explode(" ", $item['valorFinal']);
+                  $vl_ecoProduto = isset($formataValorEco[1]) ? (float)$formataValorEco[1] : '';
+                  $vl_ecosaldo = isset($formataValorSaldo[1]) ? (float)$formataValorSaldo[1] : '';
+                  $vl_ecoFinal = isset($formataValorFinal[1]) ? (float)$formataValorFinal[1] : '';
+  
+                  $camposObrigatorios = validarCamposObrigatorios([
+                      'Produto' => $idProduto,
+                      'Usuário' => $idUsuario,
+                      'Quantidade' => $quantidade,
+                      'Saldo' => $vl_ecosaldo,
+                      'Valor do Produto' => $vl_ecoProduto,
+                      'Valor Final do Produto' => $vl_ecoFinal
+                  ]);
+  
+                  if (!empty($camposObrigatorios)) {
+                      return $this->view('produto/cadastrarProdutoSaida', [
+                          'erros' => $camposObrigatorios,
+                          'produtos' => $produtos,
+                          'usuarios' => $usuarios,
+                          'tabela' => $tabela,
+                          'nm_usuario' => $nm_usuario,
+                          'saldoUsuario' => $saldoUsuario,
+                          'id_usuario' => $idUsuario
+                      ]);
+                  }
+  
+                  $validacao = $intermediario->validaOperacaoSaida($camposObrigatorios, $vl_ecosaldo, $vl_ecoFinal, $vl_ecoProduto, $quantidade, $idUsuario, $idProduto, $tabela);
+  
+                  if (!empty($validacao)) {
+                      return $this->view('produto/cadastrarProdutoSaida', [
+                          'erros' => $validacao,
+                          'produtos' => $produtos,
+                          'usuarios' => $usuarios,
+                          'tabela' => $tabela,
+                          'nm_usuario' => $nm_usuario,
+                          'saldoUsuario' => $saldoUsuario,
+                          'id_usuario' => $idUsuario
+                      ]);
+                  }
+  
+                  $itensValidos[] = [
+                      'quantidade' => $quantidade,
+                      'idUsuario' => $idUsuario,
+                      'idProduto' => $idProduto,
+                      'nm_usuario' => $nm_usuario,
+                      'saldoUsuario' => $saldoUsuario,
+                      'vl_ecoProduto' => $vl_ecoProduto,
+                      'vl_ecosaldo' => $vl_ecosaldo,
+                      'vl_ecoFinal' => $vl_ecoFinal
+                  ];
+              }
+  
+              foreach ($itensValidos as $item) {
+                  $produto = $produtoModel::consultarProduto($item['idProduto']);
+                  $valorProduto = $produto[0]['vl_eco'];
+                  $valorFinal = $valorProduto * $item['quantidade'];
+  
+                  $usuarioModel::operacaoSaidaSaldo($item['idUsuario'], $valorFinal);
+                  $saldo = $usuarioModel::consultarSaldo($item['idUsuario']);
+                  $produtoModel::cadastrarProdutoSaida($item['quantidade'], $item['idUsuario'], $item['idProduto'], $valorFinal, $saldo[0]['vl_ecosaldo']);
+                  $produtoModel::operacaoSaidaProduto($item['idProduto'], $item['quantidade']);
+              }
+  
+              return $this->view('produto/cadastroProdutoSaidaSucesso');
+          } else {
+              return $this->view('produto/cadastrarProdutoSaida', [
+                  'produtos' => $produtos,
+                  'usuarios' => $usuarios
+              ]);
+          }
+      } catch (Exception $e) {
+          echo("Algo deu errado, por favor, tente novamente.");
+          echo $e;
+      }
+  }
+  
 
     /**
    * Método para encaminhar o usuário para a view escolhida

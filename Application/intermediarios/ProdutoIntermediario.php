@@ -75,7 +75,7 @@ class ProdutoIntermediario
    * @param $valorUnitario valor unitário do produto
    * @param $valorTotal valor total do produto x quantidade
    */
-    public function validaOperacaoEntrada($errosCampo, $quantidade, $valorUnitario, $valorTotal)
+    public function validaOperacaoEntrada($errosCampo, $quantidade, $valorUnitario, $valorTotal, $dados)
     {  
         
         if(!empty($errosCampo))
@@ -88,6 +88,36 @@ class ProdutoIntermediario
             'Valor Unitário' => $valorUnitario,
             'Valor total' => $valorTotal
         ]);
+
+        $idsProdutos = array_column($dados, 'idProduto');
+
+        if(count($idsProdutos) !== count(array_unique($idsProdutos)))
+        {
+            $this->erros['produtosDuplicados'] = "Produtos duplicados não podem ser cadastrados";
+
+            return $this->erros;
+        }
+
+        if($valorUnitario <= 0 )
+        {
+            $this->erros["valorUnitarioInvalido"] = "O valor unitário não pode ser menor que um"; 
+
+            return $this->erros; 
+        }
+
+        if($valorTotal <= 0 )
+        {
+            $this->erros["valorTotalInvalido"] = "O valor total não pode ser menor que um"; 
+
+            return $this->erros; 
+        }
+
+        if($quantidade <= 0)
+        {
+            $this->erros["quantidadeInvalida"] = "A quantidade não pode ser menor que um"; 
+
+            return $this->erros;
+        }
 
         if(!empty($camposTipoNumero)) {
            $this->erros = $camposTipoNumero;
@@ -105,8 +135,9 @@ class ProdutoIntermediario
    * @param $saldo saldo do usuário
    * @param $valorFinal valor final da transação
    * @param $quantidade quantidade do produto retirado
+   * @param $dados dados enviados da tabela de cadastro
    */
-    public function validaOperacaoSaida($errosCampo, $saldo, $valorFinal, $valorProduto, $quantidade, $idUsuario, $idProduto)
+    public function validaOperacaoSaida($errosCampo, $saldo, $valorFinal, $valorProduto, $quantidade, $idUsuario, $idProduto, $dados)
     {
         if(!empty($errosCampo))
         {
@@ -119,6 +150,38 @@ class ProdutoIntermediario
             'Valor final do Produto' => $valorFinal,
             'Saldo' => $saldo
         ]);
+
+        $idsProdutos = array_column($dados, 'idProduto');
+        $idsUsuarios = array_column($dados, 'idUsuario');
+
+        if(count(array_unique($idsUsuarios)) > 1)
+        {
+            $this->erros['usuariosDuplicados'] = "Todos os produtos devem pertencer ao mesmo usuário";
+            return $this->erros;
+        }
+
+        if(count($idsProdutos) !== count(array_unique($idsProdutos)))
+        {
+            $this->erros['produtosDuplicados'] = "Produtos duplicados não podem ser cadastrados";
+            return $this->erros;
+        }
+
+        if($valorProduto < 1) {
+            $this->erros['valorProdutoInvalido'] = "Valor do Produto não pode ser menor que 1";
+            return $this->erros;
+          }
+
+        if($valorFinal < 1) 
+        {
+            $this->erros['valorFinalInvalido'] = "Valor final não pode ser menor que 1";
+            return $this->erros;
+        }
+
+        if($quantidade < 1) 
+        {
+            $this->erros['quantidadeInvalida'] = "Quantidade não pode ser menor que 1";
+            return $this->erros;
+          }
 
         if(!empty($camposTipoNumero)) {
             $this->erros = $camposTipoNumero;

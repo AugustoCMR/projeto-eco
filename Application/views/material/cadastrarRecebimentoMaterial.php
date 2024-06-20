@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-8 offset-2" style="margin-top:50px">
         <h1 class="display 4 text-center text-primary mt-5 titulo">Recebimento de Material</h1>
-        <?php if (!empty($dados['erros'])): ?>
+        <?php if (!empty($dados['erros'])):?>  
             <div class="alert alert-danger mt-5">
                 <?php foreach ($dados['erros'] as $erro): ?>
                     <p><?php echo $erro; ?></p>
@@ -14,8 +14,8 @@
         <form id="materialForm" class="mt-5" action="/projeto-eco/public/material/cadastrarMaterialRecebido" method="POST">
             <div class="mb-3">
                 <label class="font-weight-bold">Usuário</label>
-                <select name="idUsuario" id="usuario" class="form-control"> 
-                    <option value="">Selecione uma opção</option>
+                <select name="idUsuario" id="usuario" class="form-control" <?php echo isset($dados['nm_usuario']) ? 'disabled' : ''; ?> > 
+                    <option value="<?= isset($dados['id_usuario']) ? $dados['id_usuario'] : '' ?>"><?= isset($dados['nm_usuario']) ? $dados['nm_usuario'] : 'Selecione uma opção' ?></option>
                     <?php if (isset($dados['usuarios'])): ?>
                         <?php foreach ($dados['usuarios'] as $usuarios): ?>
                             <option value="<?=$usuarios['id_usuario'] ?>"> <?= ucfirst($usuarios['nm_usuario']) ?> - CPF: <?=$usuarios['nu_cpf']?></option> 
@@ -23,7 +23,7 @@
                     <?php endif; ?>
                 </select>
             </div>
-
+            
             <div class="mb-3">
                 <label class="font-weight-bold">Material</label>
                 <select name="idMaterial" id="material" class="form-control" onchange="atualizarUnidade()"> 
@@ -67,7 +67,7 @@
                 </table>
             </div>
 
-            <input type="hidden" name="dadosTabela" id="dadosTabela">
+            <input type="hidden" name="dadosTabela" id="dadosTabela" value='<?php echo isset($dados['tabela']) ? json_encode($dados['tabela']) : '[]'; ?>'>
 
             <div class="mb-3">
                 
@@ -115,6 +115,21 @@
     const idMaterial = materialSelect.value;
     const tbody = document.getElementById('materiaisAdicionados').querySelector('tbody');
 
+    for (let row of tbody.children) 
+    {
+        if (row.children[1].innerText === idMaterial) 
+        {
+            alert('Este material já foi adicionado.');
+            return;
+        }
+    }
+
+    if(quantidade <= 0)
+    {
+        alert('Quantidade não pode ser menor que um');
+        return;
+    }
+
     const row = document.createElement('tr');
     row.innerHTML = `<td style="display:none;">${idUsuario}</td>
         <td style="display:none;">${idMaterial}</td>
@@ -141,6 +156,7 @@
         for (let row of tbody.children) {
             const idUsuario = row.children[0].innerText; 
             const idMaterial = row.children[1].innerText; 
+            const nm_usuario = row.children[2].innerText;
             const quantidade = row.children[4].innerText;
             const valorFinal = row.children[5].innerText;
 
@@ -148,7 +164,8 @@
                 idUsuario: idUsuario,
                 idMaterial: idMaterial,
                 quantidade: quantidade,
-                valorFinal: valorFinal
+                valorFinal: valorFinal,
+                nm_usuario: nm_usuario
             };
 
             dados.push(item);
@@ -162,5 +179,23 @@
         row.remove();
         atualizarDadosTabela();
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabela = document.getElementById('materiaisAdicionados').querySelector('tbody');
+        const dadosTabela = document.getElementById('dadosTabela').value;
+        const materiaisAdicionados = JSON.parse(dadosTabela);
+
+        materiaisAdicionados.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td style="display:none;">${item.idUsuario}</td>
+                <td style="display:none;">${item.idMaterial}</td>
+                <td>${document.querySelector(`#usuario option[value='${item.idUsuario}']`).text}</td>
+                <td>${document.querySelector(`#material option[value='${item.idMaterial}']`).text}</td>
+                <td>${item.quantidade}</td>
+                <td>${item.valorFinal}</td>
+                <td><button type="button" class="btn btn-danger btn-sm" onclick="removerMaterial(this)">-</button></td>`;
+            tabela.appendChild(row);
+        });
+    });
 
 </script>
