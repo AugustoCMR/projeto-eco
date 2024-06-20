@@ -103,6 +103,17 @@
         document.getElementById('valorFinal').value = isNaN(valorFinal) ? '' : valorFinal.toFixed(2);
     }
 
+    function atualizarValorTotal() {
+    const tbody = document.getElementById('materiaisAdicionados').querySelector('tbody');
+    let valorTotal = 0;
+
+    for (let row of tbody.children) {
+        valorTotal += parseFloat(row.children[5].innerText);
+    }
+
+    document.getElementById('valorTotal').value = valorTotal.toFixed(2);
+}
+
     function adicionarMaterial() {
     const usuarioSelect = document.getElementById('usuario');
     const materialSelect = document.getElementById('material');
@@ -152,6 +163,7 @@
     document.getElementById('unidade_linha').innerText = '';
 
     atualizarDadosTabela();
+    atualizarValorTotal();
     }
 
     function atualizarDadosTabela() {
@@ -183,6 +195,7 @@
         const row = button.closest('tr');
         row.remove();
         atualizarDadosTabela();
+        atualizarValorTotal();
     }
 
     document.getElementById('materialForm').addEventListener('submit', function(event) {
@@ -209,6 +222,7 @@
                 <td><button type="button" class="btn btn-danger btn-sm" onclick="removerMaterial(this)">-</button></td>`;
             tabela.appendChild(row);
         });
+        atualizarValorTotal();
     });
 
 </script>

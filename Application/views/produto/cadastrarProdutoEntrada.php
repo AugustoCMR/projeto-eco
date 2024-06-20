@@ -46,9 +46,9 @@
             </div>
 
             <div class="mb-3">
-        <label class="font-weight-bold">Valor Total €</label>
-        <input type="text" id="valorTotal" class="form-control" readonly>
-        </div>
+    <label class="font-weight-bold">Soma Total (R$)</label>
+    <input type="text" id="somaTotal" class="form-control" readonly>
+</div>
 
           <div class="mb-3">
             <button type="button" class="btn btn-primary font-weight-bold" onclick="adicionarMaterial()">Adicionar</button>
@@ -108,6 +108,18 @@ function atualizaValorUnitario()
   const valorFinal = valorProduto * <?= $dados['cotacao_real'] / $dados['cotacao_eco'] ?>;
   document.getElementById('valor_unitario').value = "R$ " + valorFinal.toFixed(2).replace(".", ",");
   atualizarValor();
+}
+
+function atualizarValorTotal() {
+    const tbody = document.getElementById('produtosAdicionados').querySelector('tbody');
+    let valorTotal = 0;
+
+    for (let row of tbody.children) {
+        const valorProduto = parseFloat(row.children[4].innerText.replace("R$ ", "").replace(",", "."));
+        valorTotal += valorProduto;
+    }
+    console.log(valorTotal)
+    document.getElementById('somaTotal').value = "R$ " + valorTotal.toFixed(2).replace(".", ",");
 }
 
 function adicionarMaterial() 
