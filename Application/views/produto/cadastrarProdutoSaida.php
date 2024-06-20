@@ -15,7 +15,7 @@
 		<form method="POST" action="../produto/cadastrarProdutoSaida" class="mt-5" id="produtoForm">
 			<div class="row">
 		
-			<div class="col-md-5">
+			<div class="col-md-4">
 			<div class="mb-3">
 					<label class="font-weight-bold" >Produto</label>
 					<select type="text" name="idProduto" id="produto" class="form-control" onchange="atualizarQuantidade_Valor()"> 
