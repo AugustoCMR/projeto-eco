@@ -112,7 +112,7 @@ class Material extends Controller
 
                 $residuoModel::editarResiduo($id, $nm_residuo);
 
-                return $this->view('material/editarResiduoSuccesso');
+                return $this->view('material/residuoEditadoSucesso');
             } else
             {
                 
@@ -172,15 +172,29 @@ class Material extends Controller
     public function cadastrarResiduoSucesso()
     {
         try 
-        {
+        {  
+
             if(!empty($_POST['menu']) && isset($_POST['menu']))
             {
                 return $this->view('home/index');
 
             } else if(!empty($_POST['cadastrar']) && isset($_POST['cadastrar']))
             {
+                
+                
                 return $this->view('material/cadastrarResiduo');
-            } else {
+            } else if(!empty($_POST['listar']) && isset($_POST['listar']))
+            {
+                $residuoModel = $this->model('Materiais');
+                $residuos = $residuoModel::buscarResiduos();
+
+                return $this->view('material/consultarResiduos', [
+                    'residuos' => $residuos
+                ]);
+            }
+            
+            else 
+            {
                 return $this->view('material/cadastroResiduoSucesso');
             }
 
@@ -189,6 +203,42 @@ class Material extends Controller
             echo("Algo deu errado, por favor, tente novamente.");
             echo $e;
         }    
+    }
+
+      /**
+   * Método para encaminhar o usuário para a view escolhida
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   */
+
+    public function editarResiduoSucesso()
+    {
+    
+        try 
+        {
+            if(!empty($_POST['menu']) && isset($_POST['menu']))
+            {
+                return $this->view('home/index');
+
+            } else if(!empty($_POST['listar']) && isset($_POST['listar']))
+            {   
+                $residuoModel = $this->model('Materiais');
+                $residuos = $residuoModel::buscarResiduos();
+
+                return $this->view('material/consultarResiduos',[
+                    'residuos' => $residuos
+                ]);
+                
+            }  else {
+                return $this->view('material/residuoEditadoSucesso');
+            }
+
+        } catch (Exception $e) 
+        {
+            echo("Algo deu errado, por favor, tente novamente.");
+            echo $e;
+        }    
+    
     }
 
     /**
@@ -416,70 +466,88 @@ class Material extends Controller
    * @author Augusto Ribeiro
    * @created 13/06/2024
    */
-    public function cadastrarMaterialRecebido()
-    {   
-        try 
-        {
-            $materialModel = $this->model('Materiais');
-            $materiais = $materialModel::buscarMateriais();
-
-            $usuarioModel = $this->model('Usuarios');
-            $usuarios = $usuarioModel::buscarUsuarios();
-
-            if(isset($_POST['cadastrarMaterialRecebido']))
-            {   
-                
-                $intermediario = new MaterialIntermediario;
-                $tabela = json_decode($_POST['dadosTabela'], true);
-
-                foreach($tabela as $item)
-                {   
-                    $idUsuario = $item['idUsuario'];
-                    $idMaterial = $item['idMaterial'];
-                    $quantidade = $item['quantidade'];
-                    $eco = $item['valorFinal'];
-
-                    $camposObrigatorios = validarCamposObrigatorios([
-                        'Usuário' => $idUsuario,
-                        'Material' => $idMaterial,
-                        'Quantidade' => $quantidade,
-                        'Eco Points' => $eco
-                    ]);
-
-                    $validador = $intermediario->validadorMaterial($camposObrigatorios, null, $eco);
-
-                    if(!empty($validador))
-                    {
-                        return $this->view('material/cadastrarRecebimentoMaterial', ['erros' => $intermediario->erros,
-                        'usuarios' => $usuarios,
-                        'materiais' => $materiais
-                        ]);
-                    }
-
-                    $usuarioModel::operacaoEntradaSaldo($idUsuario, $eco);
-                    $saldo = $usuarioModel::consultarSaldo($idUsuario);
-                    $materialModel::cadastrarMaterialRecebido($idUsuario, $idMaterial, $quantidade, $eco, $saldo[0]['vl_ecosaldo']);
-
-                    
-                }
-
-                return $this->view('material/cadastroMaterialRecebidoSucesso');
-            } else 
-            {   
-               
-                return $this->view('material/cadastrarRecebimentoMaterial', [
-                    'usuarios' => $usuarios,
-                    'materiais' => $materiais
-                ]);
-            }
-
-        } catch (Exception $e) 
-        {
-           
-            echo("Algo deu errado, por favor, tente novamente.");
-            echo($e);
-        }
-    }
+  public function cadastrarMaterialRecebido()
+  {
+      try {
+          $materialModel = $this->model('Materiais');
+          $materiais = $materialModel::buscarMateriais();
+  
+          $usuarioModel = $this->model('Usuarios');
+          $usuarios = $usuarioModel::buscarUsuarios();
+  
+          if (isset($_POST['cadastrarMaterialRecebido'])) {
+              $intermediario = new MaterialIntermediario;
+              $tabela = json_decode($_POST['dadosTabela'], true);
+  
+              $itensValidos = []; // Array para armazenar os itens válidos
+  
+              foreach ($tabela as $item) {
+                  $idUsuario = $item['idUsuario'];
+                  $idMaterial = $item['idMaterial'];
+                  $quantidade = $item['quantidade'];
+                  $eco = $item['valorFinal'];
+                  $nm_usuario = $item['nm_usuario'];
+  
+                  $camposObrigatorios = validarCamposObrigatorios([
+                      'Usuário' => $idUsuario,
+                      'Material' => $idMaterial,
+                      'Quantidade' => $quantidade,
+                      'Eco Points' => $eco
+                  ]);
+  
+                  if (!empty($camposObrigatorios)) {
+                      return $this->view('material/cadastrarRecebimentoMaterial', [
+                          'erros' => $camposObrigatorios,
+                          'usuarios' => $usuarios,
+                          'materiais' => $materiais,
+                          'tabela' => $tabela,
+                          'nm_usuario' => $nm_usuario,
+                          'id_usuario' => $idUsuario
+                      ]);
+                  }
+  
+                  $validador = $intermediario->validadorRecebimentoMaterial($camposObrigatorios, $tabela, $quantidade);
+  
+                  if (!empty($validador)) {
+                      return $this->view('material/cadastrarRecebimentoMaterial', [
+                          'erros' => $validador,
+                          'usuarios' => $usuarios,
+                          'materiais' => $materiais,
+                          'tabela' => $tabela,
+                          'nm_usuario' => $nm_usuario,
+                          'id_usuario' => $idUsuario
+                      ]);
+                  }
+  
+              
+                  $itensValidos[] = [
+                      'idUsuario' => $idUsuario,
+                      'idMaterial' => $idMaterial,
+                      'quantidade' => $quantidade,
+                      'eco' => $eco,
+                      'nm_usuario' => $nm_usuario
+                  ];
+              }
+  
+              // Após validar todos os itens, cadastra os dados
+              foreach ($itensValidos as $item) {
+                  $usuarioModel::operacaoEntradaSaldo($item['idUsuario'], $item['eco']);
+                  $saldo = $usuarioModel::consultarSaldo($item['idUsuario']);
+                  $materialModel::cadastrarMaterialRecebido($item['idUsuario'], $item['idMaterial'], $item['quantidade'], $item['eco'], $saldo[0]['vl_ecosaldo']);
+              }
+  
+              return $this->view('material/cadastroMaterialRecebidoSucesso');
+          } else {
+              return $this->view('material/cadastrarRecebimentoMaterial', [
+                  'usuarios' => $usuarios,
+                  'materiais' => $materiais
+              ]);
+          }
+      } catch (Exception $e) {
+          echo("Algo deu errado, por favor, tente novamente.");
+          echo($e);
+      }
+  }
 
      /**
    * Método para encaminhar o usuário para a view escolhida

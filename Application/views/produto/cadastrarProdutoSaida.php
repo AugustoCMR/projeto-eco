@@ -40,37 +40,37 @@
 				value="<?= isset($dados['eco_valor']) ? $dados['eco_valor'] : '' ?>" class="form-control" placeholder="Valor do Produto" id="valorUnitario" oninput="atualizaValorFinal()" readonly>
 				</div>
 
-				<label class="font-weight-bold">Quantidade(<span id="quantidade_linha">Escolha um Produto</span>)</label>
-				<div class="mb-3">
-				<input type="number" id="quantidade" name="qt_produtoretirado"
-				value="<?= isset($dados['quantidade']) ? $dados['quantidade'] : '' ?>" class="form-control" placeholder="Quantidade" oninput="atualizaValorFinal()" readonly>
-				</div>
-				
-				<div class="mb-3">
-				<label class="font-weight-bold" >Usuario</label>
-				<select type="number" name="idUsuario" id="usuario" class="form-control" onchange="atualizarSaldoUsuario()"> 
-						<option value="">Selecione uma opção</option>
-						<?php 
-						
-							if(isset($dados['usuarios']))
-							{ 
-								
-								foreach($dados['usuarios'] as $usuarios)
-								{ ?>
-								<option value="<?=$usuarios['id_usuario'] ?>" data-saldo="<?=$usuarios['vl_ecosaldo']?>" > <?= ucfirst($usuarios['nm_usuario']) ?> - CPF: <?=$usuarios['nu_cpf']?></option> 
-								
-						<?php   } 
-							} ?> 
-						
-						</select>
-				
-				</div>
-			
-				<label class="font-weight-bold" >Saldo</label>
-				<div class="mb-3">
-				<input type="text" name="vl_ecosaldo" id="saldo_usuario" 
-				value="<?= isset($dados['eco_valor']) ? $dados['eco_valor'] : '' ?>" class="form-control" placeholder="Saldo" readonly>
-				</div>
+            <label class="font-weight-bold">Quantidade(<span id="quantidade_linha">Escolha um Produto</span>)</label>
+            <div class="mb-3">
+            <input type="number" id="quantidade" name="qt_produtoretirado"
+            value="<?= isset($dados['quantidade']) ? $dados['quantidade'] : '' ?>" class="form-control" placeholder="Quantidade" oninput="atualizaValorFinal()" readonly>
+            </div>
+            
+            <div class="mb-3">
+              <label class="font-weight-bold" >Usuario</label>
+              <select type="number" name="idUsuario" id="usuario"  class="form-control" <?php echo isset($dados['nm_usuario']) ? 'disabled' : ''; ?>  onchange="atualizarSaldoUsuario()"> 
+                    <option value="<?= isset($dados['id_usuario']) ? $dados['id_usuario'] : '' ?>"><?= isset($dados['nm_usuario']) ? $dados['nm_usuario'] : 'Selecione uma opção' ?></option>
+                    <?php 
+                       
+                        if(isset($dados['usuarios']))
+                        { 
+                            
+                            foreach($dados['usuarios'] as $usuarios)
+                            { ?>
+                            <option value="<?=$usuarios['id_usuario'] ?>" data-saldo="<?=$usuarios['vl_ecosaldo']?>" > <?= ucfirst($usuarios['nm_usuario']) ?> - CPF: <?=$usuarios['nu_cpf']?></option> 
+                            
+                    <?php   } 
+                        } ?> 
+                    
+                    </select>
+            
+            </div>
+        
+            <label class="font-weight-bold" >Saldo</label>
+            <div class="mb-3">
+            <input type="text" name="vl_ecosaldo" id="saldo_usuario" 
+            value="<?= isset($dados['saldoUsuario']) ? $dados['saldoUsuario'] : '' ?>" class="form-control" placeholder="Saldo" readonly>
+            </div>
 
 
 				<label class="font-weight-bold">Valor final do Produto(€)</label>
@@ -105,12 +105,13 @@
 		</table>
 	</div>
 
-		<input type="hidden" name="dadosTabela" id="dadosTabela"> 
-		</form>
-			
-		</div>
-	</div>
-</div>
+            <input type="hidden" name="dadosTabela" id="dadosTabela" value='<?php echo isset($dados['tabela']) ? json_encode($dados['tabela']) : '[]'; ?>'> 
+           
+        </form>
+        
+      </div>
+    </div>
+  </div>
 </main>
 
 <script>
@@ -124,6 +125,7 @@
     document.getElementById('quantidade_linha').innerText = 
     quantidade || 'Sem estoque';
     document.getElementById('quantidade').value='';
+    
     
     const quantidadeInput = document.getElementById('quantidade');
     quantidadeInput.max = quantidade || 0;
@@ -188,6 +190,9 @@
     const valorFinal = document.getElementById('valorFinal').value;
     const saldoUsuario = document.getElementById('saldo_usuario').value;
 
+    console.log(usuarioSelect.value);
+    console.log(produtoSelect.value);
+
     if (!produtoSelect.value || !usuarioSelect.value || !quantidade || !valorFinal || !valorProduto || !saldoUsuario) {
       alert('Preencha todos os campos antes de adicionar.');
       return;
@@ -198,6 +203,21 @@
     const idUsuario = usuarioSelect.value;
     const idProduto = produtoSelect.value;
     const tbody = document.getElementById('produtosAdicionados').querySelector('tbody');
+
+    // for (let row of tbody.children) 
+    // {
+    //     if (row.children[0].innerText === idProduto) 
+    //     {
+    //         alert('Este produto já foi adicionado.');
+    //         return;
+    //     }
+    // }
+
+    // if(quantidade <= 0)
+    // {
+    //     alert('Quantidade não pode ser menor que um');
+    //     return;
+    // }
 
     const row = document.createElement('tr');
     row.innerHTML = `
@@ -217,6 +237,7 @@
     document.getElementById('valorProduto').value = '';
     document.getElementById('quantidade').value = '';
     document.getElementById('valorFinal').value = '';
+    document.getElementById('quantidade_linha').value = 'Escolha um Produto';
 
     atualizarDadosTabela();
   }
@@ -231,6 +252,7 @@ function atualizarDadosTabela()
       const idUsuario = row.children[1].innerText;
       const valorProduto = row.children[2].innerText;
       const saldoUsuario = row.children[3].innerText;
+      const nm_usuario = row.children[4].innerText;
       const quantidade = row.children[6].innerText;
       const valorFinal = row.children[7].innerText;
 
@@ -240,7 +262,8 @@ function atualizarDadosTabela()
         valorProduto: valorProduto,
         quantidade: quantidade,
         saldoUsuario: saldoUsuario,
-        valorFinal: valorFinal
+        valorFinal: valorFinal,
+        nm_usuario: nm_usuario
       };
 
       dados.push(item);
@@ -254,4 +277,26 @@ function atualizarDadosTabela()
     row.remove();
     atualizarDadosTabela();
   }
+
+  document.addEventListener('DOMContentLoaded', function() 
+  {
+        const tabela = document.getElementById('produtosAdicionados').querySelector('tbody');
+        const dadosTabela = document.getElementById('dadosTabela').value;
+        const produtosAdicionados = JSON.parse(dadosTabela);
+
+        produtosAdicionados.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = 
+            `<td style="display:none;">${item.idProduto}</td>
+                <td style="display:none;">${item.idUsuario}</td>
+                <td style="display:none;">${item.valorProduto}</td>
+                <td style="display:none;">${item.saldoUsuario}</td>
+                <td>${document.querySelector(`#usuario option[value='${item.idUsuario}']`).text}</td> 
+                <td>${document.querySelector(`#produto option[value='${item.idProduto}']`).text}</td>
+                <td>${item.quantidade}</td>
+                <td>${item.valorFinal}</td>
+                <td><button type="button" class="btn btn-danger btn-sm" onclick="removerMaterial(this)">-</button></td>`;
+            tabela.appendChild(row);
+        });
+  });
 </script>

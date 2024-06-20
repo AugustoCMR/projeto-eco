@@ -65,6 +65,48 @@ class MaterialIntermediario
         return $this->erros;
     }
 
+     /**
+   * Método para validar recebimento de material
+   * @author Augusto Ribeiro
+   * @created 13/06/2024
+   * @param $erroCampo recebe todos os campos do material
+   * @param $dados dados necessários para cadastro do recebimento de material
+
+   */
+  public function validadorRecebimentoMaterial($erroCampo, $dados, $quantidade)
+  {
+
+      if(!empty($erroCampo))
+      {
+          return $this->erros = $erroCampo;
+      }
+      
+      $idsMateriais = array_column($dados, 'idMaterial');
+      $idsUsuarios = array_column($dados, 'idUsuario');
+
+      if($quantidade < 1) {
+        $this->erros['quantidadeInvalida'] = "Quantidade não pode ser menor que 1";
+        return $this->erros;
+      }
+
+      if(count(array_unique($idsUsuarios)) > 1)
+      {
+
+        $this->erros['usuariosDuplicados'] = "Todos os materiais devem pertencer ao mesmo usuário";
+        return $this->erros;
+      }
+
+
+      if (count($idsMateriais) !== count(array_unique($idsMateriais))) 
+      {
+        
+          $this->erros['materiaisDuplicados'] = "Materiais duplicados não podem ser cadastrados";
+          return $this->erros;
+      }
+
+      return $this->erros;
+  }
+
     /**
    * Método para validar o material á ser deletado
    * @author Augusto Ribeiro

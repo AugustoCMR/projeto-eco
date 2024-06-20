@@ -67,7 +67,7 @@
         </table>
 	</div>
 
-        <input type="hidden" name="dadosTabela" id="dadosTabela"> 
+          <input type="hidden" name="dadosTabela" id="dadosTabela" value='<?php echo isset($dados['tabela']) ? json_encode($dados['tabela']) : '[]'; ?>'> 
         </form>
         
        </div>
@@ -110,6 +110,21 @@ function adicionarMaterial()
   const idProduto = produtoSelect.value;
   const tbody = document.getElementById('produtosAdicionados').querySelector('tbody');
 
+  // for (let row of tbody.children) 
+  //   {
+  //       if (row.children[0].innerText === idProduto) 
+  //       {
+  //           alert('Este produto já foi adicionado.');
+  //           return;
+  //       }
+  //   }
+
+  //   if(quantidade <= 0)
+  //   {
+  //       alert('Quantidade não pode ser menor que um');
+  //       return;
+  //   }
+
   const row = document.createElement('tr');
   row.innerHTML = `
     <td style="display:none;">${idProduto}</td>
@@ -136,12 +151,14 @@ function atualizarDadosTabela()
   for (let row of tbody.children) {
     const idProduto = row.children[0].innerText;
     const valorUnitario = row.children[1].innerText;
+    const nm_produto = row.children[2].innerText;
     const quantidade = row.children[3].innerText;
     const valorFinal = row.children[4].innerText;
 
     const item = {
       idProduto: idProduto,
       valorUnitario: valorUnitario,
+      nm_produto: nm_produto,
       quantidade: quantidade,
       valorFinal: valorFinal
     };
@@ -157,5 +174,25 @@ function removerMaterial(button) {
   row.remove();
   atualizarDadosTabela();
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const tabela = document.getElementById('produtosAdicionados').querySelector('tbody');
+    const dadosTabela = document.getElementById('dadosTabela').value;
+    const produtosAdicionados = JSON.parse(dadosTabela);
+
+    produtosAdicionados.forEach(item => { 
+      
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td style="display:none;">${item.idProduto}</td>
+            <td style="display:none;">${item.valorUnitario}</td>
+            <td>${document.querySelector(`#produto option[value='${item.idProduto}']`).text}</td>
+            <td>${item.quantidade}</td>
+            <td>${item.valorFinal}</td>
+            <td><button type="button" class="btn btn-danger btn-sm" onclick="removerMaterial(this)">-</button></td>
+        `;
+        tabela.appendChild(row);
+    });
+});
 
 </script>
