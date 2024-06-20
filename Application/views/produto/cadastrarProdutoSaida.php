@@ -213,11 +213,11 @@
     //     }
     // }
 
-    // if(quantidade <= 0)
-    // {
-    //     alert('Quantidade não pode ser menor que um');
-    //     return;
-    // }
+    if(quantidade <= 0)
+    {
+        alert('Quantidade não pode ser menor que um');
+        return;
+    }
 
     const row = document.createElement('tr');
     row.innerHTML = `
